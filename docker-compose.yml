@@ -7,13 +7,27 @@ services:
     restart: always
     ports:
       - 3000:3000
-    networks:
-      - app_network
     volumes:
       - .:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
+    networks:
+      - app_network
+
+  bot:
+    container_name: bot
+    build:
+      context: .
+      dockerfile: ./apps/bot/Dockerfile
+    restart: always
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app_network
 
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
