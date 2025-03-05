@@ -1,5 +1,5 @@
 {
-  "name": "with-docker",
+  "name": "indexflow",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "prettier": "^3.2.5",
+    "prettier": "^3.5.3",
     "turbo": "^2.4.4"
   },
   "engines": {
