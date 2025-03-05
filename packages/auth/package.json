@@ -1,0 +1,19 @@
+{
+  "name": "@iflow/auth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "exports": {
+    ".": "./src/auth.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@iflow/db": "*",
+    "@repo/typescript-config": "*",
+    "better-auth": "^1.2.3",
+    "better-call": "^1.0.4",
+    "oslo": "^1.2.1"
+  }
+}

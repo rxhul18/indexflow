@@ -8,8 +8,8 @@ export default async function handleMessageCreate(
 
     const noprefixUsers = [...client.config.owner, ...client.config.noprefix];
 
-    const prefix = client.config?.prefix || "!";
-    // Check if the message starts with the prefix, or if the author is an noprefix user.
+    const prefix = client.config?.prefix || "<@1346709873412407319>";
+    // Check if the message starts with the prefix, or if the author is not noprefix user.
     if (
       !message.content.startsWith(prefix) &&
       !noprefixUsers.includes(message.author.id)
@@ -18,7 +18,7 @@ export default async function handleMessageCreate(
 
     // Get the command name
     let args;
-    let commandName;
+    let commandName: string | undefined;
     if (message.content.startsWith(prefix)) {
       args = message.content.slice(prefix.length).trim().split(/ +/);
       commandName = args.shift()?.toLowerCase();
