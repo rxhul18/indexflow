@@ -11,6 +11,9 @@ services:
       - 3000:3000
     networks:
       - app_network
+    volumes:
+      - .:/app
+      - /app/node_modules
   api:
     container_name: api
     build:
