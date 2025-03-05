@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   web:
     container_name: web
@@ -14,16 +12,8 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-  api:
-    container_name: api
-    build:
-      context: .
-      dockerfile: ./apps/api/Dockerfile
-    restart: always
-    ports:
-      - 3001:3001
-    networks:
-      - app_network
+    environment:
+      - NODE_ENV=development
 
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname

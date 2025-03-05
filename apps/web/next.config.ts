@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
-  transpilePackages: [],
+  transpilePackages: ["@repo/ui"],
 };
 
 export default nextConfig;

@@ -20,7 +20,9 @@
     "docker:kill": "docker kill $(docker ps -q) && docker rm $(docker ps -a -q)",
     "docker": "yarn run docker:net && yarn run docker:build && yarn run docker:dev"
   },
-  "dependencies": {},
+  "dependencies": {
+    "typescript": "^5.8.2"
+  },
   "devDependencies": {
     "prettier": "^3.2.5",
     "turbo": "^2.4.4"

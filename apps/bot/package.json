@@ -1,0 +1,34 @@
+{
+    "name": "bot",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/main.js",
+    "type": "module",
+    "scripts": {
+      "dev": "tsx watch src/main.ts",
+      "start": "node dist/main.js",
+      "build": "tsup src/main.ts --minify",
+      "lint": "eslint src --ext .ts",
+      "typecheck": "tsc --noEmit",
+      "format": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache"
+    },
+    "keywords": [],
+    "author": "@plura-ai",
+    "license": "ISC",
+    "dependencies": {
+      "@discordjs/voice": "^0.18.0",
+      "ascii-table": "^0.0.9",
+      "ascii-table3": "^0.9.0",
+      "discord.js": "^14.16.3",
+      "dotenv": "^16.4.5",
+      "fs": "0.0.1-security",
+      "moment": "^2.30.1",
+      "ts-node": "^10.9.2"
+    },
+    "devDependencies": {
+      "@types/moment": "^2.13.0",
+      "tsup": "^8.3.5",
+      "tsx": "^4.19.2",
+      "typescript": "^5.7.2"
+    }
+  }
