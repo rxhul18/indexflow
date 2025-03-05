@@ -21,7 +21,9 @@
     "docker": "yarn run docker:net && yarn run docker:build && yarn run docker:dev"
   },
   "dependencies": {
-    "typescript": "^5.8.2"
+    "next-themes": "^0.4.4",
+    "typescript": "^5.8.2",
+    "web": "^0.0.2"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
