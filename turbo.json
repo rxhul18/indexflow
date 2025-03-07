@@ -5,7 +5,19 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
       "dependsOn": ["^build"],
-      "env": ["NEXT_PUBLIC_API_HOST",".env*"]
+      "env": ["NEXT_PUBLIC_API_HOST", ".env*"]
+    },
+    "api:build": {
+      "dependsOn": ["db:generate"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", ".next/**"],
+      "env": [".env*"]
+    },
+    "db:generate": {
+      "inputs": ["packages/database/prisma/schema.prisma", ".env*"],
+      "outputs": ["node_modules/.prisma/**"],
+      "env": [".env*"],
+      "cache": false
     },
     "test": {
       "outputs": ["coverage/**"],
