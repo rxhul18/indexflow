@@ -1,0 +1,29 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001 --turbopack",
+    "prebuild": "turbo --filter=@iflow/db db:generate",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "preview": "next build && next start -p 3001",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.4.3",
+    "@upstash/ratelimit": "^2.0.5",
+    "hono": "^4.7.4",
+    "next": "15.2.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}
