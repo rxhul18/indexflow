@@ -19,6 +19,7 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  servers       Server[]
 
   @@unique([email])
   @@map("user")
@@ -67,4 +68,32 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Server {
+  id            String @id
+  name          String
+  owner      User?     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+  owner_id      String
+  isConfigured Boolean
+  config_id    String
+  logo         String?
+  invite_url   String?
+  configs      Configs?
+  createdAt     DateTime
+  updatedAt     DateTime
+
+  @@unique([id])
+}
+
+model Configs {
+  id String @id
+  server_id String @unique
+  server Server?     @relation(fields: [server_id], references: [id], onDelete: Cascade)
+  qna_channels String[]
+  qna_channel_webhooks String[]
+  qna_endpoint String?
+  mod_role String?
+  log_channel String?
+  log_channel_webhook String?
 }
