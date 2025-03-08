@@ -8,7 +8,6 @@ import type { Metadata } from "next"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function generateMetadata(): Promise<Metadata> {
-  // In a real app, you would fetch the question data from your database
   const question = {
     title: "How do I implement authentication with Next.js and NextAuth?",
   }
@@ -23,12 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function QuestionPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { id } = params;
+export default function QuestionPage() {
+  const id = 'lol'
   // Mock data for the question
   const question = {
     id: id,
