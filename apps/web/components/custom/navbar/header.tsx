@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Search, Menu, X, Sun, Moon, LogIn } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
+import { SignInBtn } from "./signinup"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -66,17 +67,15 @@ export default function Header() {
                   <Moon className="mr-2 h-4 w-4" />
                   <span>Dark</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>
-                  <span>System</span>
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )}
 
-          <Button variant="outline" size="sm" className="gap-2 h-9">
+          <SignInBtn />
+          {/* <Button variant="outline" size="sm" className="gap-2 h-9">
             <LogIn className="h-4 w-4" />
             <span>Log In</span>
-          </Button>
+          </Button> */}
         </div>
 
         <div className="flex items-center gap-1 md:hidden">
