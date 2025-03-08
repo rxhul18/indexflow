@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@iflow/db": "*",
-    "@repo/typescript-config": "*",
+    "@iflow/db": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "better-auth": "^1.2.3",
     "better-call": "^1.0.4",
     "oslo": "^1.2.1"
