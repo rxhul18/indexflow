@@ -312,18 +312,20 @@ export default function Home() {
                 >
                   {page + 1}
                 </Button>
-             ))}
+              ))}
               <Button variant="outline" size="sm" onClick={handleNext} disabled={currentPage === Math.ceil(questions.length / questionsPerPage)}>
                 Next
               </Button>
             </div>
           </div>
         </div>
-        {/*Comunity Component */}
+        {/*Communities Component */}
         <div className="w-full lg:w-80 space-y-6 sticky lg:top-[100px] h-fit">
           <div className="rounded-lg border p-4">
-            <h2 className="text-xl font-semibold mb-4">Join community</h2>
-            <div className="overflow-y-auto max-h-72">
+            <h2 className="text-xl font-semibold mb-4">Communities</h2>
+            <p className="text-muted-foreground mb-4">Get unstuck with the help of our community of developers.</p>
+            <Button className="w-full mb-4">Join Community</Button>
+            <div className="overflow-y-auto max-h-72 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
               {randomCommunities.map((community: { id: string; name: string; description: string; img: string; }) => (
                 <div key={community.id} className="flex items-center py-2">
                   <img src={community.img} alt={community.name} className="w-10 h-10 rounded-full mr-4" />
@@ -335,12 +337,6 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
-
-          <div className="bg-card rounded-lg border p-4">
-            <h2 className="text-xl font-semibold mb-4">Join the Community</h2>
-            <p className="text-muted-foreground mb-4">Get unstuck with the help of our community of developers.</p>
-            <Button className="w-full">Sign Up</Button>
           </div>
         </div>
       </div>
