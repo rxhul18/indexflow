@@ -5,16 +5,9 @@ import { ArrowBigUp, ArrowBigDown, CheckCircle2, Bookmark, Share } from "lucide-
 import Link from "next/link"
 import AnswerForm from "@/components/answer-form"
 import type { Metadata } from "next"
-import { use } from "react"
-
-type Props = {
-  params: {
-    id: string
-  }
-}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   // In a real app, you would fetch the question data from your database
   const question = {
     title: "How do I implement authentication with Next.js and NextAuth?",
@@ -33,10 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default function QuestionPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-
-  const { id } = use(params);
+  const { id } = params;
   // Mock data for the question
   const question = {
     id: id,
@@ -276,4 +268,3 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
     </div>
   )
 }
-
