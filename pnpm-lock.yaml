@@ -33,6 +33,9 @@ importers:
       '@iflow/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@iflow/cache':
+        specifier: workspace:*
+        version: link:../../packages/cache
       '@upstash/ratelimit':
         specifier: ^2.0.5
         version: 2.0.5(@upstash/redis@1.34.5)

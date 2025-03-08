@@ -16,6 +16,7 @@
     "@hono/zod-validator": "^0.4.3",
     "@upstash/ratelimit": "^2.0.5",
     "@iflow/auth": "workspace:*",
+    "@iflow/cache": "workspace:*",
     "hono": "^4.7.4",
     "next": "15.2.1",
     "react": "^19.0.0",
