@@ -5,6 +5,7 @@ import { ArrowBigUp, ArrowBigDown, CheckCircle2, Bookmark, Share } from "lucide-
 import Link from "next/link"
 import AnswerForm from "@/components/answer-form"
 import type { Metadata } from "next"
+import { use } from "react"
 
 type Props = {
   params: {
@@ -29,10 +30,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function QuestionPage({ params }: Props) {
+export default function QuestionPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+
+  const { id } = use(params);
   // Mock data for the question
   const question = {
-    id: params.id,
+    id: id,
     title: "How do I implement authentication with Next.js and NextAuth?",
     content: `
       <div class="markdown">
@@ -264,7 +271,7 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
       {/* Answer form */}
       <div className="mt-10">
         <h2 className="text-xl font-semibold mb-6">Your Answer</h2>
-        <AnswerForm questionId={params.id} />
+        <AnswerForm questionId={id} />
       </div>
     </div>
   )
