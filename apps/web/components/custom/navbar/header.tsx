@@ -72,10 +72,6 @@ export default function Header() {
           )}
 
           <SignInBtn />
-          {/* <Button variant="outline" size="sm" className="gap-2 h-9">
-            <LogIn className="h-4 w-4" />
-            <span>Log In</span>
-          </Button> */}
         </div>
 
         <div className="flex items-center gap-1 md:hidden">
@@ -140,10 +136,7 @@ export default function Header() {
               </Link>
             </nav>
             <div className="flex flex-col gap-2">
-              <Button variant="outline" className="w-full justify-center gap-2">
-                <LogIn className="h-4 w-4" />
-                <span>Log In</span>
-              </Button>
+              <SignInBtn />
             </div>
           </div>
         </div>

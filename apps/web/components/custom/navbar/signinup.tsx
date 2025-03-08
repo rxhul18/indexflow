@@ -33,11 +33,11 @@ export function SignInBtn() {
                     </Button>
                     <Button variant={"outline"} className="w-fit">
                         <Icons.gitHub className="fill-black h-5 w-5" />
-                        <span className="px-10">Continue with Google</span>
+                        <span className="px-10">Continue with GitHub</span>
                     </Button>
                     <Button variant={"outline"} className="w-fit">
                         <Icons.discord className="fill-black h-5 w-5" />
-                        <span className="px-10">Continue with Google</span>
+                        <span className="px-10">Continue with Discord</span>
                     </Button>
                 </div>
             </DialogContent>
