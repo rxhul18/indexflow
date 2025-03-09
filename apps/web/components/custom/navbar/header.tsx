@@ -6,10 +6,10 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Search, Menu, X, Sun, Moon, LogIn } from "lucide-react"
+import { Search, Menu, X, Sun, Moon } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
-import { SignInBtn } from "./signinup"
+import { SignInBtn } from "./sign-up.btn"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
