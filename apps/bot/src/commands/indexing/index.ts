@@ -50,7 +50,7 @@ export default {
       new ButtonBuilder()
         .setCustomId("index_cancel")
         .setLabel("Cancel")
-        .setStyle(ButtonStyle.Secondary),
+        .setStyle(ButtonStyle.Danger),
     );
 
     const replyMessage = await repliedMessage.reply({
@@ -88,7 +88,7 @@ export default {
           new ButtonBuilder()
             .setCustomId("index_cancel")
             .setLabel("Cancel")
-            .setStyle(ButtonStyle.Secondary)
+            .setStyle(ButtonStyle.Danger)
             .setDisabled(true),
         );
 
@@ -126,7 +126,7 @@ export default {
       collector.stop();
     });
 
-    collector.on("end", async (collected, reason) => {
+    collector.on("end", async (_, reason) => {
       if (reason === "time") {
         await replyMessage.edit({
           components: [
