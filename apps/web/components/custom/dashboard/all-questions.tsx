@@ -8,9 +8,7 @@ import QuestionCard from "../question-card";
 import { compareDesc } from "date-fns";
 import { questions } from "@/json/dummy";
 
-export default function AllQuestions({tagName}:{
-    tagName:string
-}) {
+export default function AllQuestions({ tagName }: { tagName: string }) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [loading, setLoading] = useState(false);
@@ -20,7 +18,6 @@ export default function AllQuestions({tagName}:{
 
     const questionsPerPage = 5;
 
-    // Function to sort questions based on tag and filter
     const getSortedQuestions = (tag: string, sort: string) => {
         return [...questions].sort((a, b) => {
             const aHasTag = a.tags.includes(tag);
@@ -40,7 +37,6 @@ export default function AllQuestions({tagName}:{
     const [sortedQuestions, setSortedQuestions] = useState(() => getSortedQuestions(tagFil, filter));
     const [loadedQuestions, setLoadedQuestions] = useState(() => sortedQuestions.slice(0, questionsPerPage));
 
-    // Update sorting whenever URL parameters or tagName change
     useEffect(() => {
         const newTag = searchParams.get("tag") || tagName;
         const newFilter = searchParams.get("sort") || "newest";
@@ -77,29 +73,27 @@ export default function AllQuestions({tagName}:{
     };
 
     return (
-        <div className="flex-1 relative h-[calc(100vh-120px)] overflow-x-hidden">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div className="flex-1 relative h-[calc(100vh-120px)] overflow-hidden py-5">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 sticky top-0 bg-background z-10">
                 <h1 className="text-3xl font-bold">All Questions</h1>
-            </div>
 
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                 <div className="relative w-full sm:w-96">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                     <Input placeholder="Search questions..." className="pl-10" />
                 </div>
                 <Tabs value={filter || ''} onValueChange={handleFilterChange} className="w-full sm:w-auto">
                     <TabsList>
-                        <TabsTrigger value="newest">
+                        <TabsTrigger value="newest" className="cursor-pointer">
                             <Clock className="h-4 w-4 mr-2" />
-                            <span className="hidden sm:inline">Newest</span>
+                            <span>Newest</span>
                         </TabsTrigger>
-                        <TabsTrigger value="hot">
+                        <TabsTrigger value="hot" className="cursor-pointer">
                             <FlameIcon className="h-4 w-4 mr-2" />
-                            <span className="hidden sm:inline">Hot</span>
+                            <span>Hot</span>
                         </TabsTrigger>
-                        <TabsTrigger value="top">
+                        <TabsTrigger value="top" className="cursor-pointer">
                             <ArrowUpIcon className="h-4 w-4 mr-2" />
-                            <span className="hidden sm:inline">Top</span>
+                            <span>Top</span>
                         </TabsTrigger>
                     </TabsList>
                 </Tabs>

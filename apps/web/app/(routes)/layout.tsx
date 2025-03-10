@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <div className='flex flex-col h-full w-full items-center justify-center'>
         <Header />
         {children}
         <Footer />
