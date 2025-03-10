@@ -1,15 +1,21 @@
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { ArrowBigUp, ArrowBigDown, CheckCircle2, Bookmark, Share } from "lucide-react"
-import Link from "next/link"
-import AnswerForm from "@/components/custom/answer-form"
-import type { Metadata } from "next"
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import {
+  ArrowBigUp,
+  ArrowBigDown,
+  CheckCircle2,
+  Bookmark,
+  Share,
+} from "lucide-react";
+import Link from "next/link";
+import AnswerForm from "@/components/custom/answer-form";
+import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const question = {
     title: "How do I implement authentication with Next.js and NextAuth?",
-  }
+  };
 
   return {
     title: question.title,
@@ -18,11 +24,11 @@ export async function generateMetadata(): Promise<Metadata> {
       title: question.title,
       description: `Find the answer to "${question.title}" on DevOverflow`,
     },
-  }
+  };
 }
 
 export default function QuestionPage() {
-  const id = 'lol'
+  const id = "lol";
   // Mock data for the question
   const question = {
     id: id,
@@ -63,7 +69,7 @@ export default NextAuth({
       avatar: "/placeholder.svg?height=40&width=40",
     },
     createdAt: "2 hours ago",
-  }
+  };
 
   // Mock data for answers
   const answers = [
@@ -138,7 +144,7 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
       createdAt: "45 minutes ago",
       isAccepted: false,
     },
-  ]
+  ];
 
   return (
     <div className="container py-8">
@@ -157,10 +163,12 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-4">
-
         {/* Question content */}
         <div className="space-y-4">
-          <div dangerouslySetInnerHTML={{ __html: question.content }} className="border py-5 px-3 rounded-xl bg-primary/5" />
+          <div
+            dangerouslySetInnerHTML={{ __html: question.content }}
+            className="border py-5 px-3 rounded-xl bg-primary/5"
+          />
 
           <div className="flex flex-wrap gap-2 mt-4">
             {question.tags.map((tag) => (
@@ -195,13 +203,22 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="text-sm text-muted-foreground">asked {question.createdAt}</div>
+              <div className="text-sm text-muted-foreground">
+                asked {question.createdAt}
+              </div>
               <div className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={question.author.avatar} alt={question.author.name} />
-                  <AvatarFallback>{question.author.name.slice(0, 2)}</AvatarFallback>
+                  <AvatarImage
+                    src={question.author.avatar}
+                    alt={question.author.name}
+                  />
+                  <AvatarFallback>
+                    {question.author.name.slice(0, 2)}
+                  </AvatarFallback>
                 </Avatar>
-                <div className="text-sm font-medium">{question.author.name}</div>
+                <div className="text-sm font-medium">
+                  {question.author.name}
+                </div>
               </div>
             </div>
           </div>
@@ -221,29 +238,53 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
                 {/* Voting */}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2 md:gap-4 bg-primary/12 w-fit rounded-full p-1">
-                    <Button variant="outline" size="icon" className="rounded-full">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-full"
+                    >
                       <ArrowBigUp className="size-5" />
                     </Button>
-                    <span className="font-semibold text-lg">{answer.votes}</span>
-                    <Button variant="outline" size="icon" className="rounded-full">
+                    <span className="font-semibold text-lg">
+                      {answer.votes}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-full"
+                    >
                       <ArrowBigDown className="size-5" />
                     </Button>
                   </div>
-                  {answer.isAccepted && <CheckCircle2 className="size-7 text-green-500" />}
+                  {answer.isAccepted && (
+                    <CheckCircle2 className="size-7 text-green-500" />
+                  )}
                 </div>
 
                 {/* Answer content */}
                 <div className="space-y-4">
-                  <div dangerouslySetInnerHTML={{ __html: answer.content }} className="border py-5 px-3 rounded-xl bg-primary/5" />
+                  <div
+                    dangerouslySetInnerHTML={{ __html: answer.content }}
+                    className="border py-5 px-3 rounded-xl bg-primary/5"
+                  />
                   <div className="flex justify-end items-center mt-6">
                     <div className="flex items-center gap-3">
-                      <div className="text-sm text-muted-foreground">answered {answer.createdAt}</div>
+                      <div className="text-sm text-muted-foreground">
+                        answered {answer.createdAt}
+                      </div>
                       <div className="flex items-center gap-2">
                         <Avatar className="h-8 w-8">
-                          <AvatarImage src={answer.author.avatar} alt={answer.author.name} />
-                          <AvatarFallback>{answer.author.name.slice(0, 2)}</AvatarFallback>
+                          <AvatarImage
+                            src={answer.author.avatar}
+                            alt={answer.author.name}
+                          />
+                          <AvatarFallback>
+                            {answer.author.name.slice(0, 2)}
+                          </AvatarFallback>
                         </Avatar>
-                        <div className="text-sm font-medium">{answer.author.name}</div>
+                        <div className="text-sm font-medium">
+                          {answer.author.name}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -260,5 +301,5 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
         <AnswerForm questionId={id} />
       </div>
     </div>
-  )
+  );
 }

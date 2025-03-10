@@ -1,6 +1,6 @@
 import { configDotenv } from "dotenv";
 
-configDotenv({path: '.env', debug: true})
+configDotenv({ path: ".env", debug: true });
 
 const {
   DISCORD_TOKEN,
@@ -18,8 +18,8 @@ if (!WEBHOOK_ERROR_LOGGING || !WEBHOOK_GUILD_LOGGING) {
 }
 
 export const CONFIG = {
-DISCORD_TOKEN,
-DISCORD_CLIENT_ID,
-WEBHOOK_ERROR_LOGGING,
-WEBHOOK_GUILD_LOGGING,
+  DISCORD_TOKEN,
+  DISCORD_CLIENT_ID,
+  WEBHOOK_ERROR_LOGGING,
+  WEBHOOK_GUILD_LOGGING,
 };

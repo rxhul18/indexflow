@@ -34,7 +34,9 @@ export default {
 
     const confirmEmbed = new EmbedBuilder()
       .setColor(client.config.default_color)
-      .setDescription("📝 | Should I index this message as a Question or Answer?");
+      .setDescription(
+        "📝 | Should I index this message as a Question or Answer?",
+      );
 
     const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
@@ -71,23 +73,24 @@ export default {
 
       await interaction.deferUpdate();
 
-      const updatedActionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
-        new ButtonBuilder()
-          .setCustomId("index_question")
-          .setLabel("Index as Question")
-          .setStyle(ButtonStyle.Primary)
-          .setDisabled(true),
-        new ButtonBuilder()
-          .setCustomId("index_answer")
-          .setLabel("Index as Answer")
-          .setStyle(ButtonStyle.Primary)
-          .setDisabled(true),
-        new ButtonBuilder()
-          .setCustomId("index_cancel")
-          .setLabel("Cancel")
-          .setStyle(ButtonStyle.Secondary)
-          .setDisabled(true),
-      );
+      const updatedActionRow =
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId("index_question")
+            .setLabel("Index as Question")
+            .setStyle(ButtonStyle.Primary)
+            .setDisabled(true),
+          new ButtonBuilder()
+            .setCustomId("index_answer")
+            .setLabel("Index as Answer")
+            .setStyle(ButtonStyle.Primary)
+            .setDisabled(true),
+          new ButtonBuilder()
+            .setCustomId("index_cancel")
+            .setLabel("Cancel")
+            .setStyle(ButtonStyle.Secondary)
+            .setDisabled(true),
+        );
 
       if (interaction.customId === "index_question") {
         await interaction.editReply({
@@ -132,7 +135,9 @@ export default {
             ),
           ],
         });
-        await replyMessage.reply("⏰ | No response. Indexing request timed out.");
+        await replyMessage.reply(
+          "⏰ | No response. Indexing request timed out.",
+        );
       }
     });
   },

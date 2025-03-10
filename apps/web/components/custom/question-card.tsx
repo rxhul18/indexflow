@@ -51,25 +51,38 @@ const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
                 <ArrowBigUp className="h-4 w-4" />
-                <span className="text-xs sm:text-sm">{question.votes} votes</span>
+                <span className="text-xs sm:text-sm">
+                  {question.votes} votes
+                </span>
               </div>
               <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
                 <MessageSquare className="h-4 w-4" />
-                <span className="text-xs sm:text-sm">{question.answers} answers</span>
+                <span className="text-xs sm:text-sm">
+                  {question.answers} answers
+                </span>
               </div>
               <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
                 <Eye className="h-4 w-4" />
-                <span className="text-xs sm:text-sm">{question.views} views</span>
+                <span className="text-xs sm:text-sm">
+                  {question.views} views
+                </span>
               </div>
               <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
                 <CalendarRange className="h-4 w-4" />
-                <span className="text-xs sm:text-sm">{format(new Date(question.createdAt), "dd MMM yyyy")}</span>
+                <span className="text-xs sm:text-sm">
+                  {format(new Date(question.createdAt), "dd MMM yyyy")}
+                </span>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <Avatar className="h-6 w-6">
-                <AvatarImage src={question.author.avatar} alt={question.author.name} />
-                <AvatarFallback>{question.author.name.slice(0, 2)}</AvatarFallback>
+                <AvatarImage
+                  src={question.author.avatar}
+                  alt={question.author.name}
+                />
+                <AvatarFallback>
+                  {question.author.name.slice(0, 2)}
+                </AvatarFallback>
               </Avatar>
               <div className="text-xs sm:text-sm">
                 <span className="text-muted-foreground">Asked by </span>
@@ -80,7 +93,7 @@ const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
         </Card>
       </div>
     );
-  }
+  },
 );
 
 QuestionCard.displayName = "QuestionCard";

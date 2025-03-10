@@ -1,25 +1,30 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Search, Menu, X, Sun, Moon } from "lucide-react"
-import { useState, useEffect } from "react"
-import { useTheme } from "next-themes"
-import { SignInBtn } from "./sign-up.btn"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Search, Menu, X, Sun, Moon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import { SignInBtn } from "./sign-up.btn";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   // Prevent hydration mismatch
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    setIsMounted(true);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex justify-center">
@@ -32,13 +37,22 @@ export default function Header() {
 
           <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:gap-4">
             <nav className="flex items-center gap-6 text-sm">
-              <Link href="/" className="font-medium transition-colors hover:text-primary">
+              <Link
+                href="/"
+                className="font-medium transition-colors hover:text-primary"
+              >
                 Home
               </Link>
-              <Link href="/users" className="font-medium transition-colors hover:text-primary">
+              <Link
+                href="/users"
+                className="font-medium transition-colors hover:text-primary"
+              >
                 Users
               </Link>
-              <Link href="/about" className="font-medium transition-colors hover:text-primary">
+              <Link
+                href="/about"
+                className="font-medium transition-colors hover:text-primary"
+              >
                 About
               </Link>
             </nav>
@@ -48,14 +62,22 @@ export default function Header() {
         <div className="hidden md:flex md:items-center md:gap-3 flex-1 px-2 pl-6">
           <div className="relative w-full flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input type="search" placeholder="Search..." className="w-full pl-10" />
+            <Input
+              type="search"
+              placeholder="Search..."
+              className="w-full pl-10"
+            />
           </div>
 
           {isMounted && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
-                  {theme === "dark" ? <Moon className="w-5" /> : <Sun className="w-5" />}
+                  {theme === "dark" ? (
+                    <Moon className="w-5" />
+                  ) : (
+                    <Sun className="w-5" />
+                  )}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -79,7 +101,11 @@ export default function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
-                  {theme === "dark" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+                  {theme === "dark" ? (
+                    <Moon className="h-5 w-5" />
+                  ) : (
+                    <Sun className="h-5 w-5" />
+                  )}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -98,8 +124,17 @@ export default function Header() {
             </DropdownMenu>
           )}
 
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </Button>
         </div>
       </div>
@@ -110,7 +145,11 @@ export default function Header() {
           <div className="flex flex-col gap-6">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input type="search" placeholder="Search..." className="w-full pl-10" />
+              <Input
+                type="search"
+                placeholder="Search..."
+                className="w-full pl-10"
+              />
             </div>
             <nav className="flex flex-col gap-6 text-base">
               <Link
@@ -142,7 +181,7 @@ export default function Header() {
         </div>
       )}
     </header>
-  )
+  );
 }
 
 function MessageSquare(props: React.SVGProps<SVGSVGElement>) {
@@ -161,6 +200,5 @@ function MessageSquare(props: React.SVGProps<SVGSVGElement>) {
     >
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
     </svg>
-  )
+  );
 }
-

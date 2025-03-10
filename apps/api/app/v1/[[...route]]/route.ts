@@ -1,18 +1,18 @@
-import { Hono } from 'hono'
-import { handle } from 'hono/vercel'
+import { Hono } from "hono";
+import { handle } from "hono/vercel";
 import { cors } from "hono/cors";
-import { bearerAuth } from 'hono/bearer-auth'
-import { rateLimitHandler } from '@/actions/ratelimit-handler';
+import { bearerAuth } from "hono/bearer-auth";
+import { rateLimitHandler } from "@/actions/ratelimit-handler";
 
 const token = process.env.BOT_BEARER_TOKEN!;
 // console.log(token);
 
-export const runtime = 'edge'
+export const runtime = "edge";
 const allowedOrigins = [
   "http://localhost:3000",
   "https://indexflow.vercel.app",
 ];
-const app = new Hono().basePath('/v1')
+const app = new Hono().basePath("/v1");
 
 app.use(
   "*",
@@ -23,19 +23,17 @@ app.use(
     exposeHeaders: ["Content-Length"],
     maxAge: 600,
     credentials: true,
-  })
+  }),
 );
-app.use(
-  '/bot/*',
-  bearerAuth({ token }));
+app.use("/bot/*", bearerAuth({ token }));
 
 app.use(rateLimitHandler);
 
-app.get('/hello', (c) => {
+app.get("/hello", (c) => {
   return c.json({
-    message: 'Hello Next.js!',
-  })
-})
+    message: "Hello Next.js!",
+  });
+});
 
-export const GET = handle(app)
-export const POST = handle(app)
+export const GET = handle(app);
+export const POST = handle(app);

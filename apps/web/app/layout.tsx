@@ -19,8 +19,17 @@ export const metadata: Metadata = {
     default: "DevOverflow | Developer Q&A Community",
     template: "%s | DevOverflow",
   },
-  description: "A community-driven platform for developers to ask questions and share knowledge",
-  keywords: ["programming", "developer", "coding", "questions", "answers", "community", "discord"],
+  description:
+    "A community-driven platform for developers to ask questions and share knowledge",
+  keywords: [
+    "programming",
+    "developer",
+    "coding",
+    "questions",
+    "answers",
+    "community",
+    "discord",
+  ],
   authors: [{ name: "DevOverflow Team" }],
   creator: "DevOverflow",
   openGraph: {
@@ -28,18 +37,20 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://devoverflow.vercel.app",
     title: "DevOverflow | Developer Q&A Community",
-    description: "A community-driven platform for developers to ask questions and share knowledge",
+    description:
+      "A community-driven platform for developers to ask questions and share knowledge",
     siteName: "DevOverflow",
   },
   twitter: {
     card: "summary_large_image",
     title: "DevOverflow | Developer Q&A Community",
-    description: "A community-driven platform for developers to ask questions and share knowledge",
+    description:
+      "A community-driven platform for developers to ask questions and share knowledge",
   },
   robots: {
     index: true,
     follow: true,
-  }
+  },
 };
 
 export default function RootLayout({
@@ -49,10 +60,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background`}>
-        <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
-            <Toaster />
-            {children}
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          disableTransitionOnChange
+        >
+          <Toaster />
+          {children}
         </ThemeProvider>
       </body>
     </html>

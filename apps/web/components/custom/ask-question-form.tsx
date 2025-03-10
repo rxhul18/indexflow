@@ -1,41 +1,41 @@
 /* eslint-disable react/no-unescaped-entities */
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { X } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { X } from "lucide-react";
 
 export default function AskQuestionForm() {
-  const [title, setTitle] = useState("")
-  const [content, setContent] = useState("")
-  const [tagInput, setTagInput] = useState("")
-  const [tags, setTags] = useState<string[]>([])
-  const [preview, setPreview] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [tagInput, setTagInput] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [preview, setPreview] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault()
+      e.preventDefault();
 
-      const newTag = tagInput.trim().toLowerCase()
+      const newTag = tagInput.trim().toLowerCase();
 
       if (newTag && !tags.includes(newTag) && tags.length < 5) {
-        setTags([...tags, newTag])
-        setTagInput("")
+        setTags([...tags, newTag]);
+        setTagInput("");
       }
     }
-  }
+  };
 
   const handleRemoveTag = (tagToRemove: string) => {
-    setTags(tags.filter((tag) => tag !== tagToRemove))
-  }
+    setTags(tags.filter((tag) => tag !== tagToRemove));
+  };
 
   const generatePreview = () => {
     // In a real app, you would use a markdown parser
@@ -44,37 +44,37 @@ export default function AskQuestionForm() {
         .split("\n")
         .map((line) => `<p>${line}</p>`)
         .join("")}</div>`,
-    )
-  }
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!title.trim() || !content.trim() || tags.length === 0) return
+    if (!title.trim() || !content.trim() || tags.length === 0) return;
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     // In a real app, you would submit the question to your API
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Reset form after successful submission
-      setTitle("")
-      setContent("")
-      setTags([])
-      setTagInput("")
-      setPreview("")
+      setTitle("");
+      setContent("");
+      setTags([]);
+      setTagInput("");
+      setPreview("");
 
       // Show success message or redirect
-      alert("Your question has been posted!")
+      alert("Your question has been posted!");
     } catch (error) {
-      console.error("Error posting question:", error)
-      alert("Failed to post your question. Please try again.")
+      console.error("Error posting question:", error);
+      alert("Failed to post your question. Please try again.");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -97,7 +97,11 @@ export default function AskQuestionForm() {
         <Tabs defaultValue="write" className="w-full">
           <TabsList className="mb-2">
             <TabsTrigger value="write">Write</TabsTrigger>
-            <TabsTrigger value="preview" onClick={generatePreview} disabled={!content.trim()}>
+            <TabsTrigger
+              value="preview"
+              onClick={generatePreview}
+              disabled={!content.trim()}
+            >
               Preview
             </TabsTrigger>
           </TabsList>
@@ -127,7 +131,11 @@ export default function AskQuestionForm() {
         <Label htmlFor="tags">Tags</Label>
         <div className="flex flex-wrap gap-2 mb-2">
           {tags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+            <Badge
+              key={tag}
+              variant="secondary"
+              className="flex items-center gap-1"
+            >
               {tag}
               <button
                 type="button"
@@ -146,15 +154,24 @@ export default function AskQuestionForm() {
           onKeyDown={handleAddTag}
           placeholder="e.g. next.js, authentication (press Enter to add)"
         />
-        <p className="text-sm text-muted-foreground">Add up to 5 tags to describe what your question is about</p>
+        <p className="text-sm text-muted-foreground">
+          Add up to 5 tags to describe what your question is about
+        </p>
       </div>
 
       <div className="flex justify-end">
-        <Button type="submit" disabled={!title.trim() || !content.trim() || tags.length === 0 || isSubmitting}>
+        <Button
+          type="submit"
+          disabled={
+            !title.trim() ||
+            !content.trim() ||
+            tags.length === 0 ||
+            isSubmitting
+          }
+        >
           {isSubmitting ? "Posting..." : "Post Your Question"}
         </Button>
       </div>
     </form>
-  )
+  );
 }
-

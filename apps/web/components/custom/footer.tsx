@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { MessageSquare } from "lucide-react"
+import Link from "next/link";
+import { MessageSquare } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -12,29 +12,42 @@ export default function Footer() {
               <span className="text-xl font-bold">DevOverflow</span>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground">
-              A community-driven platform for developers to ask questions and share knowledge.
+              A community-driven platform for developers to ask questions and
+              share knowledge.
             </p>
           </div>
           <div>
             <h3 className="text-lg font-semibold">Resources</h3>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <Link href="/questions" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/questions"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   Questions
                 </Link>
               </li>
               <li>
-                <Link href="/tags" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/tags"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   Tags
                 </Link>
               </li>
               <li>
-                <Link href="/users" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/users"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   Users
                 </Link>
               </li>
               <li>
-                <Link href="/help" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/help"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   Help Center
                 </Link>
               </li>
@@ -44,22 +57,34 @@ export default function Footer() {
             <h3 className="text-lg font-semibold">Company</h3>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <Link href="/about" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/about"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   About
                 </Link>
               </li>
               <li>
-                <Link href="/careers" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/careers"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   Careers
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/privacy"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/terms"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   Terms of Service
                 </Link>
               </li>
@@ -69,22 +94,34 @@ export default function Footer() {
             <h3 className="text-lg font-semibold">Connect</h3>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <Link href="https://twitter.com" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="https://twitter.com"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   Twitter
                 </Link>
               </li>
               <li>
-                <Link href="https://github.com" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="https://github.com"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   GitHub
                 </Link>
               </li>
               <li>
-                <Link href="https://discord.com" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="https://discord.com"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   Discord
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/contact"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   Contact Us
                 </Link>
               </li>
@@ -96,6 +133,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
-

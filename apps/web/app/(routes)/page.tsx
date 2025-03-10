@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import TagCloud from "@/components/custom/tag-cloud";
 import AllQuestions from "@/components/custom/dashboard/all-questions";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { communities, popularTags } from "@/json/dummy";
 
 export default function Home() {
@@ -20,7 +20,9 @@ export default function Home() {
 
         <div className="flex flex-col lg:flex-row gap-4">
           <main className="flex-1 min-w-0 py-5">
-            <AllQuestions tagName={selectedTag} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <AllQuestions tagName={selectedTag} />
+            </Suspense>
           </main>
 
           <aside className="w-full lg:w-[350px] py-10 space-y-6 sticky lg:top-[100px] h-fit flex-shrink-0">

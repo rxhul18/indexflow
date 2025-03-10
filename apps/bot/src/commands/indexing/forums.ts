@@ -21,15 +21,14 @@ export default {
     message: Message,
     args: string[], // Specify the type of args as an array of strings
   ) => {
-    if(!args[0])
-        {
-            if (
-                message.channel instanceof TextChannel ||
-                message.channel instanceof DMChannel
-              ) {
-                return message.channel.send('fuck');
-              }
-        }
+    if (!args[0]) {
+      if (
+        message.channel instanceof TextChannel ||
+        message.channel instanceof DMChannel
+      ) {
+        return message.channel.send("fuck");
+      }
+    }
     const inviteLink = `https://discord.com/api/oauth2/authorize?client_id=${client.user?.id}&permissions=8&scope=bot%20applications.commands`;
 
     const embed = new EmbedBuilder()
@@ -46,22 +45,22 @@ export default {
     );
 
     const opt = args[0].toLowerCase();
-    if(opt === `add`) {
-        if (
-            message.channel instanceof TextChannel ||
-            message.channel instanceof DMChannel
-          ) {
-            return message.channel.send({ embeds: [embed], components: [button] });
-          }
+    if (opt === `add`) {
+      if (
+        message.channel instanceof TextChannel ||
+        message.channel instanceof DMChannel
+      ) {
+        return message.channel.send({ embeds: [embed], components: [button] });
+      }
     }
 
-    if(opt === `remove`) {
-        if (
-            message.channel instanceof TextChannel ||
-            message.channel instanceof DMChannel
-          ) {
-            return message.channel.send({ embeds: [embed], components: [button] });
-          }
+    if (opt === `remove`) {
+      if (
+        message.channel instanceof TextChannel ||
+        message.channel instanceof DMChannel
+      ) {
+        return message.channel.send({ embeds: [embed], components: [button] });
+      }
     }
   },
 };
