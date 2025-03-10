@@ -18,14 +18,18 @@ export default function TagCloud({ tags, onTagSelect }: TagCloudProps) {
     }
   }, [tagName, onTagSelect]);
 
+  const handleTagClick = (tag: string) => {
+    setTagName((prevTag) => (prevTag === tag ? "" : tag));
+  };
+
   return (
     <div className="flex flex-wrap gap-2">
       {tags.map((tag) => (
         <Badge
           key={tag.name}
-          onClick={() => setTagName(tag.name)}
-          variant="outline"
-          className="hover:bg-secondary cursor-pointer"
+          onClick={() => handleTagClick(tag.name)}
+          variant={tag.name === tagName ? "default" : "secondary"}
+          className="cursor-pointer"
         >
           {tag.name}
           <span className="ml-1 text-xs text-muted-foreground">
