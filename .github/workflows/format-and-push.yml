@@ -49,7 +49,7 @@ jobs:
           pnpm i -g turbo
 
       - name: Format code with Prettier
-        run: turbo format:write
+        run: turbo format
 
       - name: Check for changes and push if needed
         if: |
