@@ -1,22 +1,24 @@
 {
-    "name": "@iflow/db",
-    "version": "0.0.0",
-    "private": false,
-    "exports": {
-      ".": "./src/index.ts"
-    },
-    "scripts": {
-      "db:studio": "prisma studio",
-      "db:validate": "prisma validate",
-      "db:generate": "prisma generate --no-engine",
-      "db:push": "prisma db push --skip-generate",
-      "db:migrate": "pnpm db:validate && prisma migrate dev"
-    },
-    "dependencies": {
-      "@prisma/client": "^6.0.1",
-      "@prisma/extension-accelerate": "^1.2.1"
-    },
-    "devDependencies": {
-      "prisma": "^6.0.1"
-    }
+  "name": "@iflow/db",
+  "version": "0.0.0",
+  "private": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "db:studio": "prisma studio",
+    "db:validate": "prisma validate",
+    "db:generate": "prisma generate --no-engine",
+    "db:push": "prisma db push --skip-generate",
+    "db:migrate": "pnpm db:validate && prisma migrate dev"
+  },
+  "dependencies": {
+    "@iflow/typescript-config": "workspace:*",
+    "@prisma/client": "^6.4.1",
+    "@prisma/extension-accelerate": "^1.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "prisma": "^6.0.1"
   }
+}

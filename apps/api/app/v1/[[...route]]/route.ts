@@ -3,17 +3,18 @@ import { handle } from "hono/vercel";
 import { cors } from "hono/cors";
 import { bearerAuth } from "hono/bearer-auth";
 import { rateLimitHandler } from "@/actions/ratelimit-handler";
+import { auth as Auth } from "@iflow/auth";
 
 const token = process.env.BOT_BEARER_TOKEN!;
 // console.log(token);
 
 export const runtime = "edge";
+const app = new Hono().basePath("/v1");
 const allowedOrigins = [
   "http://localhost:3000",
   "https://indexflow.vercel.app",
+  "http://localhost:3001",
 ];
-const app = new Hono().basePath("/v1");
-
 app.use(
   "*",
   cors({
@@ -29,11 +30,14 @@ app.use("/bot/*", bearerAuth({ token }));
 
 app.use(rateLimitHandler);
 
-app.get("/hello", (c) => {
-  return c.json({
-    message: "Hello Next.js!",
-  });
-});
+// app.route("/auth", authRoutes);
+app.on(["POST", "GET"], "/auth/**", (c) => Auth.handler(c.req.raw));
 
-export const GET = handle(app);
-export const POST = handle(app);
+const GET = handle(app);
+const POST = handle(app);
+const PATCH = handle(app);
+const DELETE = handle(app);
+const OPTIONS = handle(app);
+const PUT = handle(app);
+
+export { GET, PUT, PATCH, POST, DELETE, OPTIONS };

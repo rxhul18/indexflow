@@ -11,9 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "@iflow/db": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@iflow/typescript-config": "workspace:*",
     "better-auth": "^1.2.3",
     "better-call": "^1.0.4",
     "oslo": "^1.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20"
   }
 }
