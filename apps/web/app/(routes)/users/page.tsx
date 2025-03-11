@@ -1,48 +1,49 @@
-"use client"
+"use client";
 
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Search } from "lucide-react"
-import { useState, useMemo } from "react"
-import { subDays, parseISO } from "date-fns"
-import { users } from "@/json/dummy"
-import UserGrid from "./usercard"
-
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Search } from "lucide-react";
+import { useState, useMemo } from "react";
+import { subDays, parseISO } from "date-fns";
+import { users } from "@/json/dummy";
+import UserGrid from "./usercard";
 
 export default function UsersPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [userTypeFilter, setUserTypeFilter] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [userTypeFilter, setUserTypeFilter] = useState("all");
 
   const filteredUsers = useMemo(() => {
-    const now = new Date()
-    const sevenDaysAgo = subDays(now, 7).getTime()
-    const thirtyDaysAgo = subDays(now, 30).getTime()
+    const now = new Date();
+    const sevenDaysAgo = subDays(now, 7).getTime();
+    const thirtyDaysAgo = subDays(now, 30).getTime();
 
     return users.filter((user) => {
       if (
         searchQuery &&
         !user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
         !user.location.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !user.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+        !user.tags.some((tag) =>
+          tag.toLowerCase().includes(searchQuery.toLowerCase()),
+        )
       ) {
-        return false
+        return false;
       }
 
       if (userTypeFilter === "active" && user.lastActive) {
-        return parseISO(user.lastActive).getTime() >= sevenDaysAgo
+        return parseISO(user.lastActive).getTime() >= sevenDaysAgo;
       }
 
       if (userTypeFilter === "new" && user.createdAt) {
-        return parseISO(user.createdAt).getTime() >= thirtyDaysAgo
+        return parseISO(user.createdAt).getTime() >= thirtyDaysAgo;
       }
 
       if (userTypeFilter === "anonymous") {
-        return !user.location
+        return !user.location;
       }
 
-      return userTypeFilter === "all"
-    })
-  }, [searchQuery, userTypeFilter])
+      return userTypeFilter === "all";
+    });
+  }, [searchQuery, userTypeFilter]);
 
   return (
     <div className="flex w-full justify-center h-[calc(100vh-120px)] overflow-hidden py-5">
@@ -58,7 +59,11 @@ export default function UsersPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Tabs value={userTypeFilter} onValueChange={setUserTypeFilter} className="w-full sm:w-auto">
+          <Tabs
+            value={userTypeFilter}
+            onValueChange={setUserTypeFilter}
+            className="w-full sm:w-auto"
+          >
             <TabsList className="gap-1 p-1 bg-muted/30 border rounded-md">
               <TabsTrigger value="all">All users</TabsTrigger>
               <TabsTrigger value="active">Active</TabsTrigger>
@@ -72,5 +77,5 @@ export default function UsersPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -485,7 +485,7 @@ export const users = [
     tags: ["vue.js", "nuxt", "javascript"],
     avatarBg: "bg-red-100",
     lastActive: "2025-03-08T17:20:00Z", // Within last 7 days
-    createdAt: "2024-03-03T07:15:00Z", 
+    createdAt: "2024-03-03T07:15:00Z",
   },
   {
     id: 16,
@@ -495,6 +495,6 @@ export const users = [
     tags: ["react", "next.js", "redux"],
     avatarBg: "bg-blue-200",
     lastActive: "2025-03-07T20:30:00Z", // Within last 7 days
-    createdAt: "2024-03-03T07:15:00Z", 
-  }
-]
+    createdAt: "2024-03-03T07:15:00Z",
+  },
+];
