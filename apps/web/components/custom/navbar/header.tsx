@@ -15,10 +15,14 @@ import { Search, Menu, X, Sun, Moon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { SignInBtn } from "./sign-up.btn";
+import UserBtn from "../user/user.btn";
+import Logo from "../logo";
+import { useUser } from "@/context/user.context";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const { user, loading } = useUser();
   const { theme, setTheme } = useTheme();
 
   // Prevent hydration mismatch
@@ -31,8 +35,7 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2 md:gap-10">
           <Link href="/" className="flex items-center gap-2">
-            <MessageSquare className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">DevOverflow</span>
+            <Logo />
           </Link>
 
           <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:gap-4">
@@ -92,37 +95,7 @@ export default function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           )}
-
-          <SignInBtn />
-        </div>
-
-        <div className="flex items-center gap-1 md:hidden">
-          {isMounted && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  {theme === "dark" ? (
-                    <Moon className="h-5 w-5" />
-                  ) : (
-                    <Sun className="h-5 w-5" />
-                  )}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setTheme("light")}>
-                  <Sun className="mr-2 h-4 w-4" />
-                  <span>Light</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("dark")}>
-                  <Moon className="mr-2 h-4 w-4" />
-                  <span>Dark</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>
-                  <span>System</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
+          {!loading && user ? <UserBtn pfp={user.image || ''} name={user.name || 'Guest'} /> : <SignInBtn />}
 
           <Button
             variant="ghost"
@@ -175,30 +148,11 @@ export default function Header() {
               </Link>
             </nav>
             <div className="flex flex-col gap-2">
-              <SignInBtn />
+            {!loading && user ? <UserBtn pfp={user.image || ''} name={user.name || 'Guest'} /> : <SignInBtn />}
             </div>
           </div>
         </div>
       )}
     </header>
-  );
-}
-
-function MessageSquare(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-    </svg>
   );
 }
