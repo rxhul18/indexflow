@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@repo/ui"],
   images: {
-    domains: ["avatars.githubusercontent.com", "github.com", "cdn.discordapp.com"],
+    domains: ["avatars.githubusercontent.com", "github.com", "cdn.discordapp.com", "lh3.googleusercontent.com"],
   },
 };
 
