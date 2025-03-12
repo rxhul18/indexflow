@@ -15,7 +15,6 @@ import { Search, Menu, X, Sun, Moon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { SignInBtn } from "./sign-up.btn";
-import SearchInputCommand from "./search-input";
 import UserBtn from "../user/user.btn";
 import Logo from "../logo";
 import { useUser } from "@/context/user.context";
@@ -25,6 +24,7 @@ export default function Header() {
   const [isMounted, setIsMounted] = useState(false);
   const { user, loading } = useUser();
   const { theme, setTheme } = useTheme();
+
   // Prevent hydration mismatch
   useEffect(() => {
     setIsMounted(true);
@@ -61,9 +61,7 @@ export default function Header() {
             </nav>
           </div>
         </div>
-        <SearchInputCommand />
 
-        <div className="flex items-center gap-1 md:hidden">
         <div className="hidden md:flex md:items-center md:gap-3 flex-1 px-2 pl-6">
           <div className="relative w-full flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -73,14 +71,15 @@ export default function Header() {
               className="w-full pl-10"
             />
           </div>
+
           {isMounted && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
                   {theme === "dark" ? (
-                    <Moon className="h-5 w-5" />
+                    <Moon className="w-5" />
                   ) : (
-                    <Sun className="h-5 w-5" />
+                    <Sun className="w-5" />
                   )}
                 </Button>
               </DropdownMenuTrigger>
