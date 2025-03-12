@@ -2,9 +2,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import TagCloud from "@/components/custom/tag-cloud";
-import AllQuestions from "@/components/custom/dashboard/all-questions";
+import AllQuestions from "@/components/custom/all-questions";
 import { Suspense, useState } from "react";
 import { communities, popularTags } from "@/json/dummy";
+import { JoinCommunity } from "@/components/custom/community-alert";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
@@ -49,9 +50,7 @@ export default function Home() {
                         {description}
                       </p>
                     </div>
-                    <Button className="ml-4" variant="default">
-                      Join
-                    </Button>
+                    <JoinCommunity />
                   </div>
                 ))}
               </div>
