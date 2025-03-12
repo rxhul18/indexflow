@@ -15,12 +15,12 @@ import { Search, Menu, X, Sun, Moon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { SignInBtn } from "./sign-up.btn";
+import SearchInputCommand from "./search-input";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const { theme, setTheme } = useTheme();
-
   // Prevent hydration mismatch
   useEffect(() => {
     setIsMounted(true);
@@ -59,42 +59,7 @@ export default function Header() {
           </div>
         </div>
 
-        <div className="hidden md:flex md:items-center md:gap-3 flex-1 px-2 pl-6">
-          <div className="relative w-full flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search..."
-              className="w-full pl-10"
-            />
-          </div>
-
-          {isMounted && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  {theme === "dark" ? (
-                    <Moon className="w-5" />
-                  ) : (
-                    <Sun className="w-5" />
-                  )}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setTheme("light")}>
-                  <Sun className="mr-2 h-4 w-4" />
-                  <span>Light</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("dark")}>
-                  <Moon className="mr-2 h-4 w-4" />
-                  <span>Dark</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
-
-          <SignInBtn />
-        </div>
+        <SearchInputCommand />
 
         <div className="flex items-center gap-1 md:hidden">
           {isMounted && (
@@ -116,9 +81,6 @@ export default function Header() {
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
                   <Moon className="mr-2 h-4 w-4" />
                   <span>Dark</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>
-                  <span>System</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
