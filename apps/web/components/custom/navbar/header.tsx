@@ -16,10 +16,14 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { SignInBtn } from "./sign-up.btn";
 import SearchInputCommand from "./search-input";
+import UserBtn from "../user/user.btn";
+import Logo from "../logo";
+import { useUser } from "@/context/user.context";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const { user, loading } = useUser();
   const { theme, setTheme } = useTheme();
   // Prevent hydration mismatch
   useEffect(() => {
@@ -31,8 +35,7 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2 md:gap-10">
           <Link href="/" className="flex items-center gap-2">
-            <MessageSquare className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">DevOverflow</span>
+            <Logo />
           </Link>
 
           <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:gap-4">
@@ -58,10 +61,18 @@ export default function Header() {
             </nav>
           </div>
         </div>
-
         <SearchInputCommand />
 
         <div className="flex items-center gap-1 md:hidden">
+        <div className="hidden md:flex md:items-center md:gap-3 flex-1 px-2 pl-6">
+          <div className="relative w-full flex-1">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search..."
+              className="w-full pl-10"
+            />
+          </div>
           {isMounted && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -85,6 +96,7 @@ export default function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           )}
+          {!loading && user ? <UserBtn pfp={user.image || ''} name={user.name || 'Guest'} /> : <SignInBtn />}
 
           <Button
             variant="ghost"
@@ -137,30 +149,11 @@ export default function Header() {
               </Link>
             </nav>
             <div className="flex flex-col gap-2">
-              <SignInBtn />
+            {!loading && user ? <UserBtn pfp={user.image || ''} name={user.name || 'Guest'} /> : <SignInBtn />}
             </div>
           </div>
         </div>
       )}
     </header>
-  );
-}
-
-function MessageSquare(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-    </svg>
   );
 }

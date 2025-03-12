@@ -6,7 +6,7 @@ import { multiSessionClient } from "better-auth/client/plugins";
 
 const BaseDomain =
   process.env.NODE_ENV === "production"
-    ? "https://api.plura.pro"
+    ? "https://api.indexflow.site"
     : "http://localhost:3001";
 
 export const authClient = createAuthClient({
@@ -16,7 +16,7 @@ export const authClient = createAuthClient({
 });
 
 export const auth = betterAuth({
-  trustedOrigins: ["http://localhost:3001", "http://localhost:3000"],
+  trustedOrigins: ["http://localhost:3001", "http://localhost:3000", "https://api.indexflow.site", "https://indexflow.site"],
   baseURL: BaseDomain,
   basePath: "/v1/auth",
   database: prismaAdapter(prisma, {

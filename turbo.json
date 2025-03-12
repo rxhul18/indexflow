@@ -26,6 +26,13 @@
     "lint": {
       "dependsOn": ["^build"]
     },
+    "format": {
+      "cache": false,
+      "outputs": []
+    },
+    "db:push": {
+      "cache": false
+    },
     "dev": {
       "cache": false,
       "persistent": true,

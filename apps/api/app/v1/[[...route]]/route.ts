@@ -12,7 +12,8 @@ export const runtime = "edge";
 const app = new Hono().basePath("/v1");
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://indexflow.vercel.app",
+  "https://api.indexflow.site",
+  "https://indexflow.site",
   "http://localhost:3001",
 ];
 app.use(
