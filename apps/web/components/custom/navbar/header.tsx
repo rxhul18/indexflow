@@ -18,6 +18,7 @@ import { SignInBtn } from "./sign-up.btn";
 import UserBtn from "../user/user.btn";
 import Logo from "../logo";
 import { useUser } from "@/context/user.context";
+import SearchInputCommand from "./inputcommand";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -63,14 +64,7 @@ export default function Header() {
         </div>
 
         <div className="hidden md:flex md:items-center md:gap-3 flex-1 px-2 pl-6">
-          <div className="relative w-full flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search..."
-              className="w-full pl-10"
-            />
-          </div>
+          <SearchInputCommand />
 
           {isMounted && (
             <DropdownMenu>
