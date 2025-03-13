@@ -1,27 +1,19 @@
 "use client";
 import { authClient } from "@iflow/auth";
+import { UserType } from "@iflow/types";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-interface User {
-    id: string;
-    name: string;
-    email: string;
-    emailVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    image?: string | null | undefined;
-}
 
 interface UserContextType {
-  user: User | null;
+  user: UserType | null;
   loading: boolean;
-  setUser: (user: User | null) => void;
+  setUser: (user: UserType | null) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
