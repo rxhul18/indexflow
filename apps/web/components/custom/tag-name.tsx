@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import React, { useEffect, useState } from "react";
 
-interface TagCloudProps {
+interface TagNameProps {
   tags: {
     name: string;
     count: number;
@@ -9,7 +9,7 @@ interface TagCloudProps {
   onTagSelect?: (selectedTagName: string) => void;
 }
 
-export default function TagCloud({ tags, onTagSelect }: TagCloudProps) {
+export default function TagName({ tags, onTagSelect }: TagNameProps) {
   const [tagName, setTagName] = useState("");
 
   useEffect(() => {

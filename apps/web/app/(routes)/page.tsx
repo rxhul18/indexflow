@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { Button } from "@/components/ui/button";
-import TagCloud from "@/components/custom/tag-cloud";
+import TagName from "@/components/custom/tag-name";
 import AllQuestions from "@/components/custom/dashboard/all-questions";
 import { Suspense, useState } from "react";
 import { communities, popularTags } from "@/json/dummy";
+import { JoinCommunity } from "@/components/custom/joincommunity";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
@@ -12,16 +13,16 @@ export default function Home() {
   return (
     <div className="flex w-full justify-center py-8">
       <div className="flex flex-col gap-4 max-w-[1400px] w-full px-4 relative">
-        {/* TagCloud at the top for more space */}
+        {/* TagName at the top for more space */}
         <div className="bg-card rounded-lg border p-4 w-full">
           <h2 className="text-xl font-semibold mb-4">Popular Tags</h2>
-          <TagCloud tags={popularTags} onTagSelect={setSelectedTag} />
+          <TagName tags={popularTags} onTagSelect={setSelectedTag} />
         </div>
 
         <div className="flex flex-col lg:flex-row gap-4">
           <main className="flex-1 min-w-0 py-5">
             <Suspense fallback={<div>Loading...</div>}>
-              <AllQuestions tagName={selectedTag} />
+              <AllQuestions tagName="" selectedTag={selectedTag} />
             </Suspense>
           </main>
 
@@ -49,9 +50,7 @@ export default function Home() {
                         {description}
                       </p>
                     </div>
-                    <Button className="ml-4" variant="default">
-                      Join
-                    </Button>
+                    <JoinCommunity />
                   </div>
                 ))}
               </div>
