@@ -119,7 +119,7 @@ const user = new Hono()
           active: true,
           recentTags: true,
           reputation: true,
-        }
+        },
       });
 
       // Ensure users exist before returning
