@@ -8,7 +8,7 @@ const userSchema = z.object({
   image: z.string().nullable(),
   emailVerified: z.boolean(),
   createdAt: z.union([z.date(), z.string()]),
-  updatedAt: z.union([z.date(), z.string()])
+  updatedAt: z.union([z.date(), z.string()]),
 });
 
 const paginationSchema = z.object({
