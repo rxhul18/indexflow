@@ -5,12 +5,15 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search } from "lucide-react";
 import { useState, useMemo } from "react";
 import { subDays, parseISO } from "date-fns";
-import { users } from "@/json/dummy";
 import UserGrid from "./usercard";
+import { users as dummyUsers } from "@/json/dummy"; // Importing dummy users
 
 export default function UsersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [userTypeFilter, setUserTypeFilter] = useState("all");
+
+  // Using dummy data instead of fetching from an API
+  const users = dummyUsers;
 
   const filteredUsers = useMemo(() => {
     const now = new Date();
@@ -21,8 +24,8 @@ export default function UsersPage() {
       if (
         searchQuery &&
         !user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !user.location.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !user.tags.some((tag) =>
+        !user.location?.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        !user.tags?.some((tag) =>
           tag.toLowerCase().includes(searchQuery.toLowerCase()),
         )
       ) {
@@ -43,7 +46,7 @@ export default function UsersPage() {
 
       return userTypeFilter === "all";
     });
-  }, [searchQuery, userTypeFilter]);
+  }, [searchQuery, userTypeFilter, users]);
 
   return (
     <div className="flex w-full justify-center h-[calc(100vh-120px)] overflow-hidden py-5">
