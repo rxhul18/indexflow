@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <div className="flex w-full justify-center py-8">
-      <div className="flex flex-col gap-4 max-w-[1400px] w-full px-4 relative">
+      <div className="flex flex-col gap-4 min-w-[90%] md:container w-full px-4 relative">
         {/* TagName at the top for more space */}
         <div className="bg-card rounded-lg border p-4 w-full">
           <h2 className="text-xl font-semibold mb-4">Popular Tags</h2>
