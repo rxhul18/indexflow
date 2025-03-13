@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import React, { useEffect, useState } from "react";
 
-interface TagNameProps {
+interface TagsCompProps {
   tags: {
     name: string;
     count: number;
@@ -9,7 +9,7 @@ interface TagNameProps {
   onTagSelect?: (selectedTagName: string) => void;
 }
 
-export default function TagName({ tags, onTagSelect }: TagNameProps) {
+export default function TagsComp({ tags, onTagSelect }: TagsCompProps) {
   const [tagName, setTagName] = useState("");
 
   useEffect(() => {

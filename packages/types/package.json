@@ -1,0 +1,14 @@
+{
+    "name": "@iflow/types",
+    "version": "0.0.0",
+    "private": false,
+    "exports": {
+      ".": "./src/index.d.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "@iflow/typescript-config": "workspace:*"
+    }
+  }

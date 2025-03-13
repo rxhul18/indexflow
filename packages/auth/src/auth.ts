@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { prisma } from "@iflow/db";
+import { prisma } from "../../db/src";
 import { createAuthClient } from "better-auth/client";
 import { multiSessionClient } from "better-auth/client/plugins";
 
@@ -22,6 +22,17 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  user: {
+    additionalFields:{
+    role : {
+      type : "string",
+      nullable : false,
+      required : true,
+      input : false,
+      defaultValue : "user"
+    }
+  }
+  },
   secret: process.env.BETTER_AUTH_SECRET,
   socialProviders: {
     github: {

@@ -20,7 +20,7 @@ export default function QuestionsList({
   const searchParams = useSearchParams();
 
   const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState(searchParams.get("sort") || "");
+  const [filter, setFilter] = useState(searchParams.get("sort") || "newest"); 
   const [tagFil, setTagFil] = useState(selectedTag || tagName || "");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -94,10 +94,12 @@ export default function QuestionsList({
 
   return (
     <div className="flex-1 relative h-[calc(100vh-120px)] overflow-x-hidden py-5">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 sticky top-0 bg-background z-10">
-        <h1 className="text-3xl font-bold">All Questions</h1>
-
-        <div className="relative w-full sm:w-96 flex-1">
+      <div className="flex flex-col justify-between items-start mb-6 gap-4 sticky top-0 bg-background z-10">
+        <h1 className="text-3xl font-bold">
+          {filter === "newest" ? "Recent Questions" : filter === "hot" ? "Hot Questions" : filter === "top" ? "Top Questions" : "Questions"}
+        </h1>
+       <div className="flex flex-row items-center justify-between h-full w-full gap-10">
+       <div className="relative w-full sm:w-96 flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
             placeholder="Search questions..."
@@ -107,7 +109,7 @@ export default function QuestionsList({
           />
         </div>
 
-        <Tabs value={filter || ""} onValueChange={handleFilterChange} className="w-full sm:w-auto">
+        <Tabs value={filter} onValueChange={handleFilterChange} className="w-full sm:w-auto">
           <TabsList>
             <TabsTrigger value="newest" className="cursor-pointer">
               <Clock className="h-4 w-4 mr-2" />
@@ -123,6 +125,7 @@ export default function QuestionsList({
             </TabsTrigger>
           </TabsList>
         </Tabs>
+       </div>
       </div>
 
       <div className="space-y-4 relative overflow-y-auto h-full overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">

@@ -4,6 +4,7 @@ import { cors } from "hono/cors";
 import { bearerAuth } from "hono/bearer-auth";
 import { rateLimitHandler } from "@/actions/ratelimit-handler";
 import { auth as Auth } from "@iflow/auth";
+import user from "./routes/user";
 
 const token = process.env.BOT_BEARER_TOKEN!;
 // console.log(token);
@@ -27,12 +28,15 @@ app.use(
     credentials: true,
   }),
 );
+
 app.use("/bot/*", bearerAuth({ token }));
 
+// applied rate limit to below routes
 app.use(rateLimitHandler);
+// applied rate limit to below routes
 
-// app.route("/auth", authRoutes);
-app.on(["POST", "GET"], "/auth/**", (c) => Auth.handler(c.req.raw));
+app.route("/user", user);
+app.on(["POST", "GET"], "/auth/*", (c) => Auth.handler(c.req.raw));
 
 const GET = handle(app);
 const POST = handle(app);

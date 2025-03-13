@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { Button } from "@/components/ui/button";
-import TagName from "@/components/custom/tag-name";
+import TagName from "@/components/custom/tags.comp";
 import AllQuestions from "@/components/custom/dashboard/all-questions";
 import { Suspense, useState } from "react";
 import { communities, popularTags } from "@/json/dummy";

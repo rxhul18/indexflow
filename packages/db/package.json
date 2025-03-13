@@ -13,12 +13,12 @@
     "db:migrate": "pnpm db:validate && prisma migrate dev"
   },
   "dependencies": {
+    "prisma": "^6.0.1",
     "@iflow/typescript-config": "workspace:*",
     "@prisma/client": "^6.4.1",
     "@prisma/extension-accelerate": "^1.2.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "prisma": "^6.0.1"
+    "@types/node": "^20"
   }
 }

@@ -26,7 +26,7 @@ export default function SearchInputCommand() {
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
-            if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
+            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault()
                 setCommandOpen((open) => !open)
             }
@@ -44,11 +44,12 @@ export default function SearchInputCommand() {
                     placeholder="Search..."
                     className="w-full pl-10 relative"
                     onClick={() => setCommandOpen(true)}
+                    readOnly
                 />
                 <>
                     <p className="text-sm cursor-pointer-none w-10 gap-1 flex absolute right-3">
                         <kbd className="flex h-6 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[12px] font-medium text-muted-foreground opacity-100">
-                            <span className="text-sm">⌘</span><span>+</span> J
+                            <span className="text-sm">⌘</span><span>+</span> K
                         </kbd>
                     </p>
                     <CommandDialog open={commandOpen} onOpenChange={(open) => setCommandOpen(open)}>

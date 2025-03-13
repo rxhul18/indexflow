@@ -18,7 +18,7 @@ import { SignInBtn } from "./sign-up.btn";
 import UserBtn from "../user/user.btn";
 import Logo from "../logo";
 import { useUser } from "@/context/user.context";
-import SearchInputCommand from "./inputcommand";
+import SearchInputCommand from "./search.comp";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -53,12 +53,12 @@ export default function Header() {
               >
                 Users
               </Link>
-              <Link
+              {/* <Link
                 href="/about"
                 className="font-medium transition-colors hover:text-primary"
               >
                 About
-              </Link>
+              </Link> */}
             </nav>
           </div>
         </div>
