@@ -20,7 +20,7 @@ export default function QuestionsList({
   const searchParams = useSearchParams();
 
   const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState(searchParams.get("sort") || "newest"); 
+  const [filter, setFilter] = useState(searchParams.get("sort") || "");
   const [tagFil, setTagFil] = useState(selectedTag || tagName || "");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -98,34 +98,34 @@ export default function QuestionsList({
         <h1 className="text-3xl font-bold">
           {filter === "newest" ? "Recent Questions" : filter === "hot" ? "Hot Questions" : filter === "top" ? "Top Questions" : "Questions"}
         </h1>
-       <div className="flex flex-row items-center justify-between h-full w-full gap-10">
-       <div className="relative w-full sm:w-96 flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-          <Input
-            placeholder="Search questions..."
-            className="pl-10"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+        <div className="flex flex-col md:flex-row items-center justify-between h-full w-full gap-4 md:gap-8">
+          <div className="relative w-full md:w-full flex flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              placeholder="Search questions..."
+              className="pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
 
-        <Tabs value={filter} onValueChange={handleFilterChange} className="w-full sm:w-auto">
-          <TabsList>
-            <TabsTrigger value="newest" className="cursor-pointer">
-              <Clock className="h-4 w-4 mr-2" />
-              <span>Newest</span>
-            </TabsTrigger>
-            <TabsTrigger value="hot" className="cursor-pointer">
-              <FlameIcon className="h-4 w-4 mr-2" />
-              <span>Hot</span>
-            </TabsTrigger>
-            <TabsTrigger value="top" className="cursor-pointer">
-              <ArrowUpIcon className="h-4 w-4 mr-2" />
-              <span>Top</span>
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-       </div>
+          <Tabs value={filter} onValueChange={handleFilterChange} className="w-full sm:w-auto">
+            <TabsList>
+              <TabsTrigger value="newest" className="cursor-pointer">
+                <Clock className="h-4 w-4 mr-2" />
+                <span>Newest</span>
+              </TabsTrigger>
+              <TabsTrigger value="hot" className="cursor-pointer">
+                <FlameIcon className="h-4 w-4 mr-2" />
+                <span>Hot</span>
+              </TabsTrigger>
+              <TabsTrigger value="top" className="cursor-pointer">
+                <ArrowUpIcon className="h-4 w-4 mr-2" />
+                <span>Top</span>
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
       <div className="space-y-4 relative overflow-y-auto h-full overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">

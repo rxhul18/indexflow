@@ -167,7 +167,7 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
         <div className="space-y-4">
           <div
             dangerouslySetInnerHTML={{ __html: question.content }}
-            className="border py-5 px-3 rounded-xl bg-primary/5"
+            className="border py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full"
           />
 
           <div className="flex flex-wrap gap-2 mt-4">
@@ -178,8 +178,8 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
             ))}
           </div>
 
-          <div className="flex justify-between items-center mt-6 pt-4 border-t">
-            <div className="">
+          <div className="flex flex-col gap-3 md:flex-row justify-between items-start md:items-center mt-6 pt-4 border-t">
+            <div className="flex">
               <div className="flex items-center gap-2 md:gap-4 bg-primary/12 w-fit rounded-full p-1">
                 <Button variant="outline" size="icon" className="rounded-full">
                   <ArrowBigUp className="size-5" />
@@ -189,17 +189,17 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
                   <ArrowBigDown className="size-5" />
                 </Button>
               </div>
-            </div>
-            <div className="flex items-center gap-2 flex-1 px-6">
-              <Button variant="outline" size="lg">
-                Follow
-              </Button>
-              <Button variant="outline" size="lg">
-                <Bookmark />
-              </Button>
-              <Button variant="outline" size="lg">
-                <Share />
-              </Button>
+              <div className="flex items-center gap-2 flex-1 px-6">
+                <Button variant="outline" size="lg">
+                  Follow
+                </Button>
+                <Button variant="outline" size="lg">
+                  <Bookmark />
+                </Button>
+                <Button variant="outline" size="lg">
+                  <Share />
+                </Button>
+              </div>
             </div>
 
             <div className="flex items-center gap-3">
@@ -265,7 +265,7 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
                 <div className="space-y-4">
                   <div
                     dangerouslySetInnerHTML={{ __html: answer.content }}
-                    className="border py-5 px-3 rounded-xl bg-primary/5"
+                    className="border py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full"
                   />
                   <div className="flex justify-end items-center mt-6">
                     <div className="flex items-center gap-3">
