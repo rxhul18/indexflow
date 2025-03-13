@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "DevOverflow | Developer Q&A Community",
-    template: "%s | DevOverflow",
+    default: "IndexFlow | Index your Discord community and get your questions resolved",
+    template: "%s | IndexFlow",
   },
   description:
     "A community-driven platform for developers to ask questions and share knowledge",
@@ -31,20 +31,20 @@ export const metadata: Metadata = {
     "community",
     "discord",
   ],
-  authors: [{ name: "DevOverflow Team" }],
-  creator: "DevOverflow",
+  authors: [{ name: "Saidev Dhal" }],
+  creator: "IndexFlow",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://devoverflow.vercel.app",
+    url: "https://indexflow.site",
     title: "DevOverflow | Developer Q&A Community",
     description:
       "A community-driven platform for developers to ask questions and share knowledge",
-    siteName: "DevOverflow",
+    siteName: "IndexFlow",
   },
   twitter: {
     card: "summary_large_image",
-    title: "DevOverflow | Developer Q&A Community",
+    title: "IndexFlow | Developer Q&A Community",
     description:
       "A community-driven platform for developers to ask questions and share knowledge",
   },

@@ -7,7 +7,7 @@ import { paginationSchema, userSchema } from "@/lib/zod/ schema";
 import { checkLogin } from "@/actions/checks/check.login";
 import { checkAdmin } from "@/actions/checks/check.admin";
 import { zValidator } from "@/lib/zod/validator";
-import { UserType } from "@iflow/types";
+import { UserPubType, UserType } from "@iflow/types";
 
 const CACHE_EXPIRY = 150;
 
@@ -75,6 +75,72 @@ const user = new Hono()
       return c.json({ message: "Internal Server Error", status: 500 }, 500);
     }
   })
+
+  .get("/public", zValidator("query", paginationSchema), async (c) => {
+    const { cursor, take } = c.req.valid("query");
+    const cacheKey = `users:pub:all:${cursor || "start"}:${take}`;
+
+    let response: { nextCursor: string | null; users: UserPubType[] } | null =
+      null;
+
+    try {
+      const cachedData = await cache.get<{
+        nextCursor: string | null;
+        users: UserPubType[];
+      } | null>(cacheKey);
+
+      if (cachedData && cachedData.users) {
+        response = {
+          nextCursor: cachedData.nextCursor,
+          users: cachedData.users,
+        };
+        console.log("Returned user list from cache");
+      }
+    } catch (error) {
+      console.error("Cache parsing error (all):", error);
+    }
+
+    if (!response) {
+      if (!c.req.url.includes("?cursor=")) {
+        return c.redirect("?cursor=");
+      }
+
+      const users: UserPubType[] = await prisma.user.findMany({
+        take,
+        skip: cursor ? 1 : 0,
+        cursor: cursor ? { id: cursor } : undefined,
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          createdAt: true,
+          updatedAt: true,
+          location: true,
+          active: true,
+          recentTags: true,
+          reputation: true,
+        }
+      });
+
+      // Ensure users exist before returning
+      if (!users || users.length === 0) {
+        return c.json({ message: "No users found", status: 404 }, 404);
+      }
+
+      const nextCursor = users.length > 0 ? users[users.length - 1].id : null;
+      response = { nextCursor, users };
+
+      console.log("Fetched user list from database (all)");
+      try {
+        await cache.set(cacheKey, response, { ex: CACHE_EXPIRY });
+      } catch (cacheError) {
+        console.error("Error storing user list in cache (all):", cacheError);
+      }
+    }
+
+    return c.json(response, 200);
+  })
+
   // this middleware applies login & admin checks to below routes
   .use(checkLogin, checkAdmin)
   // this middleware applies login & admin checks to below routes

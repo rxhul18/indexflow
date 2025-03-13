@@ -6,14 +6,17 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 
 interface UserContextType {
   user: UserType | null;
+  userIP: string | null;
   loading: boolean;
   setUser: (user: UserType | null) => void;
+  setUserIP: (userIP: string | null) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
+  const [userIP, setUserIP] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,9 +25,17 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       try {
         const session = await authClient.getSession();
         if (session.data?.user) {
+          console.log(user, "boobs")
           setUser(session.data.user);
         } else {
           setUser(null);
+        }
+
+        if (session.data?.session) {
+          console.log(userIP, "boobs")
+          setUserIP(session.data.session.ipAddress!)
+        } else {
+          setUserIP(null);
         }
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -36,7 +47,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, loading, setUser }}>
+    <UserContext.Provider value={{ user, loading, setUser, userIP, setUserIP }}>
       {children}
     </UserContext.Provider>
   );

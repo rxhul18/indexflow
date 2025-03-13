@@ -30,7 +30,34 @@ export const auth = betterAuth({
       required : true,
       input : false,
       defaultValue : "user"
-    }
+    },
+    reputation: {
+      type : "string",
+      nullable : true,
+      required : false,
+      input : false,
+    },
+    location: {
+      type : "string",
+      nullable : true,
+      required : false,
+      input : false,
+      defaultValue : null
+    },
+    active: {
+      type : "date",
+      nullable : true,
+      required : false,
+      input : false,
+      defaultValue : null
+    },
+    recentTags: {
+      type : "string[]",
+      nullable : true,
+      required : false,
+      input : false,
+      defaultValue : null
+    },
   }
   },
   secret: process.env.BETTER_AUTH_SECRET,
