@@ -10,7 +10,7 @@ import {
 } from "discord.js";
 
 export default async function handleThreadCreate(
-  client: Client & { config: { owner: string[]; noprefix: string[] } }
+  client: Client & { config: { owner: string[]; noprefix: string[] } },
 ): Promise<void> {
   client.on(
     "threadCreate",
@@ -20,7 +20,7 @@ export default async function handleThreadCreate(
           .setTitle("Indexing threads on indexflow.site")
           .setDescription(
             `To help others find answers online, you can mark your question as solved via\n` +
-            "***Reply to a message with `$index` to index your Question/Answer or both.***"
+              "***Reply to a message with `$index` to index your Question/Answer or both.***",
           );
 
         const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -35,7 +35,7 @@ export default async function handleThreadCreate(
           new ButtonBuilder()
             .setCustomId("index_dismiss")
             .setLabel("Dismiss")
-            .setStyle(ButtonStyle.Danger)
+            .setStyle(ButtonStyle.Danger),
         );
 
         console.log(`A new thread has been created: ${thread.name}`);
@@ -57,25 +57,25 @@ export default async function handleThreadCreate(
             case "mng_privacy":
               await interaction.reply({
                 content: "Manage Privacy button clicked!",
-                 flags: 64,
+                flags: 64,
               });
               break;
             case "index_answer":
               await interaction.reply({
                 content: "Index Question Only button clicked!",
-                 flags: 64,
+                flags: 64,
               });
               break;
             case "index_dismiss":
               await interaction.reply({
                 content: "Dismiss button clicked!",
-                 flags: 64,
+                flags: 64,
               });
               break;
             default:
               await interaction.reply({
                 content: "Unknown button clicked!",
-                 flags: 64,
+                flags: 64,
               });
           }
         });
@@ -86,18 +86,18 @@ export default async function handleThreadCreate(
             text: "This session has expired. Follow the image example for indexing.",
           });
 
-          const newActionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
-            new ButtonBuilder()
-              .setLabel("More Info")
-              .setStyle(ButtonStyle.Link)
-              .setURL("https://indexflow.site"),
+          const newActionRow =
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+              new ButtonBuilder()
+                .setLabel("More Info")
+                .setStyle(ButtonStyle.Link)
+                .setURL("https://indexflow.site"),
 
-            new ButtonBuilder()
-              .setLabel("Support Server")
-              .setStyle(ButtonStyle.Link)
-              .setURL("https://indexflow.site"),
-            
-          );
+              new ButtonBuilder()
+                .setLabel("Support Server")
+                .setStyle(ButtonStyle.Link)
+                .setURL("https://indexflow.site"),
+            );
 
           await sentMessage.edit({
             embeds: [embed],
@@ -105,6 +105,6 @@ export default async function handleThreadCreate(
           });
         });
       }
-    }
+    },
   );
 }
