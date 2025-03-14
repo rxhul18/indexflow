@@ -23,6 +23,42 @@ export default async function handleThreadCreate(
               "***Reply to a message with `$index` to index your Question/Answer or both.***",
           );
 
+        const mngPembed = new EmbedBuilder()
+        .setTitle("Manage your privacy")
+        .setDescription(
+          `Do you want to be Annonymous while indexing this thread on [indexflow.site](devwtf.in)\n` +
+            "***Reply to a message with `$index` to index your Question/Answer or both.***",
+        );
+
+        const mngPactRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId("qonly_yes")
+            .setLabel("Yes, hide me")
+            .setStyle(ButtonStyle.Primary),
+          new ButtonBuilder()
+            .setCustomId("qonly_no")
+            .setLabel("No, am fine")
+            .setStyle(ButtonStyle.Danger),
+        );
+
+        const qOnlyEmbed = new EmbedBuilder()
+        .setTitle("Are you sure?")
+        .setDescription(
+          `Are you sure you just want to index this question only?\n` +
+            "***Reply to a message with `$index` to index your Question/Answer or both.***",
+        );
+
+        const qOnlyActRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId("qonly_yes")
+            .setLabel("Yes")
+            .setStyle(ButtonStyle.Primary),
+          new ButtonBuilder()
+            .setCustomId("qonly_no")
+            .setLabel("No")
+            .setStyle(ButtonStyle.Danger),
+        );
+
         const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
             .setCustomId("mng_privacy")
@@ -56,20 +92,23 @@ export default async function handleThreadCreate(
           switch (interaction.customId) {
             case "mng_privacy":
               await interaction.reply({
-                content: "Manage Privacy button clicked!",
+                embeds: [mngPembed],
+                components: [mngPactRow],
                 flags: 64,
               });
               break;
             case "index_answer":
               await interaction.reply({
-                content: "Index Question Only button clicked!",
+                embeds: [qOnlyEmbed],
+                components: [qOnlyActRow],
                 flags: 64,
               });
               break;
             case "index_dismiss":
-              await interaction.reply({
-                content: "Dismiss button clicked!",
-                flags: 64,
+              await sentMessage.edit({
+                embeds: [],
+                components: [],
+                content: "..."
               });
               break;
             default:
@@ -96,12 +135,18 @@ export default async function handleThreadCreate(
               new ButtonBuilder()
                 .setLabel("Support Server")
                 .setStyle(ButtonStyle.Link)
-                .setURL("https://indexflow.site"),
+                .setURL("https://discord.gg/AEaBWNSgkf"),
+              
+                new ButtonBuilder()
+                .setLabel("Sponsor")
+                .setStyle(ButtonStyle.Link)
+                .setURL("https://l.devwtf.in/sponsor"),
             );
 
           await sentMessage.edit({
             embeds: [embed],
             components: [newActionRow],
+            content: "***Just fyi... 👇🏻***"
           });
         });
       }
