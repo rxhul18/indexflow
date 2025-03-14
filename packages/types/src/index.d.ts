@@ -14,6 +14,18 @@ export type UserType = {
     image?: string | null;
 };
 
+export type ServerType = {
+    id: string;
+    name: string;
+    owner_id: string;
+    is_config?: boolean;
+    config_id?: string | null;
+    logo?: string | null;
+    invite_url: string | null;
+    createdAt: Date | string;
+    updatedAt: Date | string;
+};
+
 export type UserPubType = {
     id: string;
     name: string;

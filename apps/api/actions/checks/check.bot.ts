@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Context, Next } from "hono";
 import { bearerAuth } from "hono/bearer-auth";
+import Error from "next/error";
 
 export const checkBot = async (c: Context, next: Next) => {
   const bearer = process.env.BOT_BEARER_TOKEN!;
@@ -20,5 +21,9 @@ export const checkBot = async (c: Context, next: Next) => {
     );
   } catch (error) {
     console.log("Check bot middleware error", error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
   }
 };

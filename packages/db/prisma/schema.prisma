@@ -23,7 +23,6 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
-  servers       Server[]
 
   @@unique([email])
   @@map("user")
@@ -78,21 +77,20 @@ model Server {
   id         String   @id
   name       String
   owner_id   String
-  is_config  Boolean
+  is_config  Boolean  @default(false)
   config_id  String?
   logo       String?
   invite_url String
   configs    Configs?
-  createdAt  DateTime
-  updatedAt  DateTime
-  User       User?    @relation(fields: [userId], references: [id])
-  userId     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
 
   @@unique([id])
+  @@map("server")
 }
 
 model Configs {
-  id                   String   @id
+  id                   String   @id @default(uuid())
   server_id            String   @unique
   server               Server?  @relation(fields: [server_id], references: [id], onDelete: Cascade)
   qna_channels         String[]
@@ -101,6 +99,11 @@ model Configs {
   mod_role             String?
   log_channel          String?
   log_channel_webhook  String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @default(now())
+
+  @@unique([id])
+  @@map("configs")
 }
 
 model AnonProfile {
@@ -109,12 +112,15 @@ model AnonProfile {
   pfp       String?
   uid       String?  @unique
   dc_uid    String?  @unique
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@unique([id])
+  @@map("anonProfile")
 }
 
 model IndexedQns {
-  id          String   @id
+  id          String   @id @default(uuid())
   title       String
   ans_id      String   @unique
   author      String
@@ -126,12 +132,15 @@ model IndexedQns {
   thread_id   String
   thread_mems String[]
   msg_url     String
-  createdAt   DateTime
-  updatedAt   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+
+  @@unique([id])
+  @@map("indexedQns")
 }
 
 model IndexedAns {
-  id        String   @id
+  id        String   @id @default(uuid())
   author    String
   content   String
   qns_id    String   @unique
@@ -141,16 +150,22 @@ model IndexedAns {
   msg_url   String
   is_anon   Boolean  @default(false)
   is_nsfw   Boolean  @default(false)
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@unique([id])
+  @@map("indexedAns")
 }
 
 model Tags {
-  id        String    @id
+  id        String    @id @default(uuid())
   name      String    @unique
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
   usedAt    DateTime?
   posts     String[]
   usages    Int       @default(0)
+
+  @@unique([id])
+  @@map("tags")
 }
