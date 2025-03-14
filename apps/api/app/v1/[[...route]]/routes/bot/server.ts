@@ -11,7 +11,7 @@ const CACHE_EXPIRY = 60;
 
 const server = new Hono()
 
-.get("/all", zValidator("query", paginationSchema), async (c) => {
+  .get("/all", zValidator("query", paginationSchema), async (c) => {
     const { cursor, take } = c.req.valid("query");
     const cacheKey = `servers:all:${cursor || "start"}:${take}`;
 
@@ -71,15 +71,15 @@ const server = new Hono()
     try {
       const newServer = await prisma.server.create({
         data: {
-            id: body.id,
-            name: body.name,
-            owner_id: body.owner_id,
-            logo: body.logo || null,
-            invite_url: body.invite_url!,
-            is_config: false, 
-            config_id: '',
-            createdAt: new Date(),
-            updatedAt: new Date(),
+          id: body.id,
+          name: body.name,
+          owner_id: body.owner_id,
+          logo: body.logo || null,
+          invite_url: body.invite_url!,
+          is_config: false,
+          config_id: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       });
 
@@ -149,4 +149,4 @@ const server = new Hono()
     }
   });
 
-  export default server;
+export default server;
