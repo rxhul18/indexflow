@@ -1,11 +1,10 @@
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_DATABASE_URL")
 }
 
@@ -15,7 +14,7 @@ model User {
   email         String
   emailVerified Boolean
   image         String?
-  role          String?     @default("user")
+  role          String?   @default("user")
   location      String?
   active        DateTime?
   reputation    String?
@@ -76,29 +75,82 @@ model Verification {
 }
 
 model Server {
-  id            String @id
-  name          String
-  owner      User?     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
-  owner_id      String
-  isConfigured Boolean
-  config_id    String
-  logo         String?
-  invite_url   String?
-  configs      Configs?
-  createdAt     DateTime
-  updatedAt     DateTime
+  id         String   @id
+  name       String
+  owner_id   String
+  is_config  Boolean
+  config_id  String?
+  logo       String?
+  invite_url String
+  configs    Configs?
+  createdAt  DateTime
+  updatedAt  DateTime
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     String?
 
   @@unique([id])
 }
 
 model Configs {
-  id String @id
-  server_id String @unique
-  server Server?     @relation(fields: [server_id], references: [id], onDelete: Cascade)
-  qna_channels String[]
+  id                   String   @id
+  server_id            String   @unique
+  server               Server?  @relation(fields: [server_id], references: [id], onDelete: Cascade)
+  qna_channels         String[]
   qna_channel_webhooks String[]
-  qna_endpoint String?
-  mod_role String?
-  log_channel String?
-  log_channel_webhook String?
+  qna_endpoint         String?
+  mod_role             String?
+  log_channel          String?
+  log_channel_webhook  String?
+}
+
+model AnonProfile {
+  id        String   @id
+  name      String   @unique
+  pfp       String?
+  uid       String?  @unique
+  dc_uid    String?  @unique
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+model IndexedQns {
+  id          String   @id
+  title       String
+  ans_id      String   @unique
+  author      String
+  content     String
+  tldr        String?
+  is_anon     Boolean  @default(false)
+  is_nsfw     Boolean  @default(false)
+  server_id   String
+  thread_id   String
+  thread_mems String[]
+  msg_url     String
+  createdAt   DateTime
+  updatedAt   DateTime
+}
+
+model IndexedAns {
+  id        String   @id
+  author    String
+  content   String
+  qns_id    String   @unique
+  tldr      String?
+  server_id String
+  thread_id String
+  msg_url   String
+  is_anon   Boolean  @default(false)
+  is_nsfw   Boolean  @default(false)
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+model Tags {
+  id        String    @id
+  name      String    @unique
+  createdAt DateTime
+  updatedAt DateTime
+  usedAt    DateTime?
+  posts     String[]
+  usages    Int       @default(0)
 }

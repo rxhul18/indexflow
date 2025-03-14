@@ -30,6 +30,7 @@ export default async function alive(client: Client) {
       async () => {
         const randomActivity =
           activities[Math.floor(Math.random() * activities.length)];
+          console.log("Activity Presence Changed!")
         client.user?.setPresence({
           activities: [
             {

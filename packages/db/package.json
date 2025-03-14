@@ -7,16 +7,17 @@
   },
   "scripts": {
     "db:studio": "prisma studio",
+    "db:format": "prisma format",
     "db:validate": "prisma validate",
-    "db:generate": "prisma generate --no-engine",
+    "db:generate": "pnpm db:format && pnpm db:validate && prisma generate --no-engine",
     "db:push": "prisma db push --skip-generate",
     "db:migrate": "pnpm db:validate && prisma migrate dev"
   },
   "dependencies": {
-    "prisma": "^6.0.1",
     "@iflow/typescript-config": "workspace:*",
-    "@prisma/client": "^6.4.1",
-    "@prisma/extension-accelerate": "^1.2.1"
+    "@prisma/client": "^6.5.0",
+    "@prisma/extension-accelerate": "^1.2.1",
+    "prisma": "^6.5.0"
   },
   "devDependencies": {
     "@types/node": "^20"
