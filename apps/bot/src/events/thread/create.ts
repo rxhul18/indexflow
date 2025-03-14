@@ -24,11 +24,11 @@ export default async function handleThreadCreate(
           );
 
         const mngPembed = new EmbedBuilder()
-        .setTitle("Manage your privacy")
-        .setDescription(
-          `Do you want to be Annonymous while indexing this thread on [indexflow.site](devwtf.in)\n` +
-            "***Reply to a message with `$index` to index your Question/Answer or both.***",
-        );
+          .setTitle("Manage your privacy")
+          .setDescription(
+            `Do you want to be Annonymous while indexing this thread on [indexflow.site](devwtf.in)\n` +
+              "***Reply to a message with `$index` to index your Question/Answer or both.***",
+          );
 
         const mngPactRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
@@ -42,11 +42,11 @@ export default async function handleThreadCreate(
         );
 
         const qOnlyEmbed = new EmbedBuilder()
-        .setTitle("Are you sure?")
-        .setDescription(
-          `Are you sure you just want to index this question only?\n` +
-            "***Reply to a message with `$index` to index your Question/Answer or both.***",
-        );
+          .setTitle("Are you sure?")
+          .setDescription(
+            `Are you sure you just want to index this question only?\n` +
+              "***Reply to a message with `$index` to index your Question/Answer or both.***",
+          );
 
         const qOnlyActRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
@@ -108,7 +108,7 @@ export default async function handleThreadCreate(
               await sentMessage.edit({
                 embeds: [],
                 components: [],
-                content: "..."
+                content: "...",
               });
               break;
             default:
@@ -136,8 +136,8 @@ export default async function handleThreadCreate(
                 .setLabel("Support Server")
                 .setStyle(ButtonStyle.Link)
                 .setURL("https://discord.gg/AEaBWNSgkf"),
-              
-                new ButtonBuilder()
+
+              new ButtonBuilder()
                 .setLabel("Sponsor")
                 .setStyle(ButtonStyle.Link)
                 .setURL("https://l.devwtf.in/sponsor"),
@@ -146,7 +146,7 @@ export default async function handleThreadCreate(
           await sentMessage.edit({
             embeds: [embed],
             components: [newActionRow],
-            content: "***Just fyi... 👇🏻***"
+            content: "***Just fyi... 👇🏻***",
           });
         });
       }

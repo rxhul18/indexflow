@@ -12,7 +12,8 @@ export default async function alive(client: Client) {
       `prompt ${client.config?.prefix}help.`,
     ];
 
-    const randomActivity = activities[Math.floor(Math.random() * activities.length)];
+    const randomActivity =
+      activities[Math.floor(Math.random() * activities.length)];
 
     client.user?.setPresence({
       activities: [
@@ -25,17 +26,21 @@ export default async function alive(client: Client) {
     });
 
     // Reload presence every 15 minutes
-    setInterval(async () => {
-      const randomActivity = activities[Math.floor(Math.random() * activities.length)];
-      client.user?.setPresence({
-        activities: [
-          {
-            name: randomActivity,
-            type: 3,
-          },
-        ],
-        status: "idle",
-      });
-    }, 15 * 60 * 1000);
+    setInterval(
+      async () => {
+        const randomActivity =
+          activities[Math.floor(Math.random() * activities.length)];
+        client.user?.setPresence({
+          activities: [
+            {
+              name: randomActivity,
+              type: 3,
+            },
+          ],
+          status: "idle",
+        });
+      },
+      15 * 60 * 1000,
+    );
   });
 }

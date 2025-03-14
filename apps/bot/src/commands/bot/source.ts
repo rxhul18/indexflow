@@ -23,7 +23,9 @@ export default {
     const embed = new EmbedBuilder()
       .setColor(client.config.default_color)
       .setTitle("We're Open Source!")
-      .setThumbnail(client.user?.avatarURL() || message.author.displayAvatarURL())
+      .setThumbnail(
+        client.user?.avatarURL() || message.author.displayAvatarURL(),
+      )
       .setDescription(
         "Yes, we are fully open-sourced and will be forever if you liked our service please make sure to give us a **Star on GitHub** and grab the source code for free.",
       );
