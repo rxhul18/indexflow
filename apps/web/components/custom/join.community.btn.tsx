@@ -13,14 +13,6 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 export function JoinCommunityBtn({ InvUrl }: { InvUrl: string }) {
-  // const handleJoin = () => {
-  //   const newWindow = window.open(InvUrl)
-  //   if (newWindow) {
-  //     toast.success("Joining community...")
-  //   } else {
-  //     toast.error("Failed to open invite link. Please check your popup settings.")
-  //   }
-  // }
 
   return (
     <AlertDialog>
