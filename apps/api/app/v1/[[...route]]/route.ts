@@ -1,14 +1,10 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import { cors } from "hono/cors";
-import { bearerAuth } from "hono/bearer-auth";
 import { rateLimitHandler } from "@/actions/ratelimit-handler";
 import { auth as Auth } from "@iflow/auth";
 import user from "./routes/user";
 import server from "./routes/bot/server";
-
-const token = process.env.BOT_BEARER_TOKEN!;
-// console.log(token);
 
 export const runtime = "edge";
 const app = new Hono().basePath("/v1");
