@@ -10,15 +10,18 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { toast } from "sonner"
+import Link from "next/link"
 
 export function JoinCommunityBtn({InvUrl}: {InvUrl: string}) {
-
-  const handleJoin = () => {
-    window.open(InvUrl)
-    toast.success("Joined successfully")
-  }
-
+  // const handleJoin = () => {
+  //   const newWindow = window.open(InvUrl)
+  //   if (newWindow) {
+  //     toast.success("Joining community...")
+  //   } else {
+  //     toast.error("Failed to open invite link. Please check your popup settings.")
+  //   }
+  // }
+  
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -33,7 +36,7 @@ export function JoinCommunityBtn({InvUrl}: {InvUrl: string}) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleJoin}>Continue</AlertDialogAction>
+          <AlertDialogAction><Link href={InvUrl}>Continue</Link></AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
