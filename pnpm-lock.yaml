@@ -79,6 +79,9 @@ importers:
       '@discordjs/voice':
         specifier: ^0.18.0
         version: 0.18.0
+      '@iflow/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       ascii-table:
         specifier: ^0.0.9
         version: 0.0.9

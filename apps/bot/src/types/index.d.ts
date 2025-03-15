@@ -26,17 +26,6 @@ export type ServerType = {
     updatedAt: Date | string;
 };
 
-export type TagType = {
-    id: string;
-    name: string;
-    owner_id?: string;
-    usedAt?: Date | null;
-    posts?: string[];
-    usages?: number;
-    createdAt: Date | string;
-    updatedAt: Date | string;
-};
-
 export type UserPubType = {
     id: string;
     name: string;

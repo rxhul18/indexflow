@@ -1,5 +1,5 @@
 import { Hono } from "hono";
 
-const CACHE_EXPIRY = 150;
+const CACHE_EXPIRY = 60;
 
 const index = new Hono();

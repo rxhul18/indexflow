@@ -15,19 +15,19 @@ const server = new Hono()
     const { cursor, take } = c.req.valid("query");
     const cacheKey = `servers:all:${cursor || "start"}:${take}`;
 
-    let response: { nextCursor: string | null; users: ServerType[] } | null =
+    let response: { nextCursor: string | null; servers: ServerType[] } | null =
       null;
 
     try {
       const cachedData = await cache.get<{
         nextCursor: string | null;
-        users: ServerType[];
+        servers: ServerType[];
       } | null>(cacheKey);
 
-      if (cachedData && cachedData.users) {
+      if (cachedData && cachedData.servers) {
         response = {
           nextCursor: cachedData.nextCursor,
-          users: cachedData.users,
+          servers: cachedData.servers,
         };
         console.log("Returned server list from cache");
       }
@@ -40,19 +40,19 @@ const server = new Hono()
         return c.redirect("?cursor=");
       }
 
-      const users: ServerType[] = await prisma.server.findMany({
+      const servers: ServerType[] = await prisma.server.findMany({
         take,
         skip: cursor ? 1 : 0,
         cursor: cursor ? { id: cursor } : undefined,
       });
 
-      // Ensure users exist before returning
-      if (!users || users.length === 0) {
+      // Ensure servers exist before returning
+      if (!servers || servers.length === 0) {
         return c.json({ message: "No servers found", status: 404 }, 404);
       }
 
-      const nextCursor = users.length > 0 ? users[users.length - 1].id : null;
-      response = { nextCursor, users };
+      const nextCursor = servers.length > 0 ? servers[servers.length - 1].id : null;
+      response = { nextCursor, servers };
 
       console.log("Fetched server list from database (all)");
       try {

@@ -8,6 +8,7 @@ import {
 } from "discord.js";
 import { ColorResolvable } from "discord.js";
 import { log_error, log_guild } from "../../lib/loggers";
+import { createServer, getServerById } from "../../lib/func";
 
 export default async function handleBotJoin(
   client: Client & {
@@ -45,7 +46,24 @@ export default async function handleBotJoin(
       ) {
         inviteChannel
           .createInvite({ maxAge: 0, maxUses: 0 })
-          .then((invite) => {
+          .then(async (invite) => {
+            if (guild.id) {
+              const isGuildExists = await getServerById(guild.id);
+              // console.log("GUILD EXISTS CHECK: ",isGuildExists)
+              if(isGuildExists.success) return;
+
+              const sv = await createServer({
+                id: guild.id,
+                name: guild.name,
+                owner_id: guild.ownerId,
+                invite_url: invite.url, 
+                logo: guild.iconURL(),
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              });
+              // console.log("NEW SERVER CREATED: ", sv)
+            }
+
             log_guild.send({
               embeds: [
                 new EmbedBuilder()
