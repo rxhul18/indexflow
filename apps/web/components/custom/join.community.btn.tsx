@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-export function JoinCommunityBtn({InvUrl}: {InvUrl: string}) {
+export function JoinCommunityBtn({ InvUrl }: { InvUrl: string }) {
   // const handleJoin = () => {
   //   const newWindow = window.open(InvUrl)
   //   if (newWindow) {
@@ -21,7 +21,7 @@ export function JoinCommunityBtn({InvUrl}: {InvUrl: string}) {
   //     toast.error("Failed to open invite link. Please check your popup settings.")
   //   }
   // }
-  
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -37,6 +37,9 @@ export function JoinCommunityBtn({InvUrl}: {InvUrl: string}) {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction><Link href={InvUrl}>Continue</Link></AlertDialogAction>
+          <AlertDialogAction asChild>
+            <Link href={InvUrl}>Continue</Link>
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
