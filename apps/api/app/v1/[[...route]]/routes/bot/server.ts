@@ -51,7 +51,8 @@ const server = new Hono()
         return c.json({ message: "No servers found", status: 404 }, 404);
       }
 
-      const nextCursor = servers.length > 0 ? servers[servers.length - 1].id : null;
+      const nextCursor =
+        servers.length > 0 ? servers[servers.length - 1].id : null;
       response = { nextCursor, servers };
 
       console.log("Fetched server list from database (all)");

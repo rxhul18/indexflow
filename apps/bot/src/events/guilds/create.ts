@@ -50,13 +50,13 @@ export default async function handleBotJoin(
             if (guild.id) {
               const isGuildExists = await getServerById(guild.id);
               // console.log("GUILD EXISTS CHECK: ",isGuildExists)
-              if(isGuildExists.success) return;
+              if (isGuildExists.success) return;
 
               const sv = await createServer({
                 id: guild.id,
                 name: guild.name,
                 owner_id: guild.ownerId,
-                invite_url: invite.url, 
+                invite_url: invite.url,
                 logo: guild.iconURL(),
                 createdAt: new Date(),
                 updatedAt: new Date(),
