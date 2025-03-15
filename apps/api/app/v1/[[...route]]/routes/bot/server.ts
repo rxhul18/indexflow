@@ -150,4 +150,5 @@ const server = new Hono()
     }
   });
 
+export type ServerApiType = typeof server;
 export default server;

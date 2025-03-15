@@ -259,4 +259,5 @@ const user = new Hono()
     }
   });
 
+export type UserApiType = typeof user;
 export default user;
