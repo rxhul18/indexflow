@@ -14,7 +14,8 @@ const indexedQns = new Hono()
     const { cursor, take } = c.req.valid("query");
     const cacheKey = `indexed:qns:all:${cursor || "start"}:${take}`;
 
-    let response: { nextCursor: string | null; qns: IndexQnsType[] } | null = null;
+    let response: { nextCursor: string | null; qns: IndexQnsType[] } | null =
+      null;
 
     try {
       const cachedData = await cache.get<{
@@ -85,7 +86,7 @@ const indexedQns = new Hono()
     } catch (error) {
       console.log(error);
     }
-  })
+  });
 
 export type IndexedQnsApiType = typeof indexedQns;
 export default indexedQns;

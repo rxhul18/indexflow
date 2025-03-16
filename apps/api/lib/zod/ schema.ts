@@ -70,4 +70,11 @@ const paginationSchema = z.object({
   take: z.string().regex(/^\d+$/).transform(Number).default("100"), // Ensure take is a number
 });
 
-export { userSchema, paginationSchema, serverSchema, tagSchema, indexedAnsSchema, indexedQnsSchema };
+export {
+  userSchema,
+  paginationSchema,
+  serverSchema,
+  tagSchema,
+  indexedAnsSchema,
+  indexedQnsSchema,
+};

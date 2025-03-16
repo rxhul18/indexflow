@@ -63,7 +63,7 @@ const tag = new Hono()
     return c.json(response, 200);
   })
   .use(checkBot)
-  
+
   .post("/create", zValidator("json", tagSchema), async (c) => {
     const body = c.req.valid("json");
     try {
@@ -83,6 +83,6 @@ const tag = new Hono()
     } catch (error) {
       console.log(error);
     }
-  })
+  });
 
 export default tag;

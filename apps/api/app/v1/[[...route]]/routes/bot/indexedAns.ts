@@ -14,7 +14,8 @@ const indexedAns = new Hono()
     const { cursor, take } = c.req.valid("query");
     const cacheKey = `indexed:ans:all:${cursor || "start"}:${take}`;
 
-    let response: { nextCursor: string | null; ans: IndexAnsType[] } | null = null;
+    let response: { nextCursor: string | null; ans: IndexAnsType[] } | null =
+      null;
 
     try {
       const cachedData = await cache.get<{
@@ -85,6 +86,6 @@ const indexedAns = new Hono()
     } catch (error) {
       console.log(error);
     }
-  })
+  });
 export type IndexedAnsApiType = typeof indexedAns;
 export default indexedAns;
