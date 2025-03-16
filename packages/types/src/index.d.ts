@@ -37,6 +37,38 @@ export type TagType = {
     updatedAt: Date | string;
 };
 
+export type IndexQnsType = {
+    id: string;
+    title: string;
+    ans_id?: string | null;
+    author: string;
+    content: string;
+    tldr?: string | null;
+    is_anon?: boolean;
+    is_nsfw?: boolean;
+    server_id: string;
+    thread_id: string;
+    thread_mems?: string[];
+    msg_url: string;
+    createdAt: Date | string;
+    updatedAt: Date | string;
+};
+
+export type IndexAnsType = {
+    id: string;
+    author: string;
+    content: string;
+    tldr?: string | null;
+    is_anon?: boolean;
+    is_nsfw?: boolean;
+    qns_id: string;
+    server_id: string;
+    thread_id: string;
+    msg_url: string;
+    createdAt: Date | string;
+    updatedAt: Date | string;
+};
+
 export type UserPubType = {
     id: string;
     name: string;

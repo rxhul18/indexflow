@@ -122,7 +122,7 @@ model AnonProfile {
 model IndexedQns {
   id          String   @id @default(uuid())
   title       String
-  ans_id      String   @unique
+  ans_id      String?  @unique
   author      String
   content     String
   tldr        String?
