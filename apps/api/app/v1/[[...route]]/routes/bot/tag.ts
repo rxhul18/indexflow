@@ -85,4 +85,5 @@ const tag = new Hono()
     }
   });
 
+export type TagApiType = typeof tag;
 export default tag;
