@@ -1,5 +1,5 @@
 import { checkBot } from "@/actions/checks/check.bot";
-import { paginationSchema } from "@/lib/zod/ schema";
+import { paginationSchema, tagSchema } from "@/lib/zod/ schema";
 import { zValidator } from "@/lib/zod/validator";
 import { cache } from "@iflow/cache";
 import { prisma } from "@iflow/db";
@@ -12,7 +12,7 @@ const tag = new Hono()
 
   .get("/all", zValidator("query", paginationSchema), async (c) => {
     const { cursor, take } = c.req.valid("query");
-    const cacheKey = `tagss:all:${cursor || "start"}:${take}`;
+    const cacheKey = `tags:all:${cursor || "start"}:${take}`;
 
     let response: { nextCursor: string | null; tags: TagType[] } | null = null;
 
@@ -62,6 +62,27 @@ const tag = new Hono()
 
     return c.json(response, 200);
   })
-  .use(checkBot);
+  .use(checkBot)
+
+  .post("/create", zValidator("json", tagSchema), async (c) => {
+    const body = c.req.valid("json");
+    try {
+      const newTag = await prisma.tags.create({
+        data: {
+          id: body.id,
+          name: body.name,
+          posts: [],
+          usages: 0,
+          usedAt: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      });
+
+      return c.json({ newTag }, 200);
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
 export default tag;

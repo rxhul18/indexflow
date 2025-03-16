@@ -5,6 +5,9 @@ import { rateLimitHandler } from "@/actions/ratelimit-handler";
 import { auth as Auth } from "@iflow/auth";
 import user from "./routes/user";
 import server from "./routes/bot/server";
+import tag from "./routes/bot/tag";
+import indexedQns from "./routes/bot/indexedQns";
+import indexedAns from "./routes/bot/indexedAns";
 
 export const runtime = "edge";
 const app = new Hono().basePath("/v1");
@@ -31,6 +34,11 @@ app.use(rateLimitHandler);
 // applied rate limit to below routes
 
 app.route("/bot/server", server);
+app.route("/bot/tag", tag);
+
+app.route("/bot/index/qns", indexedQns);
+app.route("/bot/index/ans", indexedAns);
+
 app.route("/user", user);
 app.on(["POST", "GET"], "/auth/*", (c) => Auth.handler(c.req.raw));
 
