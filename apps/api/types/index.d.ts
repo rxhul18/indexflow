@@ -4,5 +4,10 @@ import type { UserApiType } from "../app/v1/[[...route]]/routes/user";
 import type { TagApiType } from "../app/v1/[[...route]]/routes/bot/tag";
 import type { IndexedQnsApiType } from "@/app/v1/[[...route]]/routes/bot/indexedQns";
 
-
-export type {IndexedQnsApiType, IndexedAnsApiType, ServerApiType, TagApiType, UserApiType};
+export type {
+  IndexedQnsApiType,
+  IndexedAnsApiType,
+  ServerApiType,
+  TagApiType,
+  UserApiType,
+};
