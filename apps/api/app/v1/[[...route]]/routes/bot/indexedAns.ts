@@ -1,5 +1,5 @@
 import { checkBot } from "@/actions/checks/check.bot";
-import { indexedAnsSchema, paginationSchema } from "@/lib/zod/ schema";
+import { indexedAnsSchema, paginationSchema } from "@/lib/zod/schema";
 import { zValidator } from "@/lib/zod/validator";
 import { cache } from "@iflow/cache";
 import { prisma } from "@iflow/db";

@@ -7,6 +7,8 @@ import {
   ButtonStyle,
   Interaction,
   ComponentType,
+  ButtonInteraction,
+  Message,
 } from "discord.js";
 
 export default async function handleThreadCreate(
@@ -20,7 +22,7 @@ export default async function handleThreadCreate(
           .setTitle("Indexing threads on indexflow.site")
           .setDescription(
             `To help others find answers online, you can mark your question as solved via\n` +
-              "***Reply to a message with `$index` to index your Question/Answer or both.***",
+              "***Replying to a message with `$index` to index your Question/Answer or both.***",
           );
 
         const mngPembed = new EmbedBuilder()
@@ -152,4 +154,44 @@ export default async function handleThreadCreate(
       }
     },
   );
+}
+
+export async function handleThreadButtonInteraction(interaction: ButtonInteraction, sentMessage: Message) {
+  const mngPembed = new EmbedBuilder()
+    .setTitle("Manage your privacy")
+    .setDescription(
+      `Do you want to be Annonymous while indexing this thread on [indexflow.site](devwtf.in)\n` +
+        "***Reply to a message with `$index` to index your Question/Answer or both.***"
+    );
+
+  const mngPactRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder().setCustomId("qonly_yes").setLabel("Yes, hide me").setStyle(ButtonStyle.Primary),
+    new ButtonBuilder().setCustomId("qonly_no").setLabel("No, am fine").setStyle(ButtonStyle.Danger)
+  );
+
+  const qOnlyEmbed = new EmbedBuilder()
+    .setTitle("Are you sure?")
+    .setDescription(
+      `Are you sure you just want to index this question only?\n` +
+        "***Reply to a message with `$index` to index your Question/Answer or both.***"
+    );
+
+  const qOnlyActRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder().setCustomId("qonly_yes").setLabel("Yes").setStyle(ButtonStyle.Primary),
+    new ButtonBuilder().setCustomId("qonly_no").setLabel("No").setStyle(ButtonStyle.Danger)
+  );
+
+  switch (interaction.customId) {
+    case "mng_privacy":
+      await interaction.reply({ embeds: [mngPembed], components: [mngPactRow], ephemeral: true });
+      break;
+    case "index_answer":
+      await interaction.reply({ embeds: [qOnlyEmbed], components: [qOnlyActRow], ephemeral: true });
+      break;
+    case "index_dismiss":
+      await sentMessage.edit({ embeds: [], components: [], content: "..." });
+      break;
+    default:
+      await interaction.reply({ content: "Unknown button clicked!", ephemeral: true });
+  }
 }

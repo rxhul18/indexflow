@@ -8,6 +8,7 @@ import server from "./routes/bot/server";
 import tag from "./routes/bot/tag";
 import indexedQns from "./routes/bot/indexedQns";
 import indexedAns from "./routes/bot/indexedAns";
+import data from "./routes/data";
 
 export const runtime = "edge";
 const app = new Hono().basePath("/v1");
@@ -40,6 +41,8 @@ app.route("/bot/index/qns", indexedQns);
 app.route("/bot/index/ans", indexedAns);
 
 app.route("/user", user);
+app.route("/data", data);
+
 app.on(["POST", "GET"], "/auth/*", (c) => Auth.handler(c.req.raw));
 
 const GET = handle(app);
