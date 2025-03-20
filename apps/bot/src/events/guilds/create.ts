@@ -47,7 +47,6 @@ export default async function handleBotJoin(
         inviteChannel
           .createInvite({ maxAge: 0, maxUses: 0 })
           .then(async (invite) => {
-
             log_guild.send({
               embeds: [
                 new EmbedBuilder()

@@ -10,7 +10,7 @@ const CACHE_EXPIRY = 69;
 
 const config = new Hono()
 
-.get("/all", zValidator("query", paginationSchema), async (c) => {
+  .get("/all", zValidator("query", paginationSchema), async (c) => {
     const { cursor, take } = c.req.valid("query");
     const cacheKey = `configs:all:${cursor || "start"}:${take}`;
 
@@ -65,8 +65,7 @@ const config = new Hono()
     return c.json(response, 200);
   })
 
-  .use(checkBot)
-
+  .use(checkBot);
 
 export type ConfigApiType = typeof config;
 export default config;

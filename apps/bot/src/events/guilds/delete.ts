@@ -1,11 +1,11 @@
-import { 
-  ActionRowBuilder, 
-  ButtonBuilder, 
-  ButtonStyle, 
-  Client, 
-  EmbedBuilder, 
-  Guild, 
-  TextChannel 
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  Client,
+  EmbedBuilder,
+  Guild,
+  TextChannel,
 } from "discord.js";
 import { ColorResolvable } from "discord.js";
 import { log_error, log_guild } from "../../lib/loggers";
@@ -29,7 +29,7 @@ export default async function handleBotLeave(
         .setTitle(`Goodbye from ${client.user?.username}!`)
         .setDescription(
           `Hey <@${owner.user.id}>, I noticed that I've been removed from **${guild.name}**. ` +
-          `If this was a mistake or you'd like to re-add me, you can do so anytime! Thanks for having me! 😊`
+            `If this was a mistake or you'd like to re-add me, you can do so anytime! Thanks for having me! 😊`,
         )
         .setFooter({ text: "Hope to see you again!" });
 
@@ -38,7 +38,7 @@ export default async function handleBotLeave(
         new ButtonBuilder()
           .setStyle(ButtonStyle.Link)
           .setLabel("Re-add Me")
-          .setURL(inviteLink)
+          .setURL(inviteLink),
       );
 
       // Try sending the message in the system channel first
@@ -51,14 +51,13 @@ export default async function handleBotLeave(
       // }
 
       // Attempt to DM the owner
-      owner.send({ embeds: [embed], components: [button] })
-        .catch(err => {
-          if (err.code === 50007) {
-            console.warn(`Cannot send DM to ${owner.user.tag} (DMs disabled).`);
-          } else {
-            console.error("Failed to send DM to owner:", err);
-          }
-        });
+      owner.send({ embeds: [embed], components: [button] }).catch((err) => {
+        if (err.code === 50007) {
+          console.warn(`Cannot send DM to ${owner.user.tag} (DMs disabled).`);
+        } else {
+          console.error("Failed to send DM to owner:", err);
+        }
+      });
 
       // Log the removal
       log_guild.send({
@@ -69,12 +68,19 @@ export default async function handleBotLeave(
             .setDescription(`Bot left the guild: **${guild.name}**`)
             .addFields(
               { name: "Guild ID", value: guild.id.toString(), inline: false },
-              { name: "Guild Owner ID", value: guild.ownerId.toString(), inline: false },
-              { name: "Total Guild Members", value: guild.memberCount.toString(), inline: false }
+              {
+                name: "Guild Owner ID",
+                value: guild.ownerId.toString(),
+                inline: false,
+              },
+              {
+                name: "Total Guild Members",
+                value: guild.memberCount.toString(),
+                inline: false,
+              },
             ),
         ],
       });
-
     } catch (error) {
       console.error(`Error handling guildDelete event:`, error);
       log_error.send({

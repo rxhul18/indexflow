@@ -18,7 +18,7 @@ export default {
   cat: "dev",
   run: async (
     client: Client & {
-        config: { owner: string[] };
+      config: { owner: string[] };
     },
     message: Message,
   ) => {
@@ -26,13 +26,12 @@ export default {
     if (!authorizedUsers.includes(message.author.id)) {
       return;
     }
-    
+
     const inviteLink = `https://discord.com/api/oauth2/authorize?client_id=${client.user?.id}&permissions=8&scope=bot%20applications.commands`;
 
-    const embed = new EmbedBuilder()
-      .setDescription(
-        `ℹ️ | Click on the button below to [invite](${inviteLink}) me`,
-      );
+    const embed = new EmbedBuilder().setDescription(
+      `ℹ️ | Click on the button below to [invite](${inviteLink}) me`,
+    );
 
     const button = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
