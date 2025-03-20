@@ -9,6 +9,7 @@ import tag from "./routes/bot/tag";
 import indexedQns from "./routes/bot/indexedQns";
 import indexedAns from "./routes/bot/indexedAns";
 import data from "./routes/data";
+import config from "./routes/bot/config";
 
 export const runtime = "edge";
 const app = new Hono().basePath("/v1");
@@ -34,6 +35,7 @@ app.use(
 app.use(rateLimitHandler);
 // applied rate limit to below routes
 
+app.route("/bot/server/config", config);
 app.route("/bot/server", server);
 app.route("/bot/tag", tag);
 

@@ -6,7 +6,7 @@ import { prisma } from "@iflow/db";
 import { IndexAnsType } from "@iflow/types";
 import { Hono } from "hono";
 
-const CACHE_EXPIRY = 60;
+const CACHE_EXPIRY = 69;
 
 const indexedAns = new Hono()
 

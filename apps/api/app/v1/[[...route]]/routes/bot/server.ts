@@ -7,7 +7,7 @@ import { ServerType } from "@iflow/types";
 import { Hono } from "hono";
 import { ZodError } from "zod";
 
-const CACHE_EXPIRY = 60;
+const CACHE_EXPIRY = 69;
 
 const server = new Hono()
 

@@ -1,9 +1,8 @@
-import { ColorResolvable } from "discord.js";
+
 import {
   Client,
   Message,
   TextChannel,
-  DMChannel,
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
@@ -36,6 +35,9 @@ export default {
 
     const embed = new EmbedBuilder()
       .setTitle("⚠️ Make sure to keep your env details safe!")
+      .setThumbnail(
+        client.user?.avatarURL() || message.author.displayAvatarURL(),
+      )
       .setDescription(
         "You can access your server's all indexed data by just making a **POST** request to our ``API_ENDPOINT`` along with your ``API_KEY`` passed in body **JSON** format.",
       );

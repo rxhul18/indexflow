@@ -11,19 +11,25 @@ import {
 } from "discord.js";
 
 export default {
-  name: "setup",
-  aliases: ["set-channel"],
+  name: "synchronize",
+  aliases: ["sync"],
   adminPermit: false,
   ownerPermit: false,
-  cat: "bot",
+  cat: "dev",
   run: async (
-    client: Client & { config: { default_color: ColorResolvable } },
+    client: Client & {
+        config: { owner: string[] };
+    },
     message: Message,
   ) => {
+    const authorizedUsers = [...client.config.owner];
+    if (!authorizedUsers.includes(message.author.id)) {
+      return;
+    }
+    
     const inviteLink = `https://discord.com/api/oauth2/authorize?client_id=${client.user?.id}&permissions=8&scope=bot%20applications.commands`;
 
     const embed = new EmbedBuilder()
-      .setColor(client.config.default_color)
       .setDescription(
         `ℹ️ | Click on the button below to [invite](${inviteLink}) me`,
       );
