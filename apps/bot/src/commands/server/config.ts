@@ -9,6 +9,7 @@ import {
   ComponentType,
   ButtonInteraction,
   Guild,
+  ThreadChannel,
 } from "discord.js";
 
 export default {
@@ -48,6 +49,7 @@ export default {
 
       collector.on("collect", async (interaction: ButtonInteraction) => {
         handleInteraction(
+          client,
           interaction,
           sentMessage,
           cancelledActionRow,
@@ -65,7 +67,7 @@ export default {
 
 // functions
 
-async function checkIfConfigExists(guild: Guild) {
+async function checkIfConfigExists(guild: Guild, client: Client) {
   const configChannel = guild.channels.cache.find(
     (ch) => ch.name.toLowerCase() === "help",
   );
@@ -75,10 +77,130 @@ async function checkIfConfigExists(guild: Guild) {
 
   if (!configChannel && !configRole) {
     console.log("nopes seems clean and badass!");
+    await performConfigActions(client, guild, true, true, true, true);
   }
 }
 
-function performConfigActions() {}
+async function performConfigActions(client: Client, guild: Guild, role: boolean, channel: boolean, webhook: boolean, log_ch: boolean) {
+  let confRoleId = null;
+  let configChannel: TextChannel | ThreadChannel | null = null;
+  let logsChannel: TextChannel | null = null;
+  const isCommunity = guild.features.includes("COMMUNITY");
+  const systemChannel = guild.systemChannel;
+  
+  if (role) {
+    try {
+      const configRole = await guild.roles.create({
+        name: "iflow-mod",
+        color: "Blue",
+        reason: "Needed for content moderation purposes. From now users having this role can index any content.",
+        permissions: [
+          "ViewChannel",
+          "SendMessages",
+          "ReadMessageHistory",
+          "ManageMessages",
+        ],
+      });
+      console.log("✅ Created role: ", configRole.name);
+      confRoleId = configRole.id;
+      // return { configRole };
+    } catch (error) {
+      console.error("❌ Failed to create role:", error);
+    }
+  }
+
+
+  if (channel) {
+    try {
+      configChannel = await guild.channels.create({
+        name: "help",
+        type: isCommunity ? 15 : 0, // 15 = Forum, 0 = Text Channel
+        reason: "Needed for content posting. From now you can index any message from this channel only.",
+        permissionOverwrites: [
+          {
+            id: guild.id,
+            allow: ["ViewChannel", "SendMessages", "ReadMessageHistory"],
+            deny: ["MentionEveryone", "Administrator"]
+          },
+          {
+            id: confRoleId ?? "",
+            allow: ["ManageMessages", "ManageChannels"],
+            deny: ["MentionEveryone", "Administrator"]
+          },
+        ],
+      });
+      console.log(`✅ Created ${isCommunity ? "Forum" : "Text"} channel: `, configChannel.name);
+      // return { configChannel };
+    } catch (error) {
+      console.error("❌ Failed to create channel:", error);
+    }
+  }
+
+  if (log_ch) {
+    try {
+      logsChannel = await guild.channels.create({
+        name: "iflow-logs",
+        type: 0,
+        reason: "Needed for logging changes.",
+        permissionOverwrites: [
+          {
+            id: guild.id,
+            deny: ["ViewChannel"],
+          },
+          {
+            id: confRoleId ?? "",
+            allow: ["ViewChannel", "ManageMessages", "ManageChannels"],
+            deny: ["MentionEveryone", "Administrator"],
+          },
+        ],
+      });
+      console.log(`✅ Created logging channel: `, logsChannel.name);
+    } catch (error) {
+      console.error("❌ Failed to create logging channel:", error);
+    }
+  }
+
+  if (webhook) {
+    try {
+      let configWebhookUrl = null;
+      if (configChannel) { 
+        const configWebhook = await configChannel.createWebhook({
+          name: "iFlow",
+          avatar: client.user?.avatarURL(),
+          reason: "Webhook for communicating between discord client and our backend directly.",
+        });
+        configWebhookUrl = configWebhook.url;
+        console.log("✅ Created webhook for configChannel:", configWebhookUrl);
+      }
+  
+      let systemWebhookUrl = null;
+      if (systemChannel) {
+        const systemWebhook = await systemChannel.createWebhook({
+          name: "iFlow System",
+          avatar: client.user?.avatarURL(),
+          reason: "Webhook for system notifications",
+        });
+        systemWebhookUrl = systemWebhook.url;
+        console.log("✅ Created webhook for systemChannel:", systemWebhookUrl);
+      }
+
+      let loggingWebhookUrl = null;
+      if (logsChannel) {
+        const loggingWebhook = await logsChannel.createWebhook({
+          name: "iFlow Logs",
+          avatar: client.user?.avatarURL(),
+          reason: "Webhook for logging changes",
+        });
+        loggingWebhookUrl = loggingWebhook.url;
+        console.log("✅ Created webhook for logsChannel:", loggingWebhookUrl);
+      }
+
+      // return { configWebhookUrl, systemWebhookUrl };
+    } catch (error) {
+      console.error("❌ Failed to create webhooks:", error);
+    }
+  }
+}
 
 function isAuthorized(
   client: Client & { config: { owner: string[] } },
@@ -116,7 +238,7 @@ function createConfigEmbed(client: Client, message: Message) {
 function createAutoCheckEmbed(client: Client, message: Message) {
   return new EmbedBuilder()
     .setDescription(
-      "Do you have any **ANTINUKE/SECURITY** bots enabled which may **KICK/BAN** me for performing some actions in your server mentioned bellow: \n - ``CREATE_ROLE`` (1) \n - ``UPDATE_ROLE`` (1) \n - ``CREATE_CHANNEL`` (1) \n - ``CREATE_WEBHOOK`` (2)",
+      "Do you have any **ANTINUKE/SECURITY** bots enabled which may **KICK/BAN** me for performing some actions in your server mentioned bellow: \n - ``CREATE_ROLE`` (1) \n - ``UPDATE_ROLE`` (1) \n - ``CREATE_CHANNEL`` (2) \n - ``CREATE_WEBHOOK`` (3)",
     )
     .setThumbnail(client.user?.avatarURL() || message.author.displayAvatarURL())
     .setFooter({
@@ -196,6 +318,7 @@ function createAutoCheckButtons() {
 }
 
 async function handleInteraction(
+  client: Client,
   interaction: ButtonInteraction,
   sentMessage: Message,
   cancelledActionRow: ActionRowBuilder<ButtonBuilder>,
@@ -247,7 +370,7 @@ async function handleInteraction(
       break;
     case "auto_conf_no_btn":
       if (guild) {
-        await checkIfConfigExists(guild);
+        await checkIfConfigExists(guild, client);
       } else {
         console.error("Guild is undefined.");
       }

@@ -7,3 +7,6 @@ export const log_error = new WebhookClient({
 export const log_guild = new WebhookClient({
   url: CONFIG.WEBHOOK_GUILD_LOGGING,
 });
+export const log_config = new WebhookClient({
+  url: CONFIG.WEBHOOK_CONFIG_LOGGING,
+});

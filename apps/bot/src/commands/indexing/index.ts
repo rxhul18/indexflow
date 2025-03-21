@@ -12,7 +12,7 @@ import {
 
 export default {
   name: "index",
-  aliases: ["ind", "iqs"],
+  aliases: ["ind", "iqs", "inx"],
   adminPermit: false,
   ownerPermit: false,
   cat: "indexing",
@@ -67,7 +67,7 @@ export default {
       if (interaction.user.id !== message.author.id) {
         return interaction.reply({
           content: "❌ | Only the command initiator can interact with this.",
-          ephemeral: true,
+          flags: 64
         });
       }
 
