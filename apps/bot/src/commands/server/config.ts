@@ -81,19 +81,27 @@ async function checkIfConfigExists(guild: Guild, client: Client) {
   }
 }
 
-async function performConfigActions(client: Client, guild: Guild, role: boolean, channel: boolean, webhook: boolean, log_ch: boolean) {
+async function performConfigActions(
+  client: Client,
+  guild: Guild,
+  role: boolean,
+  channel: boolean,
+  webhook: boolean,
+  log_ch: boolean,
+) {
   let confRoleId = null;
   let configChannel: TextChannel | ThreadChannel | null = null;
   let logsChannel: TextChannel | null = null;
   const isCommunity = guild.features.includes("COMMUNITY");
   const systemChannel = guild.systemChannel;
-  
+
   if (role) {
     try {
       const configRole = await guild.roles.create({
         name: "iflow-mod",
         color: "Blue",
-        reason: "Needed for content moderation purposes. From now users having this role can index any content.",
+        reason:
+          "Needed for content moderation purposes. From now users having this role can index any content.",
         permissions: [
           "ViewChannel",
           "SendMessages",
@@ -109,27 +117,30 @@ async function performConfigActions(client: Client, guild: Guild, role: boolean,
     }
   }
 
-
   if (channel) {
     try {
       configChannel = await guild.channels.create({
         name: "help",
         type: isCommunity ? 15 : 0, // 15 = Forum, 0 = Text Channel
-        reason: "Needed for content posting. From now you can index any message from this channel only.",
+        reason:
+          "Needed for content posting. From now you can index any message from this channel only.",
         permissionOverwrites: [
           {
             id: guild.id,
             allow: ["ViewChannel", "SendMessages", "ReadMessageHistory"],
-            deny: ["MentionEveryone", "Administrator"]
+            deny: ["MentionEveryone", "Administrator"],
           },
           {
             id: confRoleId ?? "",
             allow: ["ManageMessages", "ManageChannels"],
-            deny: ["MentionEveryone", "Administrator"]
+            deny: ["MentionEveryone", "Administrator"],
           },
         ],
       });
-      console.log(`✅ Created ${isCommunity ? "Forum" : "Text"} channel: `, configChannel.name);
+      console.log(
+        `✅ Created ${isCommunity ? "Forum" : "Text"} channel: `,
+        configChannel.name,
+      );
       // return { configChannel };
     } catch (error) {
       console.error("❌ Failed to create channel:", error);
@@ -163,16 +174,17 @@ async function performConfigActions(client: Client, guild: Guild, role: boolean,
   if (webhook) {
     try {
       let configWebhookUrl = null;
-      if (configChannel) { 
+      if (configChannel) {
         const configWebhook = await configChannel.createWebhook({
           name: "iFlow",
           avatar: client.user?.avatarURL(),
-          reason: "Webhook for communicating between discord client and our backend directly.",
+          reason:
+            "Webhook for communicating between discord client and our backend directly.",
         });
         configWebhookUrl = configWebhook.url;
         console.log("✅ Created webhook for configChannel:", configWebhookUrl);
       }
-  
+
       let systemWebhookUrl = null;
       if (systemChannel) {
         const systemWebhook = await systemChannel.createWebhook({

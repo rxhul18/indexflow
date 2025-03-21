@@ -67,7 +67,7 @@ export default {
       if (interaction.user.id !== message.author.id) {
         return interaction.reply({
           content: "❌ | Only the command initiator can interact with this.",
-          flags: 64
+          flags: 64,
         });
       }
 

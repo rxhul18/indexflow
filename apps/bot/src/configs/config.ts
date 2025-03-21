@@ -16,7 +16,11 @@ if (!DISCORD_TOKEN || !DISCORD_CLIENT_ID) {
   throw new Error("Missing bot envs!");
 }
 
-if (!WEBHOOK_ERROR_LOGGING || !WEBHOOK_GUILD_LOGGING || !WEBHOOK_CONFIG_LOGGING) {
+if (
+  !WEBHOOK_ERROR_LOGGING ||
+  !WEBHOOK_GUILD_LOGGING ||
+  !WEBHOOK_CONFIG_LOGGING
+) {
   throw new Error("Missing logging webhooks envs!");
 }
 
