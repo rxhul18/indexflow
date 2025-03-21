@@ -33,8 +33,10 @@ export default {
     const autoCheckEmbed = createAutoCheckEmbed(client, message);
     const autoCheckBtn = createAutoCheckButtons();
 
-    const secEnabledEmbed = createAutoCheckTrueEmbed(client, message);
+    const secEnabledEmbed = createAutoCheckTrueEmbed();
     const secReRunBtn = createAutoCheckTrueBtn();
+
+    const successEmbed = createAutoConfigSuccessEmbed();
 
     if (message.channel instanceof TextChannel) {
       const sentMessage = await message.channel.send({
@@ -59,6 +61,7 @@ export default {
           secReRunBtn,
           defaultEmbed,
           defaultActionRow,
+          successEmbed
         );
       });
     }
@@ -68,16 +71,37 @@ export default {
 // functions
 
 async function checkIfConfigExists(guild: Guild, client: Client) {
-  const configChannel = guild.channels.cache.find(
-    (ch) => ch.name.toLowerCase() === "help",
-  );
-  const configRole = guild.roles.cache.find(
-    (r) => r.name.toLowerCase() === "iflow-mod",
-  );
+  try {
+    const configChannel = guild.channels.cache.find(
+      (ch) => ch.name.toLowerCase() === "help"
+    );
+    const loggingChannel = guild.channels.cache.find(
+      (ch) => ch.name.toLowerCase() === "iflow-logs"
+    );
+    const configRole = guild.roles.cache.find(
+      (r) => r.name.toLowerCase() === "iflow-mod"
+    );
 
-  if (!configChannel && !configRole) {
-    console.log("nopes seems clean and badass!");
-    await performConfigActions(client, guild, true, true, true, true);
+    const webhooks = await guild.fetchWebhooks();
+    const iFlowWebhook = webhooks.find((wh) => wh.name.toLowerCase() === "iflow");
+    const loggingWebhook = webhooks.find((wh) => wh.name.toLowerCase() === "iflow logs");
+    const systemWebhook = webhooks.find((wh) => wh.name.toLowerCase() === "iflow system");
+
+    if (!configRole || !configChannel || !loggingChannel || !configChannel || !iFlowWebhook || !loggingWebhook || !systemWebhook) {
+      await performConfigActions(
+        client,
+        guild,
+        !configRole,
+        !configChannel,
+        !iFlowWebhook || !loggingWebhook || !systemWebhook ? true : false,
+        !loggingChannel
+      );
+    }
+
+    return true;
+  } catch (error) {
+    console.error("❌ Error in checkIfConfigExists:", error);
+    return false;
   }
 }
 
@@ -130,11 +154,11 @@ async function performConfigActions(
             allow: ["ViewChannel", "SendMessages", "ReadMessageHistory"],
             deny: ["MentionEveryone", "Administrator"],
           },
-          {
-            id: confRoleId ?? "",
-            allow: ["ManageMessages", "ManageChannels"],
-            deny: ["MentionEveryone", "Administrator"],
-          },
+          // {
+          //   id: confRoleId ?? "",
+          //   allow: ["ManageMessages", "ManageChannels"],
+          //   deny: ["MentionEveryone", "Administrator"],
+          // },
         ],
       });
       console.log(
@@ -158,11 +182,11 @@ async function performConfigActions(
             id: guild.id,
             deny: ["ViewChannel"],
           },
-          {
-            id: confRoleId ?? "",
-            allow: ["ViewChannel", "ManageMessages", "ManageChannels"],
-            deny: ["MentionEveryone", "Administrator"],
-          },
+          // {
+          //   id: confRoleId ?? "",
+          //   allow: ["ViewChannel", "ManageMessages", "ManageChannels"],
+          //   deny: ["MentionEveryone", "Administrator"],
+          // },
         ],
       });
       console.log(`✅ Created logging channel: `, logsChannel.name);
@@ -258,13 +282,25 @@ function createAutoCheckEmbed(client: Client, message: Message) {
     });
 }
 
-function createAutoCheckTrueEmbed(client: Client, message: Message) {
+function createAutoCheckTrueEmbed() {
   return new EmbedBuilder()
     .setDescription(
       "Oops, sorry to disappoint but if you have security bots enabled which may **BAN/KICK** me for performing these actions then you may need to **DISABLE** them for a time or just **WHITELIST** me and try-again.",
     )
     .setFooter({ text: "Re-try and see how easy it is." });
 }
+
+function createAutoConfigSuccessEmbed() {
+  return new EmbedBuilder()
+  .setTitle("🎉 Successfully auto configured your settings")
+    .setDescription(
+      "",
+    )
+    .setFooter({
+      text: "Don't worry you can always change your settings later",
+    });
+}
+
 
 function createAutoCheckTrueBtn() {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -340,6 +376,7 @@ async function handleInteraction(
   secReRunBtn: ActionRowBuilder<ButtonBuilder>,
   defaultEmbed: EmbedBuilder,
   defaultActionRow: ActionRowBuilder<ButtonBuilder>,
+  successEmbed: EmbedBuilder
 ) {
   await interaction.deferUpdate(); // ✅ Acknowledge interaction before doing anything
 
@@ -355,7 +392,7 @@ async function handleInteraction(
     case "manual_conf_btn":
       await interaction.followUp({
         content: "Manual configuration selected!",
-        ephemeral: true,
+        flags: 64
       });
       break;
     case "cancel_conf_btn":
@@ -381,8 +418,26 @@ async function handleInteraction(
       });
       break;
     case "auto_conf_no_btn":
+      await sentMessage.edit({
+        embeds: [new EmbedBuilder()
+          .setDescription("Hold on, performing actions...")
+        ],
+        components: [],
+      });
       if (guild) {
-        await checkIfConfigExists(guild, client);
+        const workDone = await checkIfConfigExists(guild, client);
+        if(workDone) {
+          await sentMessage.edit({
+            embeds: [successEmbed],
+            components: [],
+          });
+        } else {
+          await sentMessage.edit({
+            embeds: [new EmbedBuilder()
+              .setDescription("Oops, Internal error occured.")],
+            components: [secReRunBtn],
+          });
+        }
       } else {
         console.error("Guild is undefined.");
       }
@@ -390,7 +445,7 @@ async function handleInteraction(
     default:
       await interaction.followUp({
         content: "Unknown button clicked!",
-        ephemeral: true,
+        flags: 64
       });
   }
 }

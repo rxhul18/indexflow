@@ -25,14 +25,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       try {
         const session = await authClient.getSession();
         if (session.data?.user) {
-          console.log(user, "boobs")
+          // console.log(user, "boobs")
           setUser(session.data.user);
         } else {
           setUser(null);
         }
 
         if (session.data?.session) {
-          console.log(userIP, "boobs")
+          // console.log(userIP, "boobs")
           setUserIP(session.data.session.ipAddress!)
         } else {
           setUserIP(null);

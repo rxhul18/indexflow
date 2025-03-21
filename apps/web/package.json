@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@iflow/api": "workspace:*",
     "@iflow/auth": "workspace:*",
     "@iflow/types": "workspace:*",
     "@radix-ui/react-alert-dialog": "^1.1.6",
