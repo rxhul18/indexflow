@@ -5,48 +5,34 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Star } from "lucide-react";
-import { JSX } from "react";
+import { UserType } from "@iflow/types";
 
-// Define the User type
-type User = {
-  id: number;
-  name: string;
-  location: string;
-  reputation: string;
-  tags: string[];
-  avatar?: string;
-  avatarBg: string;
-  avatarContent?: JSX.Element;
-  lastActive?: string;
-  createdAt?: string;
-};
-
-export default function UserGrid({ filteredUsers }: { filteredUsers: User[] }) {
+export default function UserGrid({ filteredUsers }: { filteredUsers?: UserType[] | undefined }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      {filteredUsers.length > 0 ? (
+      {filteredUsers?.length ? (
         filteredUsers.map((user) => (
           <Card
             key={user.id}
-            className="overflow-hidden transition-all duration-200 hover:shadow-md group py-3"
+            className="overflow-hidden transition-all duration-200 hover:shadow-md group py-1"
           >
             <CardContent className="p-4">
               <div className="flex items-start gap-3">
                 <div className="relative flex-shrink-0">
                   <div
-                    className={`w-14 h-14 flex items-center justify-center rounded-full ${user.avatarBg} border overflow-hidden`}
+                    className={`w-14 h-14 flex items-center justify-center rounded-full bg-pink-600 border overflow-hidden`}
                   >
-                    {user.avatar ? (
+                    {user.image ? (
                       <Image
-                        src={user.avatar || "/placeholder.svg"}
+                        src={user.image || "/placeholder.svg"}
                         alt={user.name}
                         width={56}
                         height={56}
                         className="object-cover w-full h-full rounded-full transition-transform group-hover:scale-105"
                       />
-                    ) : user.avatarContent ? (
+                    ) : user.name ? (
                       <div className="flex items-center justify-center w-full h-full">
-                        {user.avatarContent}
+                        {user.name}
                       </div>
                     ) : (
                       <div className="flex items-center justify-center w-full h-full text-lg font-semibold">
@@ -54,12 +40,6 @@ export default function UserGrid({ filteredUsers }: { filteredUsers: User[] }) {
                       </div>
                     )}
                   </div>
-
-                  {user.lastActive &&
-                    new Date(user.lastActive) >=
-                      new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) && (
-                      <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full" />
-                    )}
                 </div>
 
                 {/* User info */}
@@ -73,12 +53,12 @@ export default function UserGrid({ filteredUsers }: { filteredUsers: User[] }) {
                     </Link>
 
                     {/* Reputation */}
-                    <div className="flex items-center text-amber-500 gap-0.5 ml-1">
+                    {user.reputation !== null && <div className="flex items-center text-amber-500 gap-0.5 ml-1">
                       <Star className="h-3.5 w-3.5 fill-current" />
                       <span className="text-xs font-medium">
                         {user.reputation}
                       </span>
-                    </div>
+                    </div>}
                   </div>
 
                   {/* Location */}
@@ -91,7 +71,7 @@ export default function UserGrid({ filteredUsers }: { filteredUsers: User[] }) {
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-1.5 mt-2">
-                    {user.tags.map((tag, index) => (
+                    {user?.recentTags?.map((tag, index) => (
                       <Badge
                         key={index}
                         variant="secondary"
@@ -103,13 +83,6 @@ export default function UserGrid({ filteredUsers }: { filteredUsers: User[] }) {
                       </Badge>
                     ))}
                   </div>
-
-                  {/* Last active - optional */}
-                  {user.lastActive && (
-                    <div className="text-xs text-muted-foreground/70 mt-2">
-                      Active: {new Date(user.lastActive).toLocaleDateString()}
-                    </div>
-                  )}
                 </div>
               </div>
             </CardContent>
