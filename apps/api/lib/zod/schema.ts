@@ -23,6 +23,23 @@ const serverSchema = z.object({
   updatedAt: z.union([z.date(), z.string()]),
 });
 
+const configSchema = z.object({
+  id: z.string(),
+  server_id: z.string(),
+  qna_channels: z.array(z.string()),
+  qna_channel_webhooks: z.array(z.string()),
+  qna_endpoint: z.string().nullable().optional(),
+  mod_role: z.string().nullable().optional(),
+  log_channel: z.string().nullable().optional(),
+  log_channel_webhook: z.string().nullable().optional(),
+  createdAt: z.union([z.date(), z.string()]),
+  updatedAt: z.union([z.date(), z.string()]),
+});
+
+const serverAPISchema = z.object({
+  api_key: z.string(),
+});
+
 const tagSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -77,4 +94,6 @@ export {
   tagSchema,
   indexedAnsSchema,
   indexedQnsSchema,
+  configSchema,
+  serverAPISchema
 };
