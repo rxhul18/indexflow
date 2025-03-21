@@ -61,7 +61,7 @@ export default {
           secReRunBtn,
           defaultEmbed,
           defaultActionRow,
-          successEmbed
+          successEmbed,
         );
       });
     }
@@ -73,28 +73,42 @@ export default {
 async function checkIfConfigExists(guild: Guild, client: Client) {
   try {
     const configChannel = guild.channels.cache.find(
-      (ch) => ch.name.toLowerCase() === "help"
+      (ch) => ch.name.toLowerCase() === "help",
     );
     const loggingChannel = guild.channels.cache.find(
-      (ch) => ch.name.toLowerCase() === "iflow-logs"
+      (ch) => ch.name.toLowerCase() === "iflow-logs",
     );
     const configRole = guild.roles.cache.find(
-      (r) => r.name.toLowerCase() === "iflow-mod"
+      (r) => r.name.toLowerCase() === "iflow-mod",
     );
 
     const webhooks = await guild.fetchWebhooks();
-    const iFlowWebhook = webhooks.find((wh) => wh.name.toLowerCase() === "iflow");
-    const loggingWebhook = webhooks.find((wh) => wh.name.toLowerCase() === "iflow logs");
-    const systemWebhook = webhooks.find((wh) => wh.name.toLowerCase() === "iflow system");
+    const iFlowWebhook = webhooks.find(
+      (wh) => wh.name.toLowerCase() === "iflow",
+    );
+    const loggingWebhook = webhooks.find(
+      (wh) => wh.name.toLowerCase() === "iflow logs",
+    );
+    const systemWebhook = webhooks.find(
+      (wh) => wh.name.toLowerCase() === "iflow system",
+    );
 
-    if (!configRole || !configChannel || !loggingChannel || !configChannel || !iFlowWebhook || !loggingWebhook || !systemWebhook) {
+    if (
+      !configRole ||
+      !configChannel ||
+      !loggingChannel ||
+      !configChannel ||
+      !iFlowWebhook ||
+      !loggingWebhook ||
+      !systemWebhook
+    ) {
       await performConfigActions(
         client,
         guild,
         !configRole,
         !configChannel,
         !iFlowWebhook || !loggingWebhook || !systemWebhook ? true : false,
-        !loggingChannel
+        !loggingChannel,
       );
     }
 
@@ -292,15 +306,12 @@ function createAutoCheckTrueEmbed() {
 
 function createAutoConfigSuccessEmbed() {
   return new EmbedBuilder()
-  .setTitle("🎉 Successfully auto configured your settings")
-    .setDescription(
-      "",
-    )
+    .setTitle("🎉 Successfully auto configured your settings")
+    .setDescription("")
     .setFooter({
       text: "Don't worry you can always change your settings later",
     });
 }
-
 
 function createAutoCheckTrueBtn() {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -376,7 +387,7 @@ async function handleInteraction(
   secReRunBtn: ActionRowBuilder<ButtonBuilder>,
   defaultEmbed: EmbedBuilder,
   defaultActionRow: ActionRowBuilder<ButtonBuilder>,
-  successEmbed: EmbedBuilder
+  successEmbed: EmbedBuilder,
 ) {
   await interaction.deferUpdate(); // ✅ Acknowledge interaction before doing anything
 
@@ -392,7 +403,7 @@ async function handleInteraction(
     case "manual_conf_btn":
       await interaction.followUp({
         content: "Manual configuration selected!",
-        flags: 64
+        flags: 64,
       });
       break;
     case "cancel_conf_btn":
@@ -419,22 +430,25 @@ async function handleInteraction(
       break;
     case "auto_conf_no_btn":
       await sentMessage.edit({
-        embeds: [new EmbedBuilder()
-          .setDescription("Hold on, performing actions...")
+        embeds: [
+          new EmbedBuilder().setDescription("Hold on, performing actions..."),
         ],
         components: [],
       });
       if (guild) {
         const workDone = await checkIfConfigExists(guild, client);
-        if(workDone) {
+        if (workDone) {
           await sentMessage.edit({
             embeds: [successEmbed],
             components: [],
           });
         } else {
           await sentMessage.edit({
-            embeds: [new EmbedBuilder()
-              .setDescription("Oops, Internal error occured.")],
+            embeds: [
+              new EmbedBuilder().setDescription(
+                "Oops, Internal error occured.",
+              ),
+            ],
             components: [secReRunBtn],
           });
         }
@@ -445,7 +459,7 @@ async function handleInteraction(
     default:
       await interaction.followUp({
         content: "Unknown button clicked!",
-        flags: 64
+        flags: 64,
       });
   }
 }
