@@ -5,6 +5,7 @@
   "scripts": {
     "docker:build": "docker build -f Dockerfile .",
     "dev": "next dev --turbopack",
+    "prebuild": "turbo --filter=@iflow/db db:generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
