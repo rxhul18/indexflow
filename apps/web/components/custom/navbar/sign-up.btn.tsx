@@ -12,7 +12,7 @@ import { LogIn } from "lucide-react";
 import { authClient } from "@iflow/auth";
 import { toast } from "sonner";
 
-export function SignInBtn() {
+export function SignInBtn({name, type}: {name?: string, type?: "default" | "secondary" | "outline" | "ghost"}) {
   const authHandler = async (provider: "google" | "discord" | "github") => {
     switch (provider) {
       case "google":
@@ -54,12 +54,12 @@ export function SignInBtn() {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          variant="outline"
+          variant={type ? type : "outline"}
           size="sm"
           className="gap-2 h-9 cursor-pointer"
         >
-          <LogIn className="h-4 w-4" />
-          <span>Log In</span>
+          {!name && <LogIn className="h-4 w-4" />}
+          <span>{name ? name : "Log In"}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

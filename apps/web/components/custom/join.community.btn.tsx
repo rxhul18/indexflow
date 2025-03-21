@@ -11,13 +11,16 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { SignInBtn } from "./navbar/sign-up.btn"
+import { useUser } from "@/context/user.context";
 
 export function JoinCommunityBtn({ InvUrl }: { InvUrl: string }) {
+  const { user, loading } = useUser();
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="ml-4" variant="default">Join</Button>
+        {!loading && user ? <Button className="ml-4" variant="default">Join</Button> : <SignInBtn name="Join" type="default"/>}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

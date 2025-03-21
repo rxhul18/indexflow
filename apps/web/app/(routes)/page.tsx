@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { Button } from "@/components/ui/button";
 import TagName from "@/components/custom/tags.comp";
 import AllQuestions from "@/components/custom/all-questions";
 import { Suspense, useEffect, useState } from "react";
@@ -11,19 +10,19 @@ import { ServerType } from "@iflow/types";
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
   const [servers, setServers] = useState<ServerType[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [skeleton, setSkeleton] = useState(false);
 
   const API_ENDPOINT = process.env.NODE_ENV == "development" ? "https://api.indexflow.site/v1/bot/server/all" : "https://api.indexflow.site/v1/bot/server/all";
   // const API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server" : "https://api.indexflow.site/v1/bot/server";
 
   useEffect(() => {
     async function fetchServers() {
-      setLoading(true);
+      setSkeleton(true);
 
       const data = await fetch(API_ENDPOINT);
       const response = await data.json();
       setServers([...response?.servers, ...servers]);
-      setLoading(false);
+      setSkeleton(false);
     }
 
     if (servers.length === 0) {
@@ -54,8 +53,7 @@ export default function Home() {
               <p className="text-muted-foreground mb-4">
                 Get unstuck with the help of our community of developers.
               </p>
-              <Button className="w-full mb-4">Join Community</Button>
-              {loading ? (
+              {skeleton ? (
                 <div className="space-y-4">
                   {[1, 2, 3, 4].map((i) => (
                     <div key={i} className="flex items-center py-2">
