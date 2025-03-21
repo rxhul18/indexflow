@@ -116,9 +116,6 @@ importers:
 
   apps/web:
     dependencies:
-      '@iflow/api':
-        specifier: workspace:*
-        version: link:../api
       '@iflow/auth':
         specifier: workspace:*
         version: link:../../packages/auth
