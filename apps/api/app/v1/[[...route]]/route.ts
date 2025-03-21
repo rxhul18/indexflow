@@ -32,7 +32,7 @@ app.use(
   }),
 );
 
-app.use(logger())
+app.use(logger());
 // applied rate limit to below routes
 app.use(rateLimitHandler);
 // applied rate limit to below routes

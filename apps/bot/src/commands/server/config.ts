@@ -19,7 +19,7 @@ export default {
   cat: "server",
   run: async (
     client: Client & { config: { owner: string[] } },
-    message: Message
+    message: Message,
   ) => {
     if (!isAuthorized(client, message)) {
       return sendNotAllowedMessage(message);
@@ -47,7 +47,17 @@ export default {
       });
 
       collector.on("collect", async (interaction: ButtonInteraction) => {
-        handleInteraction(interaction, sentMessage, cancelledActionRow, autoCheckEmbed, autoCheckBtn, secEnabledEmbed, secReRunBtn, defaultEmbed, defaultActionRow);
+        handleInteraction(
+          interaction,
+          sentMessage,
+          cancelledActionRow,
+          autoCheckEmbed,
+          autoCheckBtn,
+          secEnabledEmbed,
+          secReRunBtn,
+          defaultEmbed,
+          defaultActionRow,
+        );
       });
     }
   },
@@ -56,26 +66,34 @@ export default {
 // functions
 
 async function checkIfConfigExists(guild: Guild) {
-  const configChannel = guild.channels.cache.find(ch => ch.name.toLowerCase() === "help");
-  const configRole = guild.roles.cache.find(r => r.name.toLowerCase() === "iflow-mod");
+  const configChannel = guild.channels.cache.find(
+    (ch) => ch.name.toLowerCase() === "help",
+  );
+  const configRole = guild.roles.cache.find(
+    (r) => r.name.toLowerCase() === "iflow-mod",
+  );
 
   if (!configChannel && !configRole) {
-    console.log("nopes seems clean and badass!")
+    console.log("nopes seems clean and badass!");
   }
 }
 
-function performConfigActions() {
+function performConfigActions() {}
 
-}
-
-function isAuthorized(client: Client & { config: { owner: string[] } }, message: Message): boolean {
+function isAuthorized(
+  client: Client & { config: { owner: string[] } },
+  message: Message,
+): boolean {
   const authorizedUsers = [...client.config.owner];
-  return message.author.id === message.guild?.ownerId || authorizedUsers.includes(message.author.id);
+  return (
+    message.author.id === message.guild?.ownerId ||
+    authorizedUsers.includes(message.author.id)
+  );
 }
 
 async function sendNotAllowedMessage(message: Message) {
   const notAllowedEmbed = new EmbedBuilder().setDescription(
-    "Sorry, this command contains sensitive data. You need to be the ``GUILD_OWNER`` to run this command."
+    "Sorry, this command contains sensitive data. You need to be the ``GUILD_OWNER`` to run this command.",
   );
 
   if (message.channel instanceof TextChannel) {
@@ -87,56 +105,93 @@ function createConfigEmbed(client: Client, message: Message) {
   return new EmbedBuilder()
     .setTitle("Configure settings!")
     .setDescription(
-      "Let's configure your server settings. Can you please choose what type of **configuration mode** you want from the buttons below."
+      "Let's configure your server settings. Can you please choose what type of **configuration mode** you want from the buttons below.",
     )
     .setThumbnail(client.user?.avatarURL() || message.author.displayAvatarURL())
-    .setFooter({ text: "Don't worry you can always change your settings later." });
+    .setFooter({
+      text: "Don't worry you can always change your settings later.",
+    });
 }
 
 function createAutoCheckEmbed(client: Client, message: Message) {
   return new EmbedBuilder()
     .setDescription(
-      "Do you have any **ANTINUKE/SECURITY** bots enabled which may **KICK/BAN** me for performing some actions in your server mentioned bellow: \n - ``CREATE_ROLE`` (1) \n - ``UPDATE_ROLE`` (1) \n - ``CREATE_CHANNEL`` (1) \n - ``CREATE_WEBHOOK`` (2)"
+      "Do you have any **ANTINUKE/SECURITY** bots enabled which may **KICK/BAN** me for performing some actions in your server mentioned bellow: \n - ``CREATE_ROLE`` (1) \n - ``UPDATE_ROLE`` (1) \n - ``CREATE_CHANNEL`` (1) \n - ``CREATE_WEBHOOK`` (2)",
     )
     .setThumbnail(client.user?.avatarURL() || message.author.displayAvatarURL())
-    .setFooter({ text: "Don't worry you can always change your settings later." });
+    .setFooter({
+      text: "Don't worry you can always change your settings later.",
+    });
 }
 
 function createAutoCheckTrueEmbed(client: Client, message: Message) {
   return new EmbedBuilder()
     .setDescription(
-      "Oops, sorry to disappoint but if you have security bots enabled which may **BAN/KICK** me for performing these actions then you may need to **DISABLE** them for a time or just **WHITELIST** me and try-again."
+      "Oops, sorry to disappoint but if you have security bots enabled which may **BAN/KICK** me for performing these actions then you may need to **DISABLE** them for a time or just **WHITELIST** me and try-again.",
     )
     .setFooter({ text: "Re-try and see how easy it is." });
 }
 
 function createAutoCheckTrueBtn() {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder().setCustomId("rerun_conf_btn").setStyle(ButtonStyle.Primary).setLabel("Run Again"),
+    new ButtonBuilder()
+      .setCustomId("rerun_conf_btn")
+      .setStyle(ButtonStyle.Primary)
+      .setLabel("Run Again"),
   );
 }
 
 function createConfigButtons() {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder().setCustomId("auto_conf_btn").setStyle(ButtonStyle.Primary).setLabel("Auto"),
-    new ButtonBuilder().setCustomId("manual_conf_btn").setStyle(ButtonStyle.Secondary).setLabel("Manual"),
-    new ButtonBuilder().setCustomId("cancel_conf_btn").setStyle(ButtonStyle.Danger).setLabel("Cancel")
+    new ButtonBuilder()
+      .setCustomId("auto_conf_btn")
+      .setStyle(ButtonStyle.Primary)
+      .setLabel("Auto"),
+    new ButtonBuilder()
+      .setCustomId("manual_conf_btn")
+      .setStyle(ButtonStyle.Secondary)
+      .setLabel("Manual"),
+    new ButtonBuilder()
+      .setCustomId("cancel_conf_btn")
+      .setStyle(ButtonStyle.Danger)
+      .setLabel("Cancel"),
   );
 }
 
 function createDisabledConfigButtons() {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder().setCustomId("auto_conf_btn").setStyle(ButtonStyle.Primary).setLabel("Auto").setDisabled(true),
-    new ButtonBuilder().setCustomId("manual_conf_btn").setStyle(ButtonStyle.Secondary).setLabel("Manual").setDisabled(true),
-    new ButtonBuilder().setCustomId("cancel_conf_btn").setStyle(ButtonStyle.Danger).setLabel("Cancel").setDisabled(true)
+    new ButtonBuilder()
+      .setCustomId("auto_conf_btn")
+      .setStyle(ButtonStyle.Primary)
+      .setLabel("Auto")
+      .setDisabled(true),
+    new ButtonBuilder()
+      .setCustomId("manual_conf_btn")
+      .setStyle(ButtonStyle.Secondary)
+      .setLabel("Manual")
+      .setDisabled(true),
+    new ButtonBuilder()
+      .setCustomId("cancel_conf_btn")
+      .setStyle(ButtonStyle.Danger)
+      .setLabel("Cancel")
+      .setDisabled(true),
   );
 }
 
 function createAutoCheckButtons() {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder().setCustomId("auto_conf_yes_btn").setStyle(ButtonStyle.Primary).setLabel("Yes"),
-    new ButtonBuilder().setCustomId("auto_conf_no_btn").setStyle(ButtonStyle.Secondary).setLabel("No"),
-    new ButtonBuilder().setCustomId("cancel_conf_btn").setStyle(ButtonStyle.Danger).setLabel("Cancel")
+    new ButtonBuilder()
+      .setCustomId("auto_conf_yes_btn")
+      .setStyle(ButtonStyle.Primary)
+      .setLabel("Yes"),
+    new ButtonBuilder()
+      .setCustomId("auto_conf_no_btn")
+      .setStyle(ButtonStyle.Secondary)
+      .setLabel("No"),
+    new ButtonBuilder()
+      .setCustomId("cancel_conf_btn")
+      .setStyle(ButtonStyle.Danger)
+      .setLabel("Cancel"),
   );
 }
 
@@ -163,11 +218,18 @@ async function handleInteraction(
       });
       break;
     case "manual_conf_btn":
-      await interaction.followUp({ content: "Manual configuration selected!", ephemeral: true });
+      await interaction.followUp({
+        content: "Manual configuration selected!",
+        ephemeral: true,
+      });
       break;
     case "cancel_conf_btn":
       await sentMessage.edit({
-        embeds: [new EmbedBuilder().setDescription("❌ | Configuration **cancelled**.")],
+        embeds: [
+          new EmbedBuilder().setDescription(
+            "❌ | Configuration **cancelled**.",
+          ),
+        ],
         components: [cancelledActionRow],
       });
       break;
@@ -177,12 +239,12 @@ async function handleInteraction(
         components: [secReRunBtn],
       });
       break;
-      case "rerun_conf_btn":
-        await sentMessage.edit({
-          embeds: [defaultEmbed],
-          components: [defaultActionRow],
-        });
-        break;
+    case "rerun_conf_btn":
+      await sentMessage.edit({
+        embeds: [defaultEmbed],
+        components: [defaultActionRow],
+      });
+      break;
     case "auto_conf_no_btn":
       if (guild) {
         await checkIfConfigExists(guild);
@@ -191,6 +253,9 @@ async function handleInteraction(
       }
       break;
     default:
-      await interaction.followUp({ content: "Unknown button clicked!", ephemeral: true });
+      await interaction.followUp({
+        content: "Unknown button clicked!",
+        ephemeral: true,
+      });
   }
 }

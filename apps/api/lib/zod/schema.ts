@@ -95,5 +95,5 @@ export {
   indexedAnsSchema,
   indexedQnsSchema,
   configSchema,
-  serverAPISchema
+  serverAPISchema,
 };

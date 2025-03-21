@@ -66,7 +66,6 @@ const config = new Hono()
     return c.json(response, 200);
   })
 
-
   .use(checkBot)
 
   .get("/:id", async (c) => {
@@ -151,7 +150,7 @@ const config = new Hono()
     } catch (error) {
       console.log(error);
     }
-  })
+  });
 
 export type ConfigApiType = typeof config;
 export default config;
