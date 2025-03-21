@@ -20,7 +20,7 @@ export default function QuestionsList({
   const searchParams = useSearchParams();
 
   const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState(searchParams.get("sort") || "");
+  const [filter, setFilter] = useState(searchParams.get("sort") || "newest");
   const [tagFil, setTagFil] = useState(selectedTag || tagName || "");
   const [searchQuery, setSearchQuery] = useState("");
 

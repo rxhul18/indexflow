@@ -11,7 +11,7 @@ import { users as dummyUsers } from "@/json/dummy"; // Importing dummy users
 export default function UsersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [userTypeFilter, setUserTypeFilter] = useState("all");
-
+  // const [users, setUsers] = useState([]);
   // Using dummy data instead of fetching from an API
   const users = dummyUsers;
 
