@@ -18,6 +18,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "https://api.indexflow.site",
   "https://indexflow.site",
+  "https://www.indexflow.site",
   "http://localhost:3001",
 ];
 app.use(

@@ -16,7 +16,7 @@ export const authClient = createAuthClient({
 });
 
 export const auth = betterAuth({
-  trustedOrigins: ["http://localhost:3001", "http://localhost:3000", "https://api.indexflow.site", "https://indexflow.site"],
+  trustedOrigins: ["http://localhost:3001", "http://localhost:3000", "https://api.indexflow.site", "https://indexflow.site", "https://www.indexflow.site",],
   baseURL: BaseDomain,
   basePath: "/v1/auth",
   database: prismaAdapter(prisma, {
