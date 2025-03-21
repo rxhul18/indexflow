@@ -52,7 +52,7 @@ export default {
         .setStyle(ButtonStyle.Link)
         .setLabel("Support Server")
         .setURL(inviteLink),
-        new ButtonBuilder()
+      new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel("Sponsor")
         .setURL(inviteLink),
