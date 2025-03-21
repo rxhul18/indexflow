@@ -31,9 +31,11 @@ export default {
           "**1. `$help`** - Displays this help message.\n" +
           "**2. `$invite`** - Get the invite link to add me to your server.\n" +
           "**3. `$index`** - Index a message as a question or answer.\n" +
-          "**4. `$forum`** - Manage forums and discussions.\n" +
-          "**4. `$eval`** - Execute any JS or TS code diectly.\n" +
-          "**5. `$uptime`** - Get my uptime hours details\n\n" +
+          "**4. `$config`** - Manage your server's configurations.\n" +
+          "**5. `$code`** - Get our source code for free.\n" +
+          "> **6. `$donate`** - Donate/Sponsor us if you liked our service.\n" +
+          "**7. `$api`** - Access your all indexed data through our api for free.\n" +
+          "**8. `$uptime`** - Get my uptime hours details\n\n" +
           "My prefix in this guild is *$*. If you need assistance, just ask!",
       );
 
@@ -49,6 +51,10 @@ export default {
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel("Support Server")
+        .setURL(inviteLink),
+        new ButtonBuilder()
+        .setStyle(ButtonStyle.Link)
+        .setLabel("Sponsor")
         .setURL(inviteLink),
     );
 

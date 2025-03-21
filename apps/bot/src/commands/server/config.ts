@@ -277,7 +277,7 @@ function createConfigEmbed(client: Client, message: Message) {
   return new EmbedBuilder()
     .setTitle("Configure settings!")
     .setDescription(
-      "Let's configure your server settings. Can you please choose what type of **configuration mode** you want from the buttons below.",
+      "Let's configure your server settings. Can you please choose what type of **configuration mode** you want from the buttons below. \n\n The **Manual** configuration option is coming soon.",
     )
     .setThumbnail(client.user?.avatarURL() || message.author.displayAvatarURL())
     .setFooter({
@@ -307,7 +307,7 @@ function createAutoCheckTrueEmbed() {
 function createAutoConfigSuccessEmbed() {
   return new EmbedBuilder()
     .setTitle("🎉 Successfully auto configured your settings")
-    .setDescription("")
+    .setDescription("Your server settings have been successfully configured.")
     .setFooter({
       text: "Don't worry you can always change your settings later",
     });
@@ -331,6 +331,7 @@ function createConfigButtons() {
     new ButtonBuilder()
       .setCustomId("manual_conf_btn")
       .setStyle(ButtonStyle.Secondary)
+      .setDisabled(true)
       .setLabel("Manual"),
     new ButtonBuilder()
       .setCustomId("cancel_conf_btn")

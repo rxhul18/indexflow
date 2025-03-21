@@ -10,7 +10,7 @@ import {
 
 export default {
   name: "api-key",
-  aliases: ["apik", "apk"],
+  aliases: ["apik", "apk", "api"],
   adminPermit: false,
   ownerPermit: false,
   cat: "server",
