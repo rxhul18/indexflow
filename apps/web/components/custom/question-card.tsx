@@ -30,7 +30,7 @@ const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
         <Card className="overflow-hidden p-0">
           <CardContent className="p-4 sm:p-6">
             <div className="space-y-2 sm:space-y-3">
-              <Link href={`/questions/${question.id}`}>
+              <Link href={`/qs/${question.id}`}>
                 <h3 className="text-lg sm:text-xl font-semibold hover:text-primary hover:underline line-clamp-2">
                   {question.title}
                 </h3>

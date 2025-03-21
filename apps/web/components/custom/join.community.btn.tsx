@@ -28,7 +28,6 @@ export function JoinCommunityBtn({ InvUrl }: { InvUrl: string }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction><Link href={InvUrl}>Continue</Link></AlertDialogAction>
           <AlertDialogAction asChild>
             <Link href={InvUrl}>Continue</Link>
           </AlertDialogAction>

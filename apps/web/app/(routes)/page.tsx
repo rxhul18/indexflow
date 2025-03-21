@@ -6,31 +6,24 @@ import AllQuestions from "@/components/custom/all-questions";
 import { Suspense, useEffect, useState } from "react";
 import { popularTags } from "@/json/dummy";
 import { JoinCommunityBtn } from "@/components/custom/join.community.btn";
-import { hc } from 'hono/client'
 import { ServerType } from "@iflow/types";
-import type { ServerApiType } from "@iflow/api";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
   const [servers, setServers] = useState<ServerType[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // const API_ENDPOINT = process.env.NODE_ENV == "development" ? "https://api.indexflow.site/v1/bot/server" : "https://api.indexflow.site/v1/bot/server";
-  const API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server" : "https://api.indexflow.site/v1/bot/server";
+  const API_ENDPOINT = process.env.NODE_ENV == "development" ? "https://api.indexflow.site/v1/bot/server/all" : "https://api.indexflow.site/v1/bot/server/all";
+  // const API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server" : "https://api.indexflow.site/v1/bot/server";
 
   useEffect(() => {
-    const client = hc<ServerApiType>(API_ENDPOINT);
     async function fetchServers() {
       setLoading(true);
-      const res = await client.all.$get({ query: { cursor: "", take: 10 } });
-      if (res.status === 404) {
-        const err: { message: string; status: number } = await res.json();
-        setLoading(false);
-      } else if (res.ok) {
-        const data: { servers: ServerType[] } = await res.json();
-        setServers(data.servers);
-        setLoading(false);
-      }
+
+      const data = await fetch(API_ENDPOINT);
+      const response = await data.json();
+      setServers([...response?.servers, ...servers]);
+      setLoading(false);
     }
 
     if (servers.length === 0) {
