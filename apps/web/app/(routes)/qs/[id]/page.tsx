@@ -5,12 +5,12 @@ import {
   ArrowBigUp,
   ArrowBigDown,
   CheckCircle2,
-  Bookmark,
-  Share,
 } from "lucide-react";
 import Link from "next/link";
-import AnswerForm from "@/components/custom/answer-form";
+// import AnswerForm from "@/components/custom/answer-form";
 import type { Metadata } from "next";
+import { SubbcribeCommunityBtn } from "@/components/custom/subcribe.community.btn";
+import ShareLinkBtn from "@/components/custom/share.btn";
 
 export async function generateMetadata(): Promise<Metadata> {
   const question = {
@@ -189,16 +189,12 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
                   <ArrowBigDown className="size-5" />
                 </Button>
               </div>
-              <div className="flex items-center gap-2 flex-1 px-6">
-                <Button variant="outline" size="lg">
-                  Follow
-                </Button>
-                <Button variant="outline" size="lg">
+              <div className="flex items-center gap-2 flex-1 px-2">
+                <SubbcribeCommunityBtn InvUrl="/api/subscribe" />
+                {/* <Button variant="outline" size="lg">
                   <Bookmark />
-                </Button>
-                <Button variant="outline" size="lg">
-                  <Share />
-                </Button>
+                </Button> */}
+                <ShareLinkBtn />
               </div>
             </div>
 
@@ -296,10 +292,10 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
       </div>
 
       {/* Answer form */}
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <h2 className="text-xl font-semibold mb-6">Your Answer</h2>
         <AnswerForm questionId={id} />
-      </div>
+      </div> */}
     </div>
   );
 }
