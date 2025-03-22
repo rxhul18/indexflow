@@ -3,22 +3,24 @@
 import TagName from "@/components/custom/tags.comp";
 import AllQuestions from "@/components/custom/all-questions";
 import { Suspense, useEffect, useState } from "react";
-import { popularTags } from "@/json/dummy";
 import { JoinCommunityBtn } from "@/components/custom/join.community.btn";
-import { ServerType } from "@iflow/types";
+import { ServerType, TagType } from "@iflow/types";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
   const [servers, setServers] = useState<ServerType[]>([]);
+  const [tags, setTags] = useState<TagType[]>([]);
+  const [tagLoading, setTagLoading] = useState(false);
   const [skeleton, setSkeleton] = useState(false);
 
-  const API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server/all" : "https://api.indexflow.site/v1/bot/server/all";
+  const SERVER_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server/all" : "https://api.indexflow.site/v1/bot/server/all";
+  const TAGS_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/tag/all" : "https://api.indexflow.site/v1/bot/tag/all"; 
 
   useEffect(() => {
     async function fetchServers() {
       setSkeleton(true);
 
-      const data = await fetch(API_ENDPOINT);
+      const data = await fetch(SERVER_API_ENDPOINT);
       const response = await data.json();
       setServers([...response?.servers, ...servers]);
       setSkeleton(false);
@@ -29,13 +31,29 @@ export default function Home() {
     }
   }, [servers]);
 
+
+  useEffect(() => {
+    async function fetchTags() {
+      setTagLoading(true);
+      const data = await fetch(TAGS_API_ENDPOINT);
+      const response = await data.json();
+      setTags(response?.tags || []);
+      setTagLoading(false);
+    }
+
+    if (tags.length === 0) {
+      fetchTags();
+    }
+  }, [tags]);
+  
+
   return (
     <div className="flex w-full justify-center py-8">
       <div className="flex flex-col gap-4 min-w-[90%] md:container w-full px-4 relative">
         {/* TagName at the top for more space */}
         <div className="bg-card rounded-lg border p-4 w-full">
           <h2 className="text-xl font-semibold mb-4">Popular Tags</h2>
-          <TagName tags={popularTags} onTagSelect={setSelectedTag} />
+          <TagName tags={tags} onTagSelect={setSelectedTag} isLoading={tagLoading} />
         </div>
 
         <div className="flex flex-col lg:flex-row gap-4">
