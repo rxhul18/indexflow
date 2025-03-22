@@ -14,7 +14,7 @@ export default function Home() {
   const [skeleton, setSkeleton] = useState(false);
 
   const SERVER_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server/all" : "https://api.indexflow.site/v1/bot/server/all";
-  const TAGS_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/tag/all" : "http://api.indexflow.site/v1/bot/tag/all"; 
+  const TAGS_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/tag/all" : "https://api.indexflow.site/v1/bot/tag/all"; 
 
   useEffect(() => {
     async function fetchServers() {
@@ -33,16 +33,16 @@ export default function Home() {
 
 
   useEffect(() => {
-    async function fetchServers() {
+    async function fetchTags() {
       setTagLoading(true);
       const data = await fetch(TAGS_API_ENDPOINT);
       const response = await data.json();
-      setTags([...response?.tags, ...tags]);
+      setTags(response?.tags || []);
       setTagLoading(false);
     }
 
     if (tags.length === 0) {
-      fetchServers();
+      fetchTags();
     }
   }, [tags]);
   
