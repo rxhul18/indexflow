@@ -84,7 +84,7 @@ const indexedAnsSchema = z.object({
 
 const paginationSchema = z.object({
   cursor: z.string().optional(), // Optional because it might not be passed initially
-  take: z.string().regex(/^\d+$/).transform(Number).default("100"), // Ensure take is a number
+  take: z.string().regex(/^\d+$/).transform(Number).default("100000"), // Ensure take is a number
 });
 
 export {

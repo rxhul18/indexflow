@@ -9,7 +9,7 @@ import { checkAdmin } from "@/actions/checks/check.admin";
 import { zValidator } from "@/lib/zod/validator";
 import { UserPubType, UserType } from "@iflow/types";
 
-const CACHE_EXPIRY = 150;
+const CACHE_EXPIRY = 169;
 
 const user = new Hono()
   .get("/self", async (c) => {

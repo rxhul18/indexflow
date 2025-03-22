@@ -12,8 +12,7 @@ export default function Home() {
   const [servers, setServers] = useState<ServerType[]>([]);
   const [skeleton, setSkeleton] = useState(false);
 
-  const API_ENDPOINT = process.env.NODE_ENV == "development" ? "https://api.indexflow.site/v1/bot/server/all" : "https://api.indexflow.site/v1/bot/server/all";
-  // const API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server" : "https://api.indexflow.site/v1/bot/server";
+  const API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server/all" : "https://api.indexflow.site/v1/bot/server/all";
 
   useEffect(() => {
     async function fetchServers() {

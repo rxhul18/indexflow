@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 
-// const CACHE_EXPIRY = 150;
+// const CACHE_EXPIRY = 169;
 
 const data = new Hono();
 
