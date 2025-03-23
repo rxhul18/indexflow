@@ -9,6 +9,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from "discord.js";
+import { CONFIG } from "../../configs/config";
 
 export default {
   name: "donate",
@@ -20,20 +21,18 @@ export default {
     client: Client & { config: { default_color: ColorResolvable } },
     message: Message,
   ) => {
-    const inviteLink = `https://discord.com/api/oauth2/authorize?client_id=${client.user?.id}&permissions=8&scope=bot%20applications.commands`;
-
     const embed = new EmbedBuilder()
       .setColor(client.config.default_color)
       .setTitle("Want to Help us?")
       .setDescription(
-        `ℹ️ | Click on the button below to [invite](${inviteLink}) me`,
+        `ℹ️ | Click on the button below to [donate/sponsor](${CONFIG.SPONSOR_URL}) us.`,
       );
 
     const button = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
-        .setLabel("Invite")
-        .setURL("https://l.devwtf.in/sponsor"),
+        .setLabel("Donate")
+        .setURL(CONFIG.SPONSOR_URL),
     );
 
     if (

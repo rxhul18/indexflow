@@ -9,6 +9,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from "discord.js";
+import { CONFIG } from "../../configs/config";
 
 export default {
   name: "source",
@@ -34,7 +35,7 @@ export default {
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel("Star on GitHub")
-        .setURL("https://l.devwtf.in/iflow"),
+        .setURL(CONFIG.SRC_URL),
     );
 
     if (

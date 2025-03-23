@@ -13,11 +13,13 @@ import { authClient } from "@iflow/auth";
 import { toast } from "sonner";
 
 export function SignInBtn({name, type}: {name?: string, type?: "default" | "secondary" | "outline" | "ghost"}) {
+  const CALLBACK_URL = "https://www.indexflow.site/"
   const authHandler = async (provider: "google" | "discord" | "github") => {
     switch (provider) {
       case "google":
         await authClient.signIn.social({
           provider: provider,
+          callbackURL: CALLBACK_URL,
           fetchOptions: {
             onSuccess() {
               toast.success("Successfully logged in throw Google!");
@@ -28,6 +30,7 @@ export function SignInBtn({name, type}: {name?: string, type?: "default" | "seco
       case "github":
         await authClient.signIn.social({
           provider: provider,
+          callbackURL: CALLBACK_URL,
           fetchOptions: {
             onSuccess() {
               toast.success("Successfully logged in throw GitHub!");
@@ -38,6 +41,7 @@ export function SignInBtn({name, type}: {name?: string, type?: "default" | "seco
       case "discord":
         await authClient.signIn.social({
           provider: provider,
+          callbackURL: CALLBACK_URL,
           fetchOptions: {
             onSuccess() {
               toast.success("Successfully logged in throw Discord!");

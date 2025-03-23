@@ -9,6 +9,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from "discord.js";
+import { CONFIG } from "../../configs/config";
 
 export default {
   name: "help",
@@ -20,8 +21,6 @@ export default {
     client: Client & { config: { default_color: ColorResolvable } },
     message: Message,
   ) => {
-    const inviteLink = `https://discord.com/api/oauth2/authorize?client_id=${client.user?.id}&permissions=8&scope=bot%20applications.commands`;
-
     const embed = new EmbedBuilder()
       .setColor(client.config.default_color)
       .setTitle("Help Command")
@@ -43,19 +42,19 @@ export default {
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel("Add Me")
-        .setURL(inviteLink),
+        .setURL(CONFIG.INVITE_URL),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel("Website")
-        .setURL(inviteLink),
+        .setURL(CONFIG.WEB_URL),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel("Support Server")
-        .setURL(inviteLink),
+        .setURL(CONFIG.SUPPORT_SERVER_URL),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel("Sponsor")
-        .setURL(inviteLink),
+        .setURL(CONFIG.SPONSOR_URL),
     );
 
     if (
