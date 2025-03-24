@@ -11,6 +11,7 @@ import {
 import { LogIn } from "lucide-react";
 import { authClient } from "@iflow/auth";
 import { toast } from "sonner";
+import Tos from "@/components/tos";
 
 export function SignInBtn({name, type}: {name?: string, type?: "default" | "secondary" | "outline" | "ghost"}) {
   const CALLBACK_URL = "https://www.indexflow.site/"
@@ -101,6 +102,9 @@ export function SignInBtn({name, type}: {name?: string, type?: "default" | "seco
             <Icons.gitHub className="fill-black dark:fill-white h-5 w-5" />
             <span className="px-10">Continue with GitHub</span>
           </Button>
+        </div>
+        <div>
+        <span>By signing-up you agree to our <span><Tos/></span>.</span>
         </div>
       </DialogContent>
     </Dialog>

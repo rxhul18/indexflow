@@ -16,9 +16,10 @@ import {
 import { Search, Menu, X, Sun, Moon } from "lucide-react";
 
 import { SignInBtn } from "./sign-up.btn";
-import UserBtn from "../user/user.btn";
 import Logo from "../logo";
 import SearchInputCommand from "./search.comp";
+import NotificationsComp from "@/components/notify";
+import ProfileBtn from "../user/profile.btn";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,10 +48,17 @@ export default function Header() {
           <SearchInputCommand />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
+        <div className="hidden md:flex">
+            {!loading && user ? <ProfileBtn pfp={user.image || ''} name={user.name || 'Guest'} /> : <SignInBtn />}
+          </div>
+          <div className="hidden md:flex">
+            {!loading && user && <NotificationsComp/>}
+          </div>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full">
+              <Button variant="outline" size="icon" className="rounded-full">
                 {theme === "dark" ? <Moon className="w-5" /> : <Sun className="w-5" />}
               </Button>
             </DropdownMenuTrigger>
@@ -69,10 +77,6 @@ export default function Header() {
           <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
-
-          <div className="hidden md:flex">
-            {!loading && user ? <UserBtn pfp={user.image || ''} name={user.name || 'Guest'} /> : <SignInBtn />}
-          </div>
         </div>
       </div>
 
@@ -95,7 +99,7 @@ export default function Header() {
               </Link>
             </nav>
             <div className="flex flex-col gap-2">
-              {!loading && user ? <UserBtn pfp={user.image || ''} name={user.name || 'Guest'} /> : <SignInBtn />}
+              {!loading && user ? <ProfileBtn pfp={user.image || ''} name={user.name || 'Guest'} /> : <SignInBtn />}
             </div>
           </div>
         </div>
