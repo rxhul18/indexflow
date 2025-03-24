@@ -38,7 +38,9 @@ export default {
     }
 
     if (!(message.channel instanceof ThreadChannel)) {
-      return message.reply("❌ | This command can only be used in thread channels.");
+      return message.reply(
+        "❌ | This command can only be used in thread channels.",
+      );
     }
 
     // If it's a text channel, ask for Question/Answer selection
@@ -102,51 +104,50 @@ export default {
             .setDisabled(true),
         );
 
-        if (interaction.customId === "index_question") {
-          
-          // Fetch thread channel
-    const threadChannel = message.channel as ThreadChannel;
-    // Fetch the first message in the thread (thread owner's message)
-    const firstMessage = await threadChannel.fetchStarterMessage();
-    if (!firstMessage) {
-      return interaction.reply({
-        content: "❌ | Couldn't fetch the thread owner's message.",
-        ephemeral: true,
-      });
-    }
+      if (interaction.customId === "index_question") {
+        // Fetch thread channel
+        const threadChannel = message.channel as ThreadChannel;
+        // Fetch the first message in the thread (thread owner's message)
+        const firstMessage = await threadChannel.fetchStarterMessage();
+        if (!firstMessage) {
+          return interaction.reply({
+            content: "❌ | Couldn't fetch the thread owner's message.",
+            ephemeral: true,
+          });
+        }
 
-          await indexQns({
-            id: firstMessage.id,
-            title: threadChannel.name,
-            author: firstMessage.author.id,
-            content: firstMessage.content,
-            server_id: firstMessage.guildId,
-            thread_id: threadChannel.id,
-            msg_url: firstMessage.url,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          });
-        
-          await interaction.editReply({
-            embeds: [
-              new EmbedBuilder()
-                .setColor(client.config.default_color)
-                .setDescription("✅ | Message indexed as a **Question**!"),
-            ],
-            components: [updatedActionRow],
-          });
+        await indexQns({
+          id: firstMessage.id,
+          title: threadChannel.name,
+          author: firstMessage.author.id,
+          content: firstMessage.content,
+          server_id: firstMessage.guildId,
+          thread_id: threadChannel.id,
+          msg_url: firstMessage.url,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+
+        await interaction.editReply({
+          embeds: [
+            new EmbedBuilder()
+              .setColor(client.config.default_color)
+              .setDescription("✅ | Message indexed as a **Question**!"),
+          ],
+          components: [updatedActionRow],
+        });
         // Perform the indexing action as a "Question" here
       } else if (interaction.customId === "index_answer") {
-      // Fetch thread channel
-    const threadChannel = message.channel as ThreadChannel;
-    // Fetch the first message in the thread (thread owner's message)
-    const firstMessage = await threadChannel.fetchStarterMessage();
-    if (!firstMessage) {
-      return interaction.reply({
-        content: "❌ | Couldn't fetch the thread owner's message.",
-        ephemeral: true,
-      });
-    }
+        // Fetch thread channel
+        const threadChannel = message.channel as ThreadChannel;
+        // Fetch the first message in the thread (thread owner's message)
+        const firstMessage = await threadChannel.fetchStarterMessage();
+        if (!firstMessage) {
+          return interaction.reply({
+            content: "❌ | Couldn't fetch the thread owner's message.",
+            ephemeral: true,
+          });
+        }
         await indexQns({
           id: firstMessage.id,
           title: threadChannel.name,
@@ -172,26 +173,29 @@ export default {
           updatedAt: new Date(),
         });
 
-         // Fetch all messages in the thread
-  const messages = await threadChannel.messages.fetch();
-  const filteredMessages = messages.filter(
-    (msg) => msg.id !== firstMessage.id && msg.id !== repliedMessage.id && !msg.author.bot
-  );
+        // Fetch all messages in the thread
+        const messages = await threadChannel.messages.fetch();
+        const filteredMessages = messages.filter(
+          (msg) =>
+            msg.id !== firstMessage.id &&
+            msg.id !== repliedMessage.id &&
+            !msg.author.bot,
+        );
 
-  // Index all other messages as answers
-  for (const msg of filteredMessages.values()) {
-    await indexAns({
-      id: msg.id,
-      author: msg.author.id,
-      content: msg.content,
-      qns_id: firstMessage.id,
-      server_id: msg.guildId,
-      thread_id: threadChannel.id,
-      msg_url: msg.url,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-  }
+        // Index all other messages as answers
+        for (const msg of filteredMessages.values()) {
+          await indexAns({
+            id: msg.id,
+            author: msg.author.id,
+            content: msg.content,
+            qns_id: firstMessage.id,
+            server_id: msg.guildId,
+            thread_id: threadChannel.id,
+            msg_url: msg.url,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          });
+        }
         await interaction.editReply({
           embeds: [
             new EmbedBuilder()

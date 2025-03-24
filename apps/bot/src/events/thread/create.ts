@@ -43,7 +43,6 @@ export default async function handleThreadCreate(
             .setStyle(ButtonStyle.Danger),
         );
 
-
         const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
             .setCustomId("mng_privacy")
