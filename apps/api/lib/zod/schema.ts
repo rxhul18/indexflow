@@ -74,6 +74,7 @@ const indexedAnsSchema = z.object({
   tldr: z.string().nullable().optional(),
   is_anon: z.boolean().optional(),
   is_nsfw: z.boolean().optional(),
+  is_correct: z.boolean().optional(),
   qns_id: z.string(),
   server_id: z.string(),
   thread_id: z.string(),

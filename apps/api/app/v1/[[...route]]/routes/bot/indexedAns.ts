@@ -77,6 +77,7 @@ const indexedAns = new Hono()
           server_id: body.server_id,
           msg_url: body.msg_url,
           thread_id: body.thread_id,
+          is_correct: body.is_correct,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

@@ -43,33 +43,12 @@ export default async function handleThreadCreate(
             .setStyle(ButtonStyle.Danger),
         );
 
-        const qOnlyEmbed = new EmbedBuilder()
-          .setTitle("Are you sure?")
-          .setDescription(
-            `Are you sure you just want to index this question only?\n` +
-              "***Reply to a message with `$index` to index your Question/Answer or both.***",
-          );
-
-        const qOnlyActRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
-          new ButtonBuilder()
-            .setCustomId("qonly_yes")
-            .setLabel("Yes")
-            .setStyle(ButtonStyle.Primary),
-          new ButtonBuilder()
-            .setCustomId("qonly_no")
-            .setLabel("No")
-            .setStyle(ButtonStyle.Danger),
-        );
 
         const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
             .setCustomId("mng_privacy")
             .setLabel("Manage Privacy")
             .setStyle(ButtonStyle.Secondary),
-          new ButtonBuilder()
-            .setCustomId("index_answer")
-            .setLabel("Index Question Only")
-            .setStyle(ButtonStyle.Primary),
           new ButtonBuilder()
             .setCustomId("index_dismiss")
             .setLabel("Dismiss")
@@ -96,13 +75,6 @@ export default async function handleThreadCreate(
               await interaction.reply({
                 embeds: [mngPembed],
                 components: [mngPactRow],
-                flags: 64,
-              });
-              break;
-            case "index_answer":
-              await interaction.reply({
-                embeds: [qOnlyEmbed],
-                components: [qOnlyActRow],
                 flags: 64,
               });
               break;

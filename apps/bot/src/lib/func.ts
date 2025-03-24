@@ -1,5 +1,5 @@
 import { CONFIG } from "../configs/config";
-import { ServerType } from "../types";
+import { IndexAnsType, IndexQnsType, ServerType } from "../types";
 
 const api = CONFIG.BOT_API_ENDPOINT;
 const bearer = CONFIG.BOT_BEARER_TOKEN;
@@ -34,4 +34,30 @@ async function getServerById(id: string) {
   return { success: true, data };
 }
 
-export { createServer, getServerById };
+async function indexQns(QnsData: IndexQnsType) {
+  const response = await fetch(`${api}/index/qns/create`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${bearer}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(QnsData),
+  });
+  const data = await response.json();
+  return data;
+}
+
+async function indexAns(AnsData: IndexAnsType) {
+  const response = await fetch(`${api}/index/ans/create`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${bearer}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(AnsData),
+  });
+  const data = await response.json();
+  return data;
+}
+
+export { createServer, getServerById, indexAns, indexQns };

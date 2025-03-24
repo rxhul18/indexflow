@@ -140,18 +140,19 @@ model IndexedQns {
 }
 
 model IndexedAns {
-  id        String   @id @default(uuid())
-  author    String
-  content   String
-  qns_id    String   @unique
-  tldr      String?
-  server_id String
-  thread_id String
-  msg_url   String
-  is_anon   Boolean  @default(false)
-  is_nsfw   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  author     String
+  content    String
+  qns_id     String
+  tldr       String?
+  server_id  String
+  thread_id  String
+  msg_url    String
+  is_correct Boolean  @default(false)
+  is_anon    Boolean  @default(false)
+  is_nsfw    Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
 
   @@unique([id])
   @@map("indexedAns")

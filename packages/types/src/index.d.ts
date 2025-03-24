@@ -75,6 +75,7 @@ export type IndexAnsType = {
     tldr?: string | null;
     is_anon?: boolean;
     is_nsfw?: boolean;
+    is_correct?: boolean;
     qns_id: string;
     server_id: string;
     thread_id: string;
