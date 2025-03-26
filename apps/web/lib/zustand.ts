@@ -1,4 +1,4 @@
-import { TagType, UserType } from '@iflow/types'
+import { TagType, UserType, ServerType } from '@iflow/types'
 import { create } from 'zustand'
 import { persist } from "zustand/middleware";
 
@@ -14,6 +14,13 @@ type UserStore = {
   addUser: (user: UserType) => void
   removeUser: (userId: string) => void
   setUsers: (users: UserType[]) => void
+}
+
+type ServerStore = {
+  servers: ServerType[]
+  addServer: (server: ServerType) => void
+  removeServer: (serverId: string) => void
+  setServers: (servers: ServerType[]) => void
 }
 
 const useTagsStore = create<TagStore>()(
@@ -42,4 +49,17 @@ const useUsersStore = create<UserStore>()(
   )
 )
 
-export { useTagsStore, useUsersStore }
+const useServersStore = create<ServerStore>()(
+  persist((set)=>({
+    servers: [],
+    addServer: (server)=> set((state)=>({servers:[...state.servers, server]})),
+    removeServer: (serverId) => set((state)=>({servers:state.servers.filter((s)=> s.id !== serverId)})),
+    setServers: (servers) => set({servers})
+  }),
+  {
+    name: "servers-storage"
+  }
+ )
+)
+
+export { useTagsStore, useUsersStore, useServersStore }

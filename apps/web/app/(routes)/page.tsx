@@ -5,10 +5,12 @@ import AllQuestions from "@/components/custom/all-questions";
 import { Suspense, useEffect, useState } from "react";
 import { JoinCommunityBtn } from "@/components/custom/join.community.btn";
 import { ServerType, TagType } from "@iflow/types";
+import { useServersStore, useTagsStore } from "@/lib/zustand";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
-  const [servers, setServers] = useState<ServerType[]>([]);
+  // const [servers, setServers] = useState<ServerType[]>([]);
+  const { servers, setServers, removeServer } = useServersStore();
   const [tags, setTags] = useState<TagType[]>([]);
   const [tagLoading, setTagLoading] = useState(false);
   const [skeleton, setSkeleton] = useState(false);
@@ -22,7 +24,9 @@ export default function Home() {
 
       const data = await fetch(SERVER_API_ENDPOINT);
       const response = await data.json();
-      setServers([...response?.servers, ...servers]);
+      if(response?.servers){
+        setServers(response.servers);
+      }
       setSkeleton(false);
     }
 
@@ -32,20 +36,19 @@ export default function Home() {
   }, [servers]);
 
 
-  useEffect(() => {
-    async function fetchTags() {
-      setTagLoading(true);
-      const data = await fetch(TAGS_API_ENDPOINT);
-      const response = await data.json();
-      setTags(response?.tags || []);
-      setTagLoading(false);
-    }
+  // useEffect(() => {
+  //   async function fetchTags() {
+  //     setTagLoading(true);
+  //     const data = await fetch(TAGS_API_ENDPOINT);
+  //     const response = await data.json();
+  //     setTags(response?.tags || []);
+  //     setTagLoading(false);
+  //   }
 
-    if (tags.length === 0) {
-      fetchTags();
-    }
-  }, [tags]);
-  
+  //   if (tags.length === 0) {
+  //     fetchTags();
+  //   }
+  // }, [tags]);
 
   return (
     <div className="flex w-full justify-center py-8">
@@ -53,7 +56,7 @@ export default function Home() {
         {/* TagName at the top for more space */}
         <div className="bg-card rounded-lg border p-4 w-full">
           <h2 className="text-xl font-semibold mb-4">Popular Tags</h2>
-          <TagName tags={tags} onTagSelect={setSelectedTag} isLoading={tagLoading} />
+          {/* <TagName tags={tags} onTagSelect={setSelectedTag} isLoading={tagLoading} /> */}
         </div>
 
         <div className="flex flex-col lg:flex-row gap-4">
