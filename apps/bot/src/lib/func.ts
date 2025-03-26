@@ -34,6 +34,23 @@ async function getServerById(id: string) {
   return { success: true, data };
 }
 
+async function getServerConfigById(id: string) {
+  const response = await fetch(`${api}/server/config/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${bearer}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (response.status !== 200) {
+    return { success: false, response };
+  }
+
+  const data = await response.json();
+  return { success: true, data };
+}
+
 async function indexQns(QnsData: IndexQnsType) {
   const response = await fetch(`${api}/index/qns/create`, {
     method: "POST",
@@ -60,4 +77,4 @@ async function indexAns(AnsData: IndexAnsType) {
   return data;
 }
 
-export { createServer, getServerById, indexAns, indexQns };
+export { createServer, getServerById, indexAns, indexQns, getServerConfigById };

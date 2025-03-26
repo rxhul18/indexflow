@@ -9,7 +9,7 @@ import {
   ButtonInteraction,
   ComponentType,
 } from "discord.js";
-import { indexAns, indexQns } from "../../lib/func";
+import { getServerConfigById, indexAns, indexQns } from "../../lib/func";
 
 export default {
   name: "index",
@@ -24,10 +24,17 @@ export default {
     if (!message.reference || !message.channel) {
       return message.reply("❌ | You need to reply to a message to index it!");
     }
+    // const isCommunity = guild.features.includes("COMMUNITY");
 
     const repliedMessage = await message.channel.messages.fetch(
       message.reference.messageId as string,
     );
+
+    const isConfig = await getServerConfigById(repliedMessage.guildId!)
+
+    if(!isConfig.success) {
+      return message.reply("❌ | Fuck Config.");
+    }
 
     if (!repliedMessage) {
       return message.reply("❌ | Couldn't find the replied message.");
