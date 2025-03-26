@@ -21,16 +21,15 @@ export default {
   run: async (
     client: Client & { config: { owner: string[] } },
     message: Message,
-) => {
+  ) => {
+    if (!isAuthorized(client, message)) {
+      return sendNotAllowedMessage(message);
+    }
 
-  if (!isAuthorized(client, message)) {
-    return sendNotAllowedMessage(message);
-  }
-
-  const isCommunity = message.guild?.features?.includes("COMMUNITY") || false;
-  if (!isCommunity) {
-    return sendNotComMessage(client, message);
-  }
+    const isCommunity = message.guild?.features?.includes("COMMUNITY") || false;
+    if (!isCommunity) {
+      return sendNotComMessage(client, message);
+    }
 
     const defaultEmbed = createConfigEmbed(client, message);
     const defaultActionRow = createConfigButtons();
@@ -45,7 +44,6 @@ export default {
     const successEmbed = createAutoConfigSuccessEmbed();
 
     if (message.channel instanceof TextChannel) {
-
       const sentMessage = await message.channel.send({
         embeds: [defaultEmbed],
         components: [defaultActionRow],
@@ -166,7 +164,7 @@ async function performConfigActions(
     try {
       configChannel = await guild.channels.create({
         name: "help",
-        type: 15 , // 15 = Forum, 0 = Text Channel
+        type: 15, // 15 = Forum, 0 = Text Channel
         reason:
           "Needed for content posting. From now you can index any message from this channel only.",
         permissionOverwrites: [
@@ -281,16 +279,18 @@ async function sendNotAllowedMessage(message: Message) {
 }
 
 async function sendNotComMessage(client: Client, message: Message) {
-  const em =  new EmbedBuilder()
+  const em = new EmbedBuilder()
     .setTitle("Enable Community!")
     .setDescription(
       "Your server needs to be a **COMMUNITY** to use this command. \n\n **Don't know how to enable it?** \n Follow these steps: click on -> `Server Name` -> `Server settings` -> `Enable community`",
     )
-    .setThumbnail(client.user?.avatarURL() || message.author.displayAvatarURL())
+    .setThumbnail(
+      client.user?.avatarURL() || message.author.displayAvatarURL(),
+    );
 
-    if (message.channel instanceof TextChannel) {
-      await message.channel.send({ embeds: [em] });
-    }
+  if (message.channel instanceof TextChannel) {
+    await message.channel.send({ embeds: [em] });
+  }
 }
 
 function createConfigEmbed(client: Client, message: Message) {

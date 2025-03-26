@@ -30,9 +30,9 @@ export default {
       message.reference.messageId as string,
     );
 
-    const isConfig = await getServerConfigById(repliedMessage.guildId!)
+    const isConfig = await getServerConfigById(repliedMessage.guildId!);
 
-    if(!isConfig.success) {
+    if (!isConfig.success) {
       return message.reply("❌ | Fuck Config.");
     }
 
