@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import React, { useEffect, useState } from "react";
 import { TagType } from "@iflow/types";
+import { useSearchParams, useRouter } from "next/navigation";
 
 interface TagsCompProps {
   tags: TagType[];
@@ -9,7 +10,9 @@ interface TagsCompProps {
 }
 
 export default function TagsComp({ tags, onTagSelect, isLoading }: TagsCompProps) {
-  const [tagName, setTagName] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [tagName, setTagName] = useState(searchParams.get("filter") || "");
 
   useEffect(() => {
     if (onTagSelect) {
@@ -18,7 +21,12 @@ export default function TagsComp({ tags, onTagSelect, isLoading }: TagsCompProps
   }, [tagName, onTagSelect]);
 
   const handleTagClick = (tag: string) => {
-    setTagName((prevTag) => (prevTag === tag ? "" : tag));
+    setTagName((prevTag) => {
+      const newTag = prevTag === tag ? "" : tag;
+      const newUrl = newTag ? `?filter=${newTag}` : "/";
+      router.push(newUrl, { scroll: false });
+      return newTag;
+    });
   };
 
   if (isLoading) {
