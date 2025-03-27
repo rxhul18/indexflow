@@ -1,7 +1,9 @@
+import { useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { TagType } from "@iflow/types";
-import { useSearchParams, useRouter } from "next/navigation";
 
 interface TagsCompProps {
   tags: TagType[];
@@ -10,9 +12,22 @@ interface TagsCompProps {
 }
 
 export default function TagsComp({ tags, onTagSelect, isLoading }: TagsCompProps) {
-  const searchParams = useSearchParams();
+
+  return (
+    <Suspense fallback={<div>Loading tags...</div>}>
+      <TagsCompContent tags={tags} onTagSelect={onTagSelect} isLoading={isLoading} />
+    </Suspense>
+  );
+}
+
+function TagsCompContent({ tags, onTagSelect, isLoading }: TagsCompProps) {
   const router = useRouter();
-  const [tagName, setTagName] = useState(searchParams.get("filter") || "");
+  const searchParams = useSearchParams();
+  const [tagName, setTagName] = useState("");
+
+  useEffect(() => {
+    setTagName(searchParams.get("filter") || "");
+  }, [searchParams]);
 
   useEffect(() => {
     if (onTagSelect) {

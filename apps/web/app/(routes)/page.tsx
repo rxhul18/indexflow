@@ -63,7 +63,7 @@ export default function Home() {
 
         <div className="flex flex-col lg:flex-row gap-4">
           <main className="flex-1 min-w-0 py-5">
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div className="text-center py-4">Loading questions...</div>}>
               <AllQuestions tagName="" selectedTag={selectedTag} />
             </Suspense>
           </main>

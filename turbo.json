@@ -13,6 +13,12 @@
       "outputs": ["dist/**", ".next/**"],
       "env": [".env*"]
     },
+    "web:build": {
+      "dependsOn": ["db:generate"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", ".next/**"],
+      "env": [".env*"]
+    },
     "db:generate": {
       "inputs": ["packages/database/prisma/schema.prisma", ".env*"],
       "outputs": ["node_modules/.prisma/**"],
