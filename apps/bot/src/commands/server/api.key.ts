@@ -7,6 +7,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from "discord.js";
+import { getServerConfigById } from "../../lib/func";
 
 export default {
   name: "api-key",
@@ -20,6 +21,14 @@ export default {
   ) => {
     const authorizedUsers = [...client.config.owner];
     const isSvOwner = message.author.id === message.guild?.ownerId;
+    const configId = message.guildId! + message.guild?.ownerId!;
+    const alreadyConfigured = await getServerConfigById(configId);
+    let apiEndpoint = null;
+    if (!alreadyConfigured.success) {
+      return sendNotConfigMessage(client, message);
+    } else {
+      apiEndpoint = alreadyConfigured.data?.config.qna_endpoint;
+    }
 
     const nAllowed = new EmbedBuilder().setDescription(
       "Sorry, this command contains sensitive data. You need to be the ``GUILD_OWNER`` to run this command.",
@@ -63,13 +72,27 @@ export default {
       collector.on("collect", async (interaction) => {
         if (!interaction.isButton()) return;
         const api = interaction.guild?.ownerId;
-        const svr = interaction.guildId;
 
         await interaction.reply({
-          content: `**🔑 API_KEY:** \`iflow_${api}\` \n\n **🔗 API_ENDPOINT:** \`https://api.indexflow.site/v1/data/${svr}\``,
+          content: `**🔑 API_KEY:** \`iflow_${api}\` \n\n **🔗 API_ENDPOINT:** \`${apiEndpoint}\``,
           flags: 64,
         });
       });
     }
   },
 };
+
+async function sendNotConfigMessage(client: Client, message: Message) {
+  const em = new EmbedBuilder()
+    .setTitle("Configure settings!")
+    .setDescription(
+      "Your server needs to be **CONFIGURED** first in order to use this command. \n\n **Don't know how to configure?** \n > Use `$configure` command.",
+    )
+    .setThumbnail(
+      client.user?.avatarURL() || message.author.displayAvatarURL(),
+    );
+
+  if (message.channel instanceof TextChannel) {
+    await message.channel.send({ embeds: [em] });
+  }
+}

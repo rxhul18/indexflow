@@ -55,11 +55,11 @@ const config = new Hono()
         configs.length > 0 ? configs[configs.length - 1].id : null;
       response = { nextCursor, configs };
 
-      console.log("Fetched server list from database (all)");
+      console.log("Fetched config list from database (all)");
       try {
         await cache.set(cacheKey, response, { ex: CACHE_EXPIRY });
       } catch (cacheError) {
-        console.error("Error storing server list in cache (all):", cacheError);
+        console.error("Error storing config list in cache (all):", cacheError);
       }
     }
 
@@ -111,7 +111,7 @@ const config = new Hono()
 
     try {
       const validateConfig = configSchema.parse(config);
-      return c.json({ user: validateConfig }, 200);
+      return c.json({ config: validateConfig }, 200);
     } catch (error) {
       if (error instanceof ZodError) {
         return c.json(
@@ -135,12 +135,14 @@ const config = new Hono()
         data: {
           id: body.id,
           server_id: body.server_id,
-          qna_channels: body.qna_channels,
-          qna_channel_webhooks: body.qna_channel_webhooks,
+          qna_channel: body.qna_channel,
+          qna_channel_webhook: body.qna_channel_webhook,
           qna_endpoint: body.qna_endpoint,
           mod_role: body.mod_role,
           log_channel: body.log_channel,
           log_channel_webhook: body.log_channel_webhook,
+          system_channel: body.system_channel,
+  system_channel_webhook: body.system_channel_webhook,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

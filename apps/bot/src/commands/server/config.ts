@@ -11,10 +11,11 @@ import {
   Guild,
   ThreadChannel,
 } from "discord.js";
+import { createServerConfig, getServerConfigById } from "../../lib/func";
 
 export default {
   name: "config",
-  aliases: ["set-up", "conf", "settings", "setup", "set"],
+  aliases: ["set-up", "conf", "settings", "setup", "set", "configure"],
   adminPermit: false,
   ownerPermit: false,
   cat: "server",
@@ -25,7 +26,7 @@ export default {
     if (!isAuthorized(client, message)) {
       return sendNotAllowedMessage(message);
     }
-
+    
     const isCommunity = message.guild?.features?.includes("COMMUNITY") || false;
     if (!isCommunity) {
       return sendNotComMessage(client, message);
@@ -73,30 +74,73 @@ export default {
   },
 };
 
+let qna_channel_id: string | null = null;
+let qna_channel_webhook: string | null = null;
+let qna_endpoint: string | null = null;
+let mod_role_id: string | null = null;
+let log_channel_id: string | null = null;
+let log_channel_webhook: string | null = null;
+let system_channel_id: string | null = null;
+let system_channel_webhook: string | null = null;
+
 // functions
 
 async function checkIfConfigExists(guild: Guild, client: Client) {
+  qna_endpoint =`https://api.indexflow.site/v1/data/${guild.id}`;
+  const alreadyConfigured = await getServerConfigById(guild.id + guild.ownerId);
+  if (alreadyConfigured.success) {
+    return true;
+  }
+
   try {
+    const systemChannel = guild.systemChannel;
+    if (systemChannel) {
+      system_channel_id = systemChannel.id;
+    };
+
     const configChannel = guild.channels.cache.find(
-      (ch) => ch.name.toLowerCase() === "help",
+      (ch) => ch.name.toLowerCase() === "help" && ch.type === 15,
     );
+    if (configChannel) {
+      qna_channel_id = configChannel.id;
+    };
+
     const loggingChannel = guild.channels.cache.find(
-      (ch) => ch.name.toLowerCase() === "iflow-logs",
+      (ch) => ch.name.toLowerCase() === "iflow-logs" && ch.type === 0,
     );
+    if (loggingChannel) {
+      log_channel_id = loggingChannel.id;
+    };
+
     const configRole = guild.roles.cache.find(
       (r) => r.name.toLowerCase() === "iflow-mod",
     );
+    if (configRole) {
+      mod_role_id = configRole.id;
+    };
 
     const webhooks = await guild.fetchWebhooks();
+
     const iFlowWebhook = webhooks.find(
       (wh) => wh.name.toLowerCase() === "iflow",
     );
+    if (iFlowWebhook) {
+      qna_channel_webhook = iFlowWebhook.url;
+    };
+
     const loggingWebhook = webhooks.find(
       (wh) => wh.name.toLowerCase() === "iflow logs",
     );
+    if (loggingWebhook) {
+      log_channel_webhook = loggingWebhook.url;
+    };
+
     const systemWebhook = webhooks.find(
       (wh) => wh.name.toLowerCase() === "iflow system",
     );
+    if (systemWebhook) {
+      system_channel_webhook = systemWebhook.url;
+    };
 
     if (
       !configRole ||
@@ -115,6 +159,21 @@ async function checkIfConfigExists(guild: Guild, client: Client) {
         !iFlowWebhook || !loggingWebhook || !systemWebhook ? true : false,
         !loggingChannel,
       );
+
+      await createServerConfig({
+        id: guild.id + guild.ownerId,
+        server_id: guild.id,
+        mod_role: mod_role_id,
+        qna_channel: qna_channel_id,
+        qna_channel_webhook: qna_channel_webhook,
+        qna_endpoint: qna_endpoint,
+        log_channel: log_channel_id,
+        log_channel_webhook: log_channel_webhook,
+        system_channel: system_channel_id,
+        system_channel_webhook: system_channel_webhook,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
     }
 
     return true;
@@ -138,6 +197,10 @@ async function performConfigActions(
   const isCommunity = guild.features.includes("COMMUNITY");
   const systemChannel = guild.systemChannel;
 
+  if(systemChannel) {
+    system_channel_id = systemChannel?.id;
+  }
+  
   if (role) {
     try {
       const configRole = await guild.roles.create({
@@ -152,8 +215,9 @@ async function performConfigActions(
           "ManageMessages",
         ],
       });
-      console.log("✅ Created role: ", configRole.name);
+      console.log("✅ Created role: ", `${configRole.name} - ${configRole.id}`);
       confRoleId = configRole.id;
+      mod_role_id = configRole.id;
       // return { configRole };
     } catch (error) {
       console.error("❌ Failed to create role:", error);
@@ -173,17 +237,18 @@ async function performConfigActions(
             allow: ["ViewChannel", "SendMessages", "ReadMessageHistory"],
             deny: ["MentionEveryone", "Administrator"],
           },
-          // {
-          //   id: confRoleId ?? "",
-          //   allow: ["ManageMessages", "ManageChannels"],
-          //   deny: ["MentionEveryone", "Administrator"],
-          // },
+          {
+            id: confRoleId ?? "",
+            allow: ["ManageMessages", "ManageChannels"],
+            deny: ["MentionEveryone", "Administrator"],
+          },
         ],
       });
       console.log(
         `✅ Created ${isCommunity ? "Forum" : "Text"} channel: `,
-        configChannel.name,
+        `${configChannel.name} - ${configChannel.id}`,
       );
+      qna_channel_id = configChannel.id;
       // return { configChannel };
     } catch (error) {
       console.error("❌ Failed to create channel:", error);
@@ -201,14 +266,15 @@ async function performConfigActions(
             id: guild.id,
             deny: ["ViewChannel"],
           },
-          // {
-          //   id: confRoleId ?? "",
-          //   allow: ["ViewChannel", "ManageMessages", "ManageChannels"],
-          //   deny: ["MentionEveryone", "Administrator"],
-          // },
+          {
+            id: confRoleId ?? "",
+            allow: ["ViewChannel", "ManageMessages", "ManageChannels"],
+            deny: ["MentionEveryone", "Administrator"],
+          },
         ],
       });
-      console.log(`✅ Created logging channel: `, logsChannel.name);
+      console.log(`✅ Created logging channel: `, `${logsChannel.name} - ${logsChannel.id}`);
+      log_channel_id = logsChannel.id;
     } catch (error) {
       console.error("❌ Failed to create logging channel:", error);
     }
@@ -226,6 +292,7 @@ async function performConfigActions(
         });
         configWebhookUrl = configWebhook.url;
         console.log("✅ Created webhook for configChannel:", configWebhookUrl);
+        qna_channel_webhook = configWebhookUrl;
       }
 
       let systemWebhookUrl = null;
@@ -237,6 +304,7 @@ async function performConfigActions(
         });
         systemWebhookUrl = systemWebhook.url;
         console.log("✅ Created webhook for systemChannel:", systemWebhookUrl);
+        system_channel_webhook = systemWebhookUrl;
       }
 
       let loggingWebhookUrl = null;
@@ -248,6 +316,7 @@ async function performConfigActions(
         });
         loggingWebhookUrl = loggingWebhook.url;
         console.log("✅ Created webhook for logsChannel:", loggingWebhookUrl);
+        log_channel_webhook = loggingWebhookUrl;
       }
 
       // return { configWebhookUrl, systemWebhookUrl };
@@ -282,7 +351,7 @@ async function sendNotComMessage(client: Client, message: Message) {
   const em = new EmbedBuilder()
     .setTitle("Enable Community!")
     .setDescription(
-      "Your server needs to be a **COMMUNITY** to use this command. \n\n **Don't know how to enable it?** \n Follow these steps: click on -> `Server Name` -> `Server settings` -> `Enable community`",
+      "Your server needs to be a **COMMUNITY** to use this command. \n\n **Don't know how to enable it?** \n > Follow these steps: click on -> `Server Name` -> `Server settings` -> `Enable community`",
     )
     .setThumbnail(
       client.user?.avatarURL() || message.author.displayAvatarURL(),

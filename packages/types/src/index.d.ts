@@ -30,12 +30,14 @@ export type ConfigType = {
     id: string;
     server_id: string;
     server?: ServerType;
-    qna_channels: string[];
-    qna_channel_webhooks: string[];
+    qna_channel: string | null;
+    qna_channel_webhook: string | null;
     qna_endpoint?: string | null;
     mod_role?: string | null;
     log_channel?: string | null;
     log_channel_webhook?: string | null;
+    system_channel?: string | null;
+  system_channel_webhook?: string | null;
     createdAt: Date | string;
     updatedAt: Date | string;
 };

@@ -81,7 +81,6 @@ model Server {
   config_id  String?
   logo       String?
   invite_url String
-  configs    Configs?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
 
@@ -90,17 +89,18 @@ model Server {
 }
 
 model Configs {
-  id                   String   @id @default(uuid())
-  server_id            String   @unique
-  server               Server?  @relation(fields: [server_id], references: [id], onDelete: Cascade)
-  qna_channels         String[]
-  qna_channel_webhooks String[]
-  qna_endpoint         String?
-  mod_role             String?
-  log_channel          String?
-  log_channel_webhook  String?
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @default(now())
+  id                     String   @id @default(uuid())
+  server_id              String   @unique
+  qna_channel            String?
+  qna_channel_webhook    String?
+  qna_endpoint           String?
+  mod_role               String?
+  log_channel            String?
+  log_channel_webhook    String?
+  system_channel         String?
+  system_channel_webhook String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @default(now())
 
   @@unique([id])
   @@map("configs")

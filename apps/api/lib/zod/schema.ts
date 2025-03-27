@@ -26,12 +26,14 @@ const serverSchema = z.object({
 const configSchema = z.object({
   id: z.string(),
   server_id: z.string(),
-  qna_channels: z.array(z.string()),
-  qna_channel_webhooks: z.array(z.string()),
+  qna_channel: z.string().nullable(),
+  qna_channel_webhook: z.string().nullable(),
   qna_endpoint: z.string().nullable().optional(),
   mod_role: z.string().nullable().optional(),
   log_channel: z.string().nullable().optional(),
   log_channel_webhook: z.string().nullable().optional(),
+  system_channel: z.string().nullable().optional(),
+  system_channel_webhook: z.string().nullable().optional(),
   createdAt: z.union([z.date(), z.string()]),
   updatedAt: z.union([z.date(), z.string()]),
 });
