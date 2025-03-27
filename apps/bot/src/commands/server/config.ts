@@ -26,7 +26,7 @@ export default {
     if (!isAuthorized(client, message)) {
       return sendNotAllowedMessage(message);
     }
-    
+
     const isCommunity = message.guild?.features?.includes("COMMUNITY") || false;
     if (!isCommunity) {
       return sendNotComMessage(client, message);
@@ -86,7 +86,7 @@ let system_channel_webhook: string | null = null;
 // functions
 
 async function checkIfConfigExists(guild: Guild, client: Client) {
-  qna_endpoint =`https://api.indexflow.site/v1/data/${guild.id}`;
+  qna_endpoint = `https://api.indexflow.site/v1/data/${guild.id}`;
   const alreadyConfigured = await getServerConfigById(guild.id + guild.ownerId);
   if (alreadyConfigured.success) {
     return true;
@@ -96,28 +96,28 @@ async function checkIfConfigExists(guild: Guild, client: Client) {
     const systemChannel = guild.systemChannel;
     if (systemChannel) {
       system_channel_id = systemChannel.id;
-    };
+    }
 
     const configChannel = guild.channels.cache.find(
       (ch) => ch.name.toLowerCase() === "help" && ch.type === 15,
     );
     if (configChannel) {
       qna_channel_id = configChannel.id;
-    };
+    }
 
     const loggingChannel = guild.channels.cache.find(
       (ch) => ch.name.toLowerCase() === "iflow-logs" && ch.type === 0,
     );
     if (loggingChannel) {
       log_channel_id = loggingChannel.id;
-    };
+    }
 
     const configRole = guild.roles.cache.find(
       (r) => r.name.toLowerCase() === "iflow-mod",
     );
     if (configRole) {
       mod_role_id = configRole.id;
-    };
+    }
 
     const webhooks = await guild.fetchWebhooks();
 
@@ -126,21 +126,21 @@ async function checkIfConfigExists(guild: Guild, client: Client) {
     );
     if (iFlowWebhook) {
       qna_channel_webhook = iFlowWebhook.url;
-    };
+    }
 
     const loggingWebhook = webhooks.find(
       (wh) => wh.name.toLowerCase() === "iflow logs",
     );
     if (loggingWebhook) {
       log_channel_webhook = loggingWebhook.url;
-    };
+    }
 
     const systemWebhook = webhooks.find(
       (wh) => wh.name.toLowerCase() === "iflow system",
     );
     if (systemWebhook) {
       system_channel_webhook = systemWebhook.url;
-    };
+    }
 
     if (
       !configRole ||
@@ -173,7 +173,7 @@ async function checkIfConfigExists(guild: Guild, client: Client) {
         system_channel_webhook: system_channel_webhook,
         createdAt: new Date(),
         updatedAt: new Date(),
-      })
+      });
     }
 
     return true;
@@ -197,10 +197,10 @@ async function performConfigActions(
   const isCommunity = guild.features.includes("COMMUNITY");
   const systemChannel = guild.systemChannel;
 
-  if(systemChannel) {
+  if (systemChannel) {
     system_channel_id = systemChannel?.id;
   }
-  
+
   if (role) {
     try {
       const configRole = await guild.roles.create({
@@ -273,7 +273,10 @@ async function performConfigActions(
           },
         ],
       });
-      console.log(`✅ Created logging channel: `, `${logsChannel.name} - ${logsChannel.id}`);
+      console.log(
+        `✅ Created logging channel: `,
+        `${logsChannel.name} - ${logsChannel.id}`,
+      );
       log_channel_id = logsChannel.id;
     } catch (error) {
       console.error("❌ Failed to create logging channel:", error);

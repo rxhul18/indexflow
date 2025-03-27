@@ -142,7 +142,7 @@ const config = new Hono()
           log_channel: body.log_channel,
           log_channel_webhook: body.log_channel_webhook,
           system_channel: body.system_channel,
-  system_channel_webhook: body.system_channel_webhook,
+          system_channel_webhook: body.system_channel_webhook,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

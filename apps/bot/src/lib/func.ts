@@ -90,4 +90,11 @@ async function indexAns(AnsData: IndexAnsType) {
   return data;
 }
 
-export { createServer, getServerById, indexAns, indexQns, createServerConfig, getServerConfigById };
+export {
+  createServer,
+  getServerById,
+  indexAns,
+  indexQns,
+  createServerConfig,
+  getServerConfigById,
+};
