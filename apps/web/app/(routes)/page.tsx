@@ -4,14 +4,15 @@ import TagName from "@/components/custom/tags.comp";
 import AllQuestions from "@/components/custom/all-questions";
 import { Suspense, useEffect, useState } from "react";
 import { JoinCommunityBtn } from "@/components/custom/join.community.btn";
-import { ServerType, TagType } from "@iflow/types";
+import { useServersStore, useTagsStore } from "@/lib/zustand";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
-  const [servers, setServers] = useState<ServerType[]>([]);
-  const [tags, setTags] = useState<TagType[]>([]);
+  const { servers, setServers } = useServersStore();
+  const { tags, setTags } = useTagsStore();
   const [tagLoading, setTagLoading] = useState(false);
   const [skeleton, setSkeleton] = useState(false);
+  const [hasAttemptedTagsFetch, setHasAttemptedTagsFetch] = useState(false);
 
   const SERVER_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server/all" : "https://api.indexflow.site/v1/bot/server/all";
   const TAGS_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/tag/all" : "https://api.indexflow.site/v1/bot/tag/all"; 
@@ -22,7 +23,9 @@ export default function Home() {
 
       const data = await fetch(SERVER_API_ENDPOINT);
       const response = await data.json();
-      setServers([...response?.servers, ...servers]);
+      if(response?.servers){
+        setServers(response.servers);
+      }
       setSkeleton(false);
     }
 
@@ -37,15 +40,17 @@ export default function Home() {
       setTagLoading(true);
       const data = await fetch(TAGS_API_ENDPOINT);
       const response = await data.json();
-      setTags(response?.tags || []);
+      if(response?.tags){
+        setTags(response.tags);
+      }
       setTagLoading(false);
+      setHasAttemptedTagsFetch(true);
     }
 
-    if (tags.length === 0) {
+    if (tags.length === 0 && !hasAttemptedTagsFetch ) {
       fetchTags();
     }
-  }, [tags]);
-  
+  }, [tags.length, hasAttemptedTagsFetch, setTags]);
 
   return (
     <div className="flex w-full justify-center py-8">

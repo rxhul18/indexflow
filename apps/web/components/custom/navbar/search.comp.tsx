@@ -3,26 +3,41 @@ import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import {
-  Calculator,
-  Calendar,
-  CreditCard,
-  Settings,
-  Smile,
-  User,
-} from "lucide-react"
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
+    CommandDialog,
+    CommandEmpty,
+    CommandInput,
+    CommandList,
+    CommandGroup,
+    CommandItem,
 } from "@/components/ui/command"
+import { useTagsStore, useUsersStore } from '@/lib/zustand';
+import { questions } from '@/json/dummy';
+import { useRouter } from "next/navigation";
+import { TagType, UserType } from '@iflow/types';
 
 export default function SearchInputCommand() {
     const [commandOpen, setCommandOpen] = useState(false);
+    const { users } = useUsersStore();
+    const { tags } = useTagsStore();
+    const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState<{ users: UserType[], tags: TagType[], questions: any[] }>({ users: [], tags: [], questions: [] });
+
+    useEffect(() => {
+        if (searchQuery.trim() === "") {
+            setSearchResults({ users: [], tags: [], questions: [] });
+            return;
+        }
+
+        const filteredUsers = users.filter(user => user.name.toLowerCase().includes(searchQuery.toLowerCase()));
+        const filteredTags = tags.filter(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
+        const filteredQuestions = questions.filter(q =>
+            q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            q.content.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        setSearchResults({ users: filteredUsers, tags: filteredTags, questions: filteredQuestions });
+    }, [searchQuery, users, tags, questions]);
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
@@ -31,6 +46,11 @@ export default function SearchInputCommand() {
                 setCommandOpen((open) => !open)
             }
         }
+        console.log({
+            tags: tags,
+            users: users,
+            questions: questions
+        })
         document.addEventListener("keydown", down)
         return () => document.removeEventListener("keydown", down)
     }, [])
@@ -53,41 +73,48 @@ export default function SearchInputCommand() {
                         </kbd>
                     </p>
                     <CommandDialog open={commandOpen} onOpenChange={(open) => setCommandOpen(open)}>
-                        <CommandInput placeholder="Type a command or search..." />
+                        <CommandInput placeholder="Type a command or search..." onValueChange={setSearchQuery} />
                         <CommandList>
                             <CommandEmpty>No results found.</CommandEmpty>
-                            <CommandGroup heading="Suggestions">
-                                <CommandItem>
-                                    <Calendar />
-                                    <span>Calendar</span>
-                                </CommandItem>
-                                <CommandItem>
-                                    <Smile />
-                                    <span>Search Emoji</span>
-                                </CommandItem>
-                                <CommandItem>
-                                    <Calculator />
-                                    <span>Calculator</span>
-                                </CommandItem>
-                            </CommandGroup>
-                            <CommandSeparator />
-                            <CommandGroup heading="Settings">
-                                <CommandItem>
-                                    <User />
-                                    <span>Profile</span>
-                                    <CommandShortcut>⌘P</CommandShortcut>
-                                </CommandItem>
-                                <CommandItem>
-                                    <CreditCard />
-                                    <span>Billing</span>
-                                    <CommandShortcut>⌘B</CommandShortcut>
-                                </CommandItem>
-                                <CommandItem>
-                                    <Settings />
-                                    <span>Settings</span>
-                                    <CommandShortcut>⌘S</CommandShortcut>
-                                </CommandItem>
-                            </CommandGroup>
+
+                            {searchResults.users.length > 0 && (
+                                <CommandGroup heading="Users">
+                                    {searchResults.users.map(user => (
+                                        <CommandItem
+                                            key={user.id}
+                                            className="cursor-pointer"
+                                            onSelect={() => {  // Use onSelect instead of onClick for better CommandItem handling
+                                                router.push(`/users`);
+                                                setCommandOpen(false);
+                                            }}
+                                        >
+                                            {user.name}
+                                        </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            )}
+
+                            {searchResults.tags.length > 0 && (
+                                <CommandGroup heading="Tags">
+                                    {searchResults.tags.map(tag => (
+                                        <CommandItem key={tag.id} className='cursor-pointer' onSelect={() => {
+                                            router.push(`/?filter=${tag.name}`);
+                                            setCommandOpen(false);
+                                        }}>{tag.name}</CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            )}
+
+                            {searchResults.questions.length > 0 && (
+                                <CommandGroup heading="Questions">
+                                    {searchResults.questions.map(q => (
+                                        <CommandItem key={q.id} className='cursor-pointer' onSelect={() => {
+                                            router.push(`/qs/${q.id}`);
+                                            setCommandOpen(false);
+                                        }}>{q.title}</CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            )}
                         </CommandList>
                     </CommandDialog>
                 </>

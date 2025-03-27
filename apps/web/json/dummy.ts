@@ -104,7 +104,7 @@ export const questions = [
   },
   {
     id: "8",
-    title: "Best practices for handling API routes in Next.js App Router",
+    title: "Best practices for handling API routes in React.js with React/App Router",
     content:
       "I'm migrating from Pages Router to App Router and I'm confused about how to properly structure my API routes now...",
     tags: ["next.js", "api", "app-router"],
@@ -234,267 +234,267 @@ export const questions = [
   },
 ];
 
-export const popularTags = [
-  { name: "javascript", count: 1254 },
-  { name: "react", count: 982 },
-  { name: "next.js", count: 753 },
-  { name: "node.js", count: 621 },
-  { name: "typescript", count: 587 },
-  { name: "css", count: 432 },
-  { name: "tailwind", count: 398 },
-  { name: "api", count: 321 },
-  { name: "database", count: 287 },
-  { name: "authentication", count: 254 },
-];
+// export const popularTags = [
+//   { name: "javascript", count: 1254 },
+//   { name: "react", count: 982 },
+//   { name: "next.js", count: 753 },
+//   { name: "node.js", count: 621 },
+//   { name: "typescript", count: 587 },
+//   { name: "css", count: 432 },
+//   { name: "tailwind", count: 398 },
+//   { name: "api", count: 321 },
+//   { name: "database", count: 287 },
+//   { name: "authentication", count: 254 },
+// ];
 
-export const communities = [
-  {
-    id: "1",
-    name: "React Devs",
-    description: "A community for React developers.",
-    img: "https://avatar.vercel.sh/jane",
-  },
-  {
-    id: "2",
-    name: "Next.js Enthusiasts",
-    description: "All about Next.js.",
-    img: "https://avatar.vercel.sh/jack",
-  },
-  {
-    id: "3",
-    name: "Tailwind CSS Wizards",
-    description: "Mastering Tailwind CSS.",
-    img: "https://avatar.vercel.sh/jill",
-  },
-  {
-    id: "4",
-    name: "React Devs",
-    description: "A community for React developers.",
-    img: "https://avatar.vercel.sh/jane",
-  },
-  {
-    id: "5",
-    name: "Next.js Enthusiasts",
-    description: "All about Next.js.",
-    img: "https://avatar.vercel.sh/jack",
-  },
-  {
-    id: "6",
-    name: "Tailwind CSS Wizards",
-    description: "Mastering Tailwind CSS.",
-    img: "https://avatar.vercel.sh/jill",
-  },
-  {
-    id: "7",
-    name: "React Devs",
-    description: "A community for React developers.",
-    img: "https://avatar.vercel.sh/jane",
-  },
-  {
-    id: "8",
-    name: "Next.js Enthusiasts",
-    description: "All about Next.js.",
-    img: "https://avatar.vercel.sh/jack",
-  },
-  {
-    id: "9",
-    name: "Tailwind CSS Wizards",
-    description: "Mastering Tailwind CSS.",
-    img: "https://avatar.vercel.sh/jill",
-  },
-  {
-    id: "10",
-    name: "React Devs",
-    description: "A community for React developers.",
-    img: "https://avatar.vercel.sh/jane",
-  },
-  {
-    id: "11",
-    name: "Next.js Enthusiasts",
-    description: "All about Next.js.",
-    img: "https://avatar.vercel.sh/jack",
-  },
-  {
-    id: "12",
-    name: "Tailwind CSS Wizards",
-    description: "Mastering Tailwind CSS.",
-    img: "https://avatar.vercel.sh/jill",
-  },
-];
+// export const communities = [
+//   {
+//     id: "1",
+//     name: "React Devs",
+//     description: "A community for React developers.",
+//     img: "https://avatar.vercel.sh/jane",
+//   },
+//   {
+//     id: "2",
+//     name: "Next.js Enthusiasts",
+//     description: "All about Next.js.",
+//     img: "https://avatar.vercel.sh/jack",
+//   },
+//   {
+//     id: "3",
+//     name: "Tailwind CSS Wizards",
+//     description: "Mastering Tailwind CSS.",
+//     img: "https://avatar.vercel.sh/jill",
+//   },
+//   {
+//     id: "4",
+//     name: "React Devs",
+//     description: "A community for React developers.",
+//     img: "https://avatar.vercel.sh/jane",
+//   },
+//   {
+//     id: "5",
+//     name: "Next.js Enthusiasts",
+//     description: "All about Next.js.",
+//     img: "https://avatar.vercel.sh/jack",
+//   },
+//   {
+//     id: "6",
+//     name: "Tailwind CSS Wizards",
+//     description: "Mastering Tailwind CSS.",
+//     img: "https://avatar.vercel.sh/jill",
+//   },
+//   {
+//     id: "7",
+//     name: "React Devs",
+//     description: "A community for React developers.",
+//     img: "https://avatar.vercel.sh/jane",
+//   },
+//   {
+//     id: "8",
+//     name: "Next.js Enthusiasts",
+//     description: "All about Next.js.",
+//     img: "https://avatar.vercel.sh/jack",
+//   },
+//   {
+//     id: "9",
+//     name: "Tailwind CSS Wizards",
+//     description: "Mastering Tailwind CSS.",
+//     img: "https://avatar.vercel.sh/jill",
+//   },
+//   {
+//     id: "10",
+//     name: "React Devs",
+//     description: "A community for React developers.",
+//     img: "https://avatar.vercel.sh/jane",
+//   },
+//   {
+//     id: "11",
+//     name: "Next.js Enthusiasts",
+//     description: "All about Next.js.",
+//     img: "https://avatar.vercel.sh/jack",
+//   },
+//   {
+//     id: "12",
+//     name: "Tailwind CSS Wizards",
+//     description: "Mastering Tailwind CSS.",
+//     img: "https://avatar.vercel.sh/jill",
+//   },
+// ];
 
-export const users = [
-  {
-    id: 17,
-    name: "Cloud Coder",
-    location: "Australia",
-    reputation: "110",
-    tags: ["aws", "devops", "kubernetes"],
-    avatarBg: "bg-green-200",
-    lastActive: "2025-03-06T16:00:00Z", // Within last 7 days
-    createdAt: "2025-03-01T12:30:00Z", // Within last 7 days
-  },
-  {
-    id: 1,
-    name: "VonC",
-    location: "France",
-    reputation: "320",
-    tags: ["git", "github", "docker"],
-    avatar: "/placeholder.svg?height=48&width=48",
-    avatarBg: "bg-blue-100",
-    lastActive: "2024-03-09T12:15:00Z", // Within last 7 days
-    createdAt: "2023-07-10T09:00:00Z",
-  },
-  {
-    id: 11,
-    name: "rozsazoltan",
-    location: "Hungary",
-    reputation: "140",
-    tags: ["tailwind-css", "javascript", "css"],
-    avatar: "/placeholder.svg?height=48&width=48",
-    avatarBg: "bg-gray-100",
-    lastActive: "2024-03-03T07:15:00Z",
-    createdAt: "2023-12-15T09:30:00Z",
-  },
-  {
-    id: 2,
-    name: "Halo",
-    location: "USA",
-    reputation: "280",
-    tags: ["three.js", "javascript", "css"],
-    avatarBg: "bg-purple-100",
-    lastActive: "2024-03-07T18:45:00Z", // Within last 7 days
-    createdAt: "2024-03-06T14:30:00Z", // Within last 7 days
-  },
-  {
-    id: 3,
-    name: "Sweeper",
-    location: "UK",
-    reputation: "246",
-    tags: ["swift", "java", "c#"],
-    avatarBg: "bg-gray-100",
-    lastActive: "2024-01-10T16:10:00Z",
-    createdAt: "2023-11-15T08:00:00Z",
-  },
-  {
-    id: 4,
-    name: "Jon Skeet",
-    location: "Reading, United Kingdom",
-    reputation: "230",
-    tags: ["c#", "java", ".net"],
-    avatar: "/placeholder.svg?height=48&width=48",
-    avatarBg: "bg-gray-100",
-    lastActive: "2024-03-05T10:20:00Z",
-    createdAt: "2023-06-30T07:45:00Z",
-  },
-  {
-    id: 5,
-    name: "Yus",
-    location: "",
-    reputation: "200",
-    tags: ["html", "css", "python-3.x"],
-    avatarBg: "bg-pink-100",
-    lastActive: "2024-03-08T22:30:00Z", // Within last 7 days
-    createdAt: "2024-03-04T11:50:00Z", // Within last 7 days
-  },
-  {
-    id: 15,
-    name: "AI Whisperer",
-    location: "Canada",
-    reputation: "118",
-    tags: ["machine-learning", "python", "tensorflow"],
-    avatarBg: "bg-indigo-100",
-    lastActive: "2025-03-10T08:45:00Z", // Within last 7 days
-    createdAt: "2025-03-05T14:00:00Z", // Within last 7 days
-  },
-  {
-    id: 6,
-    name: "BmyGuest",
-    location: "",
-    reputation: "160",
-    tags: ["dm-script", "c++", "mfc"],
-    avatarBg: "bg-gray-100",
-    lastActive: "2024-02-15T14:00:00Z",
-    createdAt: "2023-07-20T13:15:00Z",
-  },
-  {
-    id: 7,
-    name: "Ahmed AEK",
-    location: "",
-    reputation: "159",
-    tags: ["python", "c++", "multithreading"],
-    avatarBg: "bg-green-100",
-    lastActive: "2024-03-09T09:40:00Z", // Within last 7 days
-    createdAt: "2023-09-10T17:25:00Z",
-  },
-  {
-    id: 8,
-    name: "Naren Murali",
-    location: "Chennai, Tamil Nadu, India",
-    reputation: "158",
-    tags: ["angular", "javascript", "typescript"],
-    avatarBg: "bg-pink-100",
-    lastActive: "2024-03-08T21:15:00Z", // Within last 7 days
-    createdAt: "2023-12-01T10:10:00Z",
-  },
-  {
-    id: 9,
-    name: "AmerlicA",
-    location: "Shāhi, Māzandarān Province, Iran",
-    reputation: "145",
-    tags: ["javascript", "reactjs", "react-native"],
-    avatar: "/placeholder.svg?height=48&width=48",
-    avatarBg: "bg-gray-100",
-    lastActive: "2024-02-22T13:30:00Z",
-    createdAt: "2023-09-15T12:00:00Z",
-  },
-  {
-    id: 10,
-    name: "dbush",
-    location: "New Jersey",
-    reputation: "143",
-    tags: ["c", "pointers", "c++"],
-    avatarBg: "bg-yellow-100",
-    lastActive: "2024-01-28T16:50:00Z",
-    createdAt: "2023-10-10T08:40:00Z",
-  },
-  {
-    id: 12,
-    name: "Sebastian Redl",
-    location: "",
-    reputation: "135",
-    tags: ["c++", "c++11", "rust"],
-    avatarBg: "bg-teal-100",
-    lastActive: "2024-01-15T14:20:00Z",
-    createdAt: "2023-12-05T11:55:00Z",
-  },
-  {
-    id: 13,
-    name: "Lara Dev",
-    location: "Germany",
-    reputation: "125",
-    tags: ["laravel", "php", "mysql"],
-    avatarBg: "bg-orange-100",
-    lastActive: "2025-03-09T14:10:00Z", // Within last 7 days
-    createdAt: "2025-03-04T09:30:00Z", // Within last 7 days
-  },
-  {
-    id: 14,
-    name: "Xavier Code",
-    location: "Spain",
-    reputation: "122",
-    tags: ["vue.js", "nuxt", "javascript"],
-    avatarBg: "bg-red-100",
-    lastActive: "2025-03-08T17:20:00Z", // Within last 7 days
-    createdAt: "2024-03-03T07:15:00Z",
-  },
-  {
-    id: 16,
-    name: "React Wizard",
-    location: "India",
-    reputation: "115",
-    tags: ["react", "next.js", "redux"],
-    avatarBg: "bg-blue-200",
-    lastActive: "2025-03-07T20:30:00Z", // Within last 7 days
-    createdAt: "2024-03-03T07:15:00Z",
-  },
-];
+// export const users = [
+//   {
+//     id: 17,
+//     name: "Cloud Coder",
+//     location: "Australia",
+//     reputation: "110",
+//     tags: ["aws", "devops", "kubernetes"],
+//     avatarBg: "bg-green-200",
+//     lastActive: "2025-03-06T16:00:00Z", // Within last 7 days
+//     createdAt: "2025-03-01T12:30:00Z", // Within last 7 days
+//   },
+//   {
+//     id: 1,
+//     name: "VonC",
+//     location: "France",
+//     reputation: "320",
+//     tags: ["git", "github", "docker"],
+//     avatar: "/placeholder.svg?height=48&width=48",
+//     avatarBg: "bg-blue-100",
+//     lastActive: "2024-03-09T12:15:00Z", // Within last 7 days
+//     createdAt: "2023-07-10T09:00:00Z",
+//   },
+//   {
+//     id: 11,
+//     name: "rozsazoltan",
+//     location: "Hungary",
+//     reputation: "140",
+//     tags: ["tailwind-css", "javascript", "css"],
+//     avatar: "/placeholder.svg?height=48&width=48",
+//     avatarBg: "bg-gray-100",
+//     lastActive: "2024-03-03T07:15:00Z",
+//     createdAt: "2023-12-15T09:30:00Z",
+//   },
+//   {
+//     id: 2,
+//     name: "Halo",
+//     location: "USA",
+//     reputation: "280",
+//     tags: ["three.js", "javascript", "css"],
+//     avatarBg: "bg-purple-100",
+//     lastActive: "2024-03-07T18:45:00Z", // Within last 7 days
+//     createdAt: "2024-03-06T14:30:00Z", // Within last 7 days
+//   },
+//   {
+//     id: 3,
+//     name: "Sweeper",
+//     location: "UK",
+//     reputation: "246",
+//     tags: ["swift", "java", "c#"],
+//     avatarBg: "bg-gray-100",
+//     lastActive: "2024-01-10T16:10:00Z",
+//     createdAt: "2023-11-15T08:00:00Z",
+//   },
+//   {
+//     id: 4,
+//     name: "Jon Skeet",
+//     location: "Reading, United Kingdom",
+//     reputation: "230",
+//     tags: ["c#", "java", ".net"],
+//     avatar: "/placeholder.svg?height=48&width=48",
+//     avatarBg: "bg-gray-100",
+//     lastActive: "2024-03-05T10:20:00Z",
+//     createdAt: "2023-06-30T07:45:00Z",
+//   },
+//   {
+//     id: 5,
+//     name: "Yus",
+//     location: "",
+//     reputation: "200",
+//     tags: ["html", "css", "python-3.x"],
+//     avatarBg: "bg-pink-100",
+//     lastActive: "2024-03-08T22:30:00Z", // Within last 7 days
+//     createdAt: "2024-03-04T11:50:00Z", // Within last 7 days
+//   },
+//   {
+//     id: 15,
+//     name: "AI Whisperer",
+//     location: "Canada",
+//     reputation: "118",
+//     tags: ["machine-learning", "python", "tensorflow"],
+//     avatarBg: "bg-indigo-100",
+//     lastActive: "2025-03-10T08:45:00Z", // Within last 7 days
+//     createdAt: "2025-03-05T14:00:00Z", // Within last 7 days
+//   },
+//   {
+//     id: 6,
+//     name: "BmyGuest",
+//     location: "",
+//     reputation: "160",
+//     tags: ["dm-script", "c++", "mfc"],
+//     avatarBg: "bg-gray-100",
+//     lastActive: "2024-02-15T14:00:00Z",
+//     createdAt: "2023-07-20T13:15:00Z",
+//   },
+//   {
+//     id: 7,
+//     name: "Ahmed AEK",
+//     location: "",
+//     reputation: "159",
+//     tags: ["python", "c++", "multithreading"],
+//     avatarBg: "bg-green-100",
+//     lastActive: "2024-03-09T09:40:00Z", // Within last 7 days
+//     createdAt: "2023-09-10T17:25:00Z",
+//   },
+//   {
+//     id: 8,
+//     name: "Naren Murali",
+//     location: "Chennai, Tamil Nadu, India",
+//     reputation: "158",
+//     tags: ["angular", "javascript", "typescript"],
+//     avatarBg: "bg-pink-100",
+//     lastActive: "2024-03-08T21:15:00Z", // Within last 7 days
+//     createdAt: "2023-12-01T10:10:00Z",
+//   },
+//   {
+//     id: 9,
+//     name: "AmerlicA",
+//     location: "Shāhi, Māzandarān Province, Iran",
+//     reputation: "145",
+//     tags: ["javascript", "reactjs", "react-native"],
+//     avatar: "/placeholder.svg?height=48&width=48",
+//     avatarBg: "bg-gray-100",
+//     lastActive: "2024-02-22T13:30:00Z",
+//     createdAt: "2023-09-15T12:00:00Z",
+//   },
+//   {
+//     id: 10,
+//     name: "dbush",
+//     location: "New Jersey",
+//     reputation: "143",
+//     tags: ["c", "pointers", "c++"],
+//     avatarBg: "bg-yellow-100",
+//     lastActive: "2024-01-28T16:50:00Z",
+//     createdAt: "2023-10-10T08:40:00Z",
+//   },
+//   {
+//     id: 12,
+//     name: "Sebastian Redl",
+//     location: "",
+//     reputation: "135",
+//     tags: ["c++", "c++11", "rust"],
+//     avatarBg: "bg-teal-100",
+//     lastActive: "2024-01-15T14:20:00Z",
+//     createdAt: "2023-12-05T11:55:00Z",
+//   },
+//   {
+//     id: 13,
+//     name: "Lara Dev",
+//     location: "Germany",
+//     reputation: "125",
+//     tags: ["laravel", "php", "mysql"],
+//     avatarBg: "bg-orange-100",
+//     lastActive: "2025-03-09T14:10:00Z", // Within last 7 days
+//     createdAt: "2025-03-04T09:30:00Z", // Within last 7 days
+//   },
+//   {
+//     id: 14,
+//     name: "Xavier Code",
+//     location: "Spain",
+//     reputation: "122",
+//     tags: ["vue.js", "nuxt", "javascript"],
+//     avatarBg: "bg-red-100",
+//     lastActive: "2025-03-08T17:20:00Z", // Within last 7 days
+//     createdAt: "2024-03-03T07:15:00Z",
+//   },
+//   {
+//     id: 16,
+//     name: "React Wizard",
+//     location: "India",
+//     reputation: "115",
+//     tags: ["react", "next.js", "redux"],
+//     avatarBg: "bg-blue-200",
+//     lastActive: "2025-03-07T20:30:00Z", // Within last 7 days
+//     createdAt: "2024-03-03T07:15:00Z",
+//   },
+// ];

@@ -6,20 +6,21 @@ import { Search } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { subDays, parseISO } from "date-fns";
 import UserGrid from "./usercard";
-import { UserType as User } from "@iflow/types";
+import { useUsersStore } from "@/lib/zustand";
 
 export default function UsersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [userTypeFilter, setUserTypeFilter] = useState("all");
   const API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/user/public" : "https://api.indexflow.site/v1/user/public";
-
-  const [users, setUsers] = useState<User[]>([]);
+  const { users, setUsers } = useUsersStore();
   useEffect(() => {
     async function fetchServers() {
       const data = await fetch(API_ENDPOINT);
       const response = await data.json();
       console.log("users", response);
-      setUsers([...response?.users, ...users]);
+      if (response?.users) {
+        setUsers(response.users);
+      }
     }
 
     if (users.length === 0) {

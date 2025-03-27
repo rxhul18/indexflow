@@ -21,7 +21,7 @@ export default function QuestionsList({
 
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState(searchParams.get("sort") || "newest");
-  const [tagFil, setTagFil] = useState(selectedTag || tagName || "");
+  const [tagFil, setTagFil] = useState(searchParams.get("filter") || selectedTag || tagName || "");
   const [searchQuery, setSearchQuery] = useState("");
 
   const questionsPerPage = 5;
@@ -29,8 +29,12 @@ export default function QuestionsList({
   const lastQuestionElementRef = useRef(null);
 
   useEffect(() => {
-    setTagFil(selectedTag || tagName || "");
-  }, [selectedTag, tagName]);
+    const urlTag = searchParams.get("filter");
+    setTagFil(urlTag || selectedTag || tagName || "");
+    if (urlTag || selectedTag || tagName) {
+      router.push(`?filter=${urlTag || selectedTag || tagName}`, { scroll: false });
+    }
+  }, [selectedTag, tagName, searchParams, router]);
 
   const getSortedQuestions = () => {
     let filteredQuestions = questions;
