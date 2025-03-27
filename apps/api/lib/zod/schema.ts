@@ -109,5 +109,5 @@ export {
   indexedQnsSchema,
   configSchema,
   serverAPISchema,
-  anonProfileSchema
+  anonProfileSchema,
 };

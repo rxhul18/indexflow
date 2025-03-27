@@ -10,12 +10,14 @@ const CACHE_EXPIRY = 69;
 
 const profile = new Hono()
 
-.get("/all", zValidator("query", paginationSchema), async (c) => {
+  .get("/all", zValidator("query", paginationSchema), async (c) => {
     const { cursor, take } = c.req.valid("query");
     const cacheKey = `profile:all:${cursor || "start"}:${take}`;
 
-    let response: { nextCursor: string | null; profile: AnonProfileType[] } | null =
-      null;
+    let response: {
+      nextCursor: string | null;
+      profile: AnonProfileType[];
+    } | null = null;
 
     try {
       const cachedData = await cache.get<{
