@@ -1,4 +1,3 @@
-
 export type UserType = {
     id: string;
     name: string;
@@ -37,7 +36,7 @@ export type ConfigType = {
     log_channel?: string | null;
     log_channel_webhook?: string | null;
     system_channel?: string | null;
-  system_channel_webhook?: string | null;
+    system_channel_webhook?: string | null;
     createdAt: Date | string;
     updatedAt: Date | string;
 };
@@ -94,6 +93,16 @@ export type UserPubType = {
     active: Date | null;
     reputation: string | null;
     recentTags: string[] | null;
+    createdAt: Date | string;
+    updatedAt: Date | string;
+};
+
+export type AnonProfileType = {
+    id: string;
+    name: string;
+    pfp?: string | null;
+    uid?: string | null;
+    dc_uid?: string | null;
     createdAt: Date | string;
     updatedAt: Date | string;
 };

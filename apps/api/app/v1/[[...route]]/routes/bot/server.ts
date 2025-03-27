@@ -133,7 +133,7 @@ const server = new Hono()
 
     try {
       const validatedServer = serverSchema.parse(server);
-      return c.json({ user: validatedServer }, 200);
+      return c.json({ server: validatedServer }, 200);
     } catch (error) {
       if (error instanceof ZodError) {
         return c.json(

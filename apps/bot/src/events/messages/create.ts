@@ -8,7 +8,7 @@ export default async function handleMessageCreate(
 
     const noprefixUsers = [...client.config.owner, ...client.config.noprefix];
 
-    const prefix = client.config?.prefix || "<@1346709873412407319>";
+    const prefix = client.config?.prefix;
     // Check if the message starts with the prefix, or if the author is not noprefix user.
     if (
       !message.content.startsWith(prefix) &&

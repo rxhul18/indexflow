@@ -12,6 +12,8 @@ import data from "./routes/data";
 import config from "./routes/bot/config";
 import { logger } from "hono/logger";
 import questions from "./routes/questions";
+import profile from "./routes/bot/profile";
+import ping from "./routes/ping";
 
 export const runtime = "edge";
 const app = new Hono().basePath("/v1");
@@ -44,6 +46,9 @@ app.route("/bot/tag", tag);
 app.route("/bot/index/qns", indexedQns);
 app.route("/bot/index/ans", indexedAns);
 
+app.route("/bot/profile", profile);
+
+app.route("/ping", ping);
 app.route("/user", user);
 app.route("/data", data);
 app.route("/questions", questions);

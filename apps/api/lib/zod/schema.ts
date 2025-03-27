@@ -42,6 +42,16 @@ const serverAPISchema = z.object({
   api_key: z.string(),
 });
 
+const anonProfileSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  pfp: z.string().nullable().optional(),
+  uid: z.string().nullable().optional(),
+  dc_uid: z.string().nullable().optional(),
+  createdAt: z.union([z.date(), z.string()]),
+  updatedAt: z.union([z.date(), z.string()]),
+});
+
 const tagSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -99,4 +109,5 @@ export {
   indexedQnsSchema,
   configSchema,
   serverAPISchema,
+  anonProfileSchema
 };
