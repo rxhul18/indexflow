@@ -12,6 +12,7 @@ export default function Home() {
   const { tags, setTags } = useTagsStore();
   const [tagLoading, setTagLoading] = useState(false);
   const [skeleton, setSkeleton] = useState(false);
+  const [hasAttemptedTagsFetch, setHasAttemptedTagsFetch] = useState(false);
 
   const SERVER_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server/all" : "https://api.indexflow.site/v1/bot/server/all";
   const TAGS_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/tag/all" : "https://api.indexflow.site/v1/bot/tag/all"; 
@@ -43,12 +44,13 @@ export default function Home() {
         setTags(response.tags);
       }
       setTagLoading(false);
+      setHasAttemptedTagsFetch(true);
     }
 
-    if (tags.length === 0) {
+    if (tags.length === 0 && !hasAttemptedTagsFetch ) {
       fetchTags();
     }
-  }, [tags]);
+  }, [tags.length, hasAttemptedTagsFetch, setTags]);
 
   return (
     <div className="flex w-full justify-center py-8">
