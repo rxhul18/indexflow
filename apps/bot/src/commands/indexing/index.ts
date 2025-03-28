@@ -24,7 +24,6 @@ export default {
     if (!message.reference || !message.channel) {
       return message.reply("❌ | You need to reply to a message to index it!");
     }
-    // const isCommunity = guild.features.includes("COMMUNITY");
 
     const repliedMessage = await message.channel.messages.fetch(
       message.reference.messageId as string,
@@ -32,9 +31,9 @@ export default {
 
     const isConfig = await getServerConfigById(repliedMessage.guildId!);
 
-    if (!isConfig.success) {
-      return message.reply("❌ | Fuck Config.");
-    }
+    // if (!isConfig.success) {
+    //   return message.reply("❌ | Fuck Config.");
+    // }
 
     if (!repliedMessage) {
       return message.reply("❌ | Couldn't find the replied message.");
@@ -60,7 +59,7 @@ export default {
     const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setCustomId("index_question")
-        .setLabel("Index as Question")
+        .setLabel("Index the Question")
         .setStyle(ButtonStyle.Primary),
       new ButtonBuilder()
         .setCustomId("index_answer")
@@ -96,7 +95,7 @@ export default {
         new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
             .setCustomId("index_question")
-            .setLabel("Index as Question")
+            .setLabel("Index the Question")
             .setStyle(ButtonStyle.Primary)
             .setDisabled(true),
           new ButtonBuilder()

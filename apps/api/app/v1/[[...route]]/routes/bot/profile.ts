@@ -5,6 +5,7 @@ import { cache } from "@iflow/cache";
 import { prisma } from "@iflow/db";
 import { AnonProfileType } from "@iflow/types";
 import { Hono } from "hono";
+import { ZodError } from "zod";
 
 const CACHE_EXPIRY = 69;
 
@@ -69,6 +70,66 @@ const profile = new Hono()
 
   .use(checkBot)
 
+  .get("/:id", async (c) => {
+    const userId = c.req.param("id");
+
+    if (!userId) {
+      return c.json({
+        message: "User ID is required",
+        status: 400,
+      });
+    }
+
+    const cacheKey = `profile:${userId}`;
+    let profile: unknown = null;
+
+    try {
+      const cachedData = await cache.get(cacheKey);
+      if (cachedData) {
+        profile = cachedData;
+        console.log("Returned profile data from cache (by ID)");
+      }
+    } catch (error) {
+      console.error("Cache parsing error (by ID):", error);
+    }
+
+    if (!profile) {
+      profile = await prisma.anonProfile.findUnique({
+        where: { id: userId },
+      });
+
+      if (profile) {
+        console.log("Fetched user data from database (by ID)");
+        try {
+          await cache.set(cacheKey, profile, { ex: CACHE_EXPIRY });
+        } catch (cacheError) {
+          console.error(
+            "Error storing user data in cache (by ID):",
+            cacheError,
+          );
+        }
+      }
+    }
+
+    try {
+      const validatedProfile = anonProfileSchema.parse(profile);
+      return c.json({ profile: validatedProfile }, 200);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return c.json(
+          {
+            message: "Invalid profile data",
+            errors: error.errors,
+            status: 500,
+          },
+          500,
+        );
+      }
+      console.error("Unexpected error during validation:", error);
+      return c.json({ message: "Internal Server Error", status: 500 }, 500);
+    }
+  })
+
   .post("/create", zValidator("json", anonProfileSchema), async (c) => {
     const body = c.req.valid("json");
     try {
@@ -78,7 +139,10 @@ const profile = new Hono()
           name: body.name,
           pfp: body.pfp,
           uid: body.uid,
+          is_anon: body.is_anon,
           dc_uid: body.dc_uid,
+          dc_name: body.dc_name,
+          dc_pfp: body.dc_pfp,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

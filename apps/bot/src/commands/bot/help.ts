@@ -32,20 +32,21 @@ export default {
           "**3. `$index`** - Index a message as a question or answer.\n" +
           "**4. `$config`** - Manage your server's configurations.\n" +
           "**5. `$code`** - Get our source code for free.\n" +
-          "> **6. `$donate`** - Donate/Sponsor us if you liked our service.\n" +
+          "> **6. `$donate`** - *Donate/Sponsor us if you liked our service.*\n" +
           "**7. `$api`** - Access your all indexed data through our api for free.\n" +
-          "**8. `$uptime`** - Get my uptime hours details\n\n" +
+          "**8. `$ping`** - Shows you the overall apps' latency.\n" +
+          "**9. `$uptime`** - Get my uptime hours details\n\n" +
           "My prefix in this guild is *$*. If you need assistance, just ask!",
       );
 
     const actionButtons = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
-        .setLabel("Add Me")
+        .setLabel("Invite Me")
         .setURL(CONFIG.INVITE_URL),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
-        .setLabel("Website")
+        .setLabel("Go to App")
         .setURL(CONFIG.WEB_URL),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)

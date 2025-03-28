@@ -47,7 +47,10 @@ const anonProfileSchema = z.object({
   name: z.string(),
   pfp: z.string().nullable().optional(),
   uid: z.string().nullable().optional(),
+  is_anon: z.boolean(),
   dc_uid: z.string().nullable().optional(),
+  dc_name: z.string().nullable().optional(),
+  dc_pfp: z.string().nullable().optional(),
   createdAt: z.union([z.date(), z.string()]),
   updatedAt: z.union([z.date(), z.string()]),
 });

@@ -108,10 +108,13 @@ model Configs {
 
 model AnonProfile {
   id        String   @id
-  name      String   @unique
-  pfp       String?
+  name      String
+  is_anon   Boolean  @default(false)
+  pfp       String?  @default("https://avatar.vercel.sh/jill")
   uid       String?  @unique
   dc_uid    String?  @unique
+  dc_name   String?
+  dc_pfp    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 

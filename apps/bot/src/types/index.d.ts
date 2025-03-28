@@ -85,3 +85,16 @@ export type UserPubType = {
   createdAt: Date | string;
   updatedAt: Date | string;
 };
+
+export type AnonProfileType = {
+  id: string;
+    name: string;
+    pfp?: string | null;
+    uid?: string | null;
+    is_anon: boolean;
+    dc_uid?: string | null;
+    dc_name?: string | null;
+    dc_pfp?: string | null;
+    createdAt: Date | string;
+    updatedAt: Date | string;
+};

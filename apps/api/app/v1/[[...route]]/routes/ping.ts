@@ -25,5 +25,5 @@ const ping = new Hono()
     return c.json({ message: "Database latency", latency });
   });
 
-export type DataApiType = typeof ping;
+export type PingApiType = typeof ping;
 export default ping;

@@ -3,6 +3,7 @@ import { handle } from "hono/vercel";
 import { cors } from "hono/cors";
 import { rateLimitHandler } from "@/actions/ratelimit-handler";
 import { auth as Auth } from "@iflow/auth";
+import { logger } from "hono/logger";
 import user from "./routes/user";
 import server from "./routes/bot/server";
 import tag from "./routes/bot/tag";
@@ -10,10 +11,10 @@ import indexedQns from "./routes/bot/indexedQns";
 import indexedAns from "./routes/bot/indexedAns";
 import data from "./routes/data";
 import config from "./routes/bot/config";
-import { logger } from "hono/logger";
 import questions from "./routes/questions";
 import profile from "./routes/bot/profile";
 import ping from "./routes/ping";
+import stats from "./routes/bot/stats";
 
 export const runtime = "edge";
 const app = new Hono().basePath("/v1");
@@ -46,6 +47,7 @@ app.route("/bot/tag", tag);
 app.route("/bot/index/qns", indexedQns);
 app.route("/bot/index/ans", indexedAns);
 
+app.route("/bot/stats", stats);
 app.route("/bot/profile", profile);
 
 app.route("/ping", ping);
