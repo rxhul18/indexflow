@@ -38,8 +38,14 @@ function TagsCompContent({ tags, onTagSelect, isLoading }: TagsCompProps) {
   const handleTagClick = (tag: string) => {
     setTagName((prevTag) => {
       const newTag = prevTag === tag ? "" : tag;
-      const newUrl = newTag ? `?filter=${newTag}` : "/";
-      router.push(newUrl, { scroll: false });
+      const params = new URLSearchParams(searchParams.toString());
+      if (newTag) {
+        params.set("filter", newTag);
+      } else {
+        params.delete("filter");
+      }
+      const newUrl = params.toString() ? `?${params.toString()}` : "/";
+      router.push(newUrl);
       return newTag;
     });
   };
