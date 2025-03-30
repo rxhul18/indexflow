@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search } from "lucide-react";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { subDays, parseISO } from "date-fns";
 import UserGrid from "./usercard";
 import { useUsersStore } from "@/lib/zustand";
@@ -11,24 +11,8 @@ import { useUsersStore } from "@/lib/zustand";
 export default function UsersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [userTypeFilter, setUserTypeFilter] = useState("all");
-  const API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/user/public" : "https://api.indexflow.site/v1/user/public";
-  const { users, setUsers } = useUsersStore();
-  useEffect(() => {
-    async function fetchServers() {
-      const data = await fetch(API_ENDPOINT);
-      const response = await data.json();
-      console.log("users", response);
-      if (response?.users) {
-        setUsers(response.users);
-      }
-    }
-
-    if (users.length === 0) {
-      fetchServers();
-    }
-  }, [users]);
-
-
+  const { users } = useUsersStore();
+  
   const filteredUsers = useMemo(() => {
     const now = new Date();
     const thirtyDaysAgo = subDays(now, 30).getTime();
