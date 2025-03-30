@@ -45,7 +45,7 @@ function TagsCompContent({ tags, onTagSelect, isLoading }: TagsCompProps) {
         params.delete("filter");
       }
       const newUrl = params.toString() ? `?${params.toString()}` : "/";
-      router.push(newUrl);
+      router.replace(newUrl, { scroll: false });
       return newTag;
     });
   };

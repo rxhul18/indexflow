@@ -4,18 +4,21 @@ import TagName from "@/components/custom/tags.comp";
 import AllQuestions from "@/components/custom/all-questions";
 import { Suspense, useEffect, useState } from "react";
 import { JoinCommunityBtn } from "@/components/custom/join.community.btn";
-import { useServersStore, useTagsStore } from "@/lib/zustand";
+import { useServersStore, useTagsStore, useUsersStore } from "@/lib/zustand";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
   const { servers, setServers } = useServersStore();
   const { tags, setTags } = useTagsStore();
+  const { users, setUsers } = useUsersStore();
   const [tagLoading, setTagLoading] = useState(false);
   const [skeleton, setSkeleton] = useState(false);
   const [hasAttemptedTagsFetch, setHasAttemptedTagsFetch] = useState(false);
+  const [hasAttemptedUsersFetch, setHasAttemptedUsersFetch] = useState(false);
 
   const SERVER_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server/all" : "https://api.indexflow.site/v1/bot/server/all";
   const TAGS_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/tag/all" : "https://api.indexflow.site/v1/bot/tag/all"; 
+  const USER_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/user/public" : "https://api.indexflow.site/v1/user/public";
 
   useEffect(() => {
     async function fetchServers() {
@@ -34,7 +37,6 @@ export default function Home() {
     }
   }, [servers]);
 
-
   useEffect(() => {
     async function fetchTags() {
       setTagLoading(true);
@@ -52,6 +54,21 @@ export default function Home() {
     }
   }, [tags.length, hasAttemptedTagsFetch, setTags]);
 
+  useEffect(() => {
+    async function fetchUsers() {
+      const data = await fetch(USER_API_ENDPOINT);
+      const response = await data.json();
+      if(response?.users){
+        setUsers(response.users);
+      }
+      setHasAttemptedUsersFetch(true);
+    }
+
+    if (users.length === 0 && !hasAttemptedUsersFetch) {
+      fetchUsers();
+    }
+  }, [users.length, hasAttemptedUsersFetch, setUsers]);
+
   return (
     <div className="flex w-full justify-center py-8">
       <div className="flex flex-col gap-4 min-w-[90%] md:container w-full px-4 relative">
@@ -64,7 +81,7 @@ export default function Home() {
         <div className="flex flex-col lg:flex-row gap-4">
           <main className="flex-1 min-w-0 py-5">
             <Suspense fallback={<div className="text-center py-4">Loading questions...</div>}>
-              <AllQuestions tagName="" selectedTag={selectedTag} />
+              <AllQuestions tagName={selectedTag} selectedTag={selectedTag} />
             </Suspense>
           </main>
 
