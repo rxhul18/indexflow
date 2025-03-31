@@ -9,13 +9,13 @@ import {
   ButtonInteraction,
   ComponentType,
 } from "discord.js";
-import { 
-  createAnonProfile, 
-  getAnonProfileById, 
-  getRandomAnonName, 
-  getServerConfigById, 
-  indexAns, 
-  indexQns 
+import {
+  createAnonProfile,
+  getAnonProfileById,
+  getRandomAnonName,
+  getServerConfigById,
+  indexAns,
+  indexQns,
 } from "../../lib/func";
 
 export default {
@@ -30,11 +30,13 @@ export default {
   ) => {
     try {
       if (!message.reference || !message.channel) {
-        return message.reply("❌ | You need to reply to a message to index it!");
+        return message.reply(
+          "❌ | You need to reply to a message to index it!",
+        );
       }
 
       const repliedMessage = await message.channel.messages.fetch(
-        message.reference.messageId as string
+        message.reference.messageId as string,
       );
 
       if (!repliedMessage) {
@@ -46,7 +48,9 @@ export default {
       }
 
       if (!(message.channel instanceof ThreadChannel)) {
-        return message.reply("❌ | This command can only be used in thread channels.");
+        return message.reply(
+          "❌ | This command can only be used in thread channels.",
+        );
       }
 
       const configId = message.guildId! + message.guild?.ownerId!;
@@ -59,14 +63,21 @@ export default {
       await askIndexSelection(client, message, repliedMessage);
     } catch (error) {
       console.error("Error in index command:", error);
-      message.reply("❌ | An unexpected error occurred. Please try again later.");
+      message.reply(
+        "❌ | An unexpected error occurred. Please try again later.",
+      );
     }
   },
 };
 
-async function askIndexSelection(client: Client, message: Message, repliedMessage: Message) {
-  const confirmEmbed = new EmbedBuilder()
-    .setDescription("📝 | Should I index this message as a Question or Answer?");
+async function askIndexSelection(
+  client: Client,
+  message: Message,
+  repliedMessage: Message,
+) {
+  const confirmEmbed = new EmbedBuilder().setDescription(
+    "📝 | Should I index this message as a Question or Answer?",
+  );
 
   const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
@@ -111,7 +122,7 @@ async function askIndexSelection(client: Client, message: Message, repliedMessag
       await replyMessage.edit({
         components: [
           new ActionRowBuilder<ButtonBuilder>().addComponents(
-            actionRow.components.map((button) => button.setDisabled(true))
+            actionRow.components.map((button) => button.setDisabled(true)),
           ),
         ],
       });
@@ -121,10 +132,10 @@ async function askIndexSelection(client: Client, message: Message, repliedMessag
 }
 
 async function handleInteraction(
-  interaction: ButtonInteraction, 
-  message: Message, 
-  repliedMessage: Message, 
-  client: Client
+  interaction: ButtonInteraction,
+  message: Message,
+  repliedMessage: Message,
+  client: Client,
 ) {
   const threadChannel = message.channel as ThreadChannel;
   const firstMessage = await threadChannel.fetchStarterMessage();
@@ -139,12 +150,17 @@ async function handleInteraction(
   if (interaction.customId === "index_question") {
     await handleIndexQuestion(client, firstMessage, threadChannel, interaction);
   } else if (interaction.customId === "index_answer") {
-    await handleIndexAnswer(client, firstMessage, repliedMessage, threadChannel, interaction);
+    await handleIndexAnswer(
+      client,
+      firstMessage,
+      repliedMessage,
+      threadChannel,
+      interaction,
+    );
   } else if (interaction.customId === "index_cancel") {
     await interaction.editReply({
       embeds: [
-        new EmbedBuilder()
-          .setDescription("❌ | Indexing **cancelled**."),
+        new EmbedBuilder().setDescription("❌ | Indexing **cancelled**."),
       ],
       components: [],
     });
@@ -155,7 +171,7 @@ async function handleIndexQuestion(
   client: Client,
   firstMessage: Message,
   threadChannel: ThreadChannel,
-  interaction: ButtonInteraction
+  interaction: ButtonInteraction,
 ) {
   await indexQns({
     id: firstMessage.id,
@@ -170,11 +186,12 @@ async function handleIndexQuestion(
   });
 
   await createUserProfileIfNeeded(firstMessage);
-  
+
   await interaction.editReply({
     embeds: [
-      new EmbedBuilder()
-        .setDescription("✅ | Message indexed as a **Question**!"),
+      new EmbedBuilder().setDescription(
+        "✅ | Message indexed as a **Question**!",
+      ),
     ],
     components: [],
   });
@@ -185,10 +202,10 @@ async function handleIndexAnswer(
   firstMessage: Message,
   repliedMessage: Message,
   threadChannel: ThreadChannel,
-  interaction: ButtonInteraction
+  interaction: ButtonInteraction,
 ) {
   await handleIndexQuestion(client, firstMessage, threadChannel, interaction);
-  
+
   await indexAns({
     id: repliedMessage.id,
     author: repliedMessage.author.id,
@@ -205,7 +222,12 @@ async function handleIndexAnswer(
   await createUserProfileIfNeeded(repliedMessage);
 
   const messages = await threadChannel.messages.fetch();
-  const nonBotMessages = messages.filter(msg => !msg.author.bot && msg.id !== firstMessage.id && msg.id !== repliedMessage.id);
+  const nonBotMessages = messages.filter(
+    (msg) =>
+      !msg.author.bot &&
+      msg.id !== firstMessage.id &&
+      msg.id !== repliedMessage.id,
+  );
 
   for (const message of nonBotMessages.values()) {
     await indexAns({
@@ -226,8 +248,9 @@ async function handleIndexAnswer(
 
   await interaction.editReply({
     embeds: [
-      new EmbedBuilder()
-        .setDescription("✅ | Message indexed as an **Answer**!"),
+      new EmbedBuilder().setDescription(
+        "✅ | Message indexed as an **Answer**!",
+      ),
     ],
     components: [],
   });
@@ -254,10 +277,17 @@ async function createUserProfileIfNeeded(message: Message) {
 async function sendNotConfigMessage(client: Client, message: Message) {
   const em = new EmbedBuilder()
     .setTitle("Configure settings!")
-    .setDescription("Your server needs to be **CONFIGURED** first. Use `$configure`.")
-    .setThumbnail(client.user?.avatarURL() || message.author.displayAvatarURL());
+    .setDescription(
+      "Your server needs to be **CONFIGURED** first. Use `$configure`.",
+    )
+    .setThumbnail(
+      client.user?.avatarURL() || message.author.displayAvatarURL(),
+    );
 
-  if (message.channel instanceof TextChannel || message.channel instanceof ThreadChannel) {
+  if (
+    message.channel instanceof TextChannel ||
+    message.channel instanceof ThreadChannel
+  ) {
     await message.channel.send({ embeds: [em] });
   }
 }
