@@ -8,10 +8,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { SignInBtn } from "./navbar/sign-up.btn"
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { SignInBtn } from "./navbar/sign-up.btn";
 import { useUser } from "@/context/user.context";
 
 export function JoinCommunityBtn({ InvUrl }: { InvUrl: string }) {
@@ -20,13 +20,20 @@ export function JoinCommunityBtn({ InvUrl }: { InvUrl: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        {!loading && user ? <Button className="ml-4" variant="default">Join</Button> : <SignInBtn name="Join" type="default"/>}
+        {!loading && user ? (
+          <Button className="ml-4" variant="default">
+            Join
+          </Button>
+        ) : (
+          <SignInBtn name="Join" type="default" />
+        )}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. Click join to become a member of community for developers to ask questions and share knowledge.
+            This action cannot be undone. Click join to become a member of
+            community for developers to ask questions and share knowledge.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -37,5 +44,5 @@ export function JoinCommunityBtn({ InvUrl }: { InvUrl: string }) {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

@@ -7,7 +7,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Star } from "lucide-react";
 import { UserType } from "@iflow/types";
 
-export default function UserGrid({ filteredUsers }: { filteredUsers?: UserType[] | undefined }) {
+export default function UserGrid({
+  filteredUsers,
+}: {
+  filteredUsers?: UserType[] | undefined;
+}) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {filteredUsers?.length ? (
@@ -53,12 +57,14 @@ export default function UserGrid({ filteredUsers }: { filteredUsers?: UserType[]
                     </Link>
 
                     {/* Reputation */}
-                    {user.reputation !== null && <div className="flex items-center text-amber-500 gap-0.5 ml-1">
-                      <Star className="h-3.5 w-3.5 fill-current" />
-                      <span className="text-xs font-medium">
-                        {user.reputation}
-                      </span>
-                    </div>}
+                    {user.reputation !== null && (
+                      <div className="flex items-center text-amber-500 gap-0.5 ml-1">
+                        <Star className="h-3.5 w-3.5 fill-current" />
+                        <span className="text-xs font-medium">
+                          {user.reputation}
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Location */}

@@ -11,11 +11,18 @@ interface TagsCompProps {
   isLoading?: boolean;
 }
 
-export default function TagsComp({ tags, onTagSelect, isLoading }: TagsCompProps) {
-
+export default function TagsComp({
+  tags,
+  onTagSelect,
+  isLoading,
+}: TagsCompProps) {
   return (
     <Suspense fallback={<div>Loading tags...</div>}>
-      <TagsCompContent tags={tags} onTagSelect={onTagSelect} isLoading={isLoading} />
+      <TagsCompContent
+        tags={tags}
+        onTagSelect={onTagSelect}
+        isLoading={isLoading}
+      />
     </Suspense>
   );
 }

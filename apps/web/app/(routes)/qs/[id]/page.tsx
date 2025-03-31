@@ -1,11 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import {
-  ArrowBigUp,
-  ArrowBigDown,
-  CheckCircle2,
-} from "lucide-react";
+import { ArrowBigUp, ArrowBigDown, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 // import AnswerForm from "@/components/custom/answer-form";
 import type { Metadata } from "next";

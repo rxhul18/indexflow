@@ -1,8 +1,13 @@
 "use client";
 import { authClient } from "@iflow/auth";
 import { UserType } from "@iflow/types";
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 interface UserContextType {
   user: UserType | null;
@@ -33,7 +38,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
         if (session.data?.session) {
           // console.log(userIP, "boobs")
-          setUserIP(session.data.session.ipAddress!)
+          setUserIP(session.data.session.ipAddress!);
         } else {
           setUserIP(null);
         }

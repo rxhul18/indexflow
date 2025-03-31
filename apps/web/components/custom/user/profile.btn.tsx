@@ -21,7 +21,13 @@ import { useId, useState } from "react";
 import Image from "next/image";
 import UserBtn from "./user.btn";
 
-export default function ProfileBtn({pfp, name}: {pfp: string, name: string}) {
+export default function ProfileBtn({
+  pfp,
+  name,
+}: {
+  pfp: string;
+  name: string;
+}) {
   const id = useId();
 
   const maxLength = 180;
@@ -39,14 +45,17 @@ export default function ProfileBtn({pfp, name}: {pfp: string, name: string}) {
   return (
     <Dialog>
       <DialogTrigger>
-        <UserBtn pfp={pfp} name={name}/>
+        <UserBtn pfp={pfp} name={name} />
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-0 overflow-y-visible p-0 sm:max-w-lg [&>button:last-child]:top-3.5">
         <DialogHeader className="contents space-y-0 text-left">
-          <DialogTitle className="border-b px-6 py-4 text-base">Edit profile</DialogTitle>
+          <DialogTitle className="border-b px-6 py-4 text-base">
+            Edit profile
+          </DialogTitle>
         </DialogHeader>
         <DialogDescription className="sr-only">
-          Make changes to your profile here. You can change your photo and set a username.
+          Make changes to your profile here. You can change your photo and set a
+          username.
         </DialogDescription>
         <div className="overflow-y-auto">
           <ProfileBg defaultImage="/sai-bg.png" />
@@ -87,7 +96,11 @@ export default function ProfileBtn({pfp, name}: {pfp: string, name: string}) {
                     required
                   />
                   <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 peer-disabled:opacity-50">
-                    <CheckIcon size={16} className="text-emerald-500" aria-hidden="true" />
+                    <CheckIcon
+                      size={16}
+                      className="text-emerald-500"
+                      aria-hidden="true"
+                    />
                   </div>
                 </div>
               </div>
@@ -122,7 +135,8 @@ export default function ProfileBtn({pfp, name}: {pfp: string, name: string}) {
                   role="status"
                   aria-live="polite"
                 >
-                  <span className="tabular-nums">{limit - characterCount}</span> characters left
+                  <span className="tabular-nums">{limit - characterCount}</span>{" "}
+                  characters left
                 </p>
               </div>
             </form>
@@ -145,8 +159,13 @@ export default function ProfileBtn({pfp, name}: {pfp: string, name: string}) {
 
 function ProfileBg({ defaultImage }: { defaultImage?: string }) {
   const [hideDefault, setHideDefault] = useState(false);
-  const { previewUrl, fileInputRef, handleThumbnailClick, handleFileChange, handleRemove } =
-    useImageUpload();
+  const {
+    previewUrl,
+    fileInputRef,
+    handleThumbnailClick,
+    handleFileChange,
+    handleRemove,
+  } = useImageUpload();
 
   const currentImage = previewUrl || (!hideDefault ? defaultImage : null);
 
@@ -162,7 +181,11 @@ function ProfileBg({ defaultImage }: { defaultImage?: string }) {
           <Image
             className="h-full w-full object-cover"
             src={currentImage}
-            alt={previewUrl ? "Preview of uploaded image" : "Default profile background"}
+            alt={
+              previewUrl
+                ? "Preview of uploaded image"
+                : "Default profile background"
+            }
             width={512}
             height={96}
           />
@@ -201,7 +224,8 @@ function ProfileBg({ defaultImage }: { defaultImage?: string }) {
 }
 
 function Avatar({ defaultImage }: { defaultImage?: string }) {
-  const { previewUrl, fileInputRef, handleThumbnailClick, handleFileChange } = useImageUpload();
+  const { previewUrl, fileInputRef, handleThumbnailClick, handleFileChange } =
+    useImageUpload();
 
   const currentImage = previewUrl || defaultImage;
 

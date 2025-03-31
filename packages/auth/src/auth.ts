@@ -16,56 +16,62 @@ export const authClient = createAuthClient({
 });
 
 export const auth = betterAuth({
-  trustedOrigins: ["http://localhost:3001", "http://localhost:3000", "https://api.indexflow.site", "https://indexflow.site", "https://www.indexflow.site",],
+  trustedOrigins: [
+    "http://localhost:3001",
+    "http://localhost:3000",
+    "https://api.indexflow.site",
+    "https://indexflow.site",
+    "https://www.indexflow.site",
+  ],
   baseURL: BaseDomain,
   basePath: "/v1/auth",
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
   user: {
-    additionalFields:{
-    role : {
-      type : "string",
-      nullable : false,
-      required : true,
-      input : false,
-      defaultValue : "user"
+    additionalFields: {
+      role: {
+        type: "string",
+        nullable: false,
+        required: true,
+        input: false,
+        defaultValue: "user",
+      },
+      reputation: {
+        type: "string",
+        nullable: true,
+        required: false,
+        input: false,
+      },
+      location: {
+        type: "string",
+        nullable: true,
+        required: false,
+        input: false,
+        defaultValue: null,
+      },
+      active: {
+        type: "date",
+        nullable: true,
+        required: false,
+        input: false,
+        defaultValue: null,
+      },
+      recentTags: {
+        type: "string[]",
+        nullable: true,
+        required: false,
+        input: false,
+        defaultValue: null,
+      },
+      dc_id: {
+        type: "string",
+        nullable: true,
+        required: false,
+        input: false,
+        defaultValue: null,
+      },
     },
-    reputation: {
-      type : "string",
-      nullable : true,
-      required : false,
-      input : false,
-    },
-    location: {
-      type : "string",
-      nullable : true,
-      required : false,
-      input : false,
-      defaultValue : null
-    },
-    active: {
-      type : "date",
-      nullable : true,
-      required : false,
-      input : false,
-      defaultValue : null
-    },
-    recentTags: {
-      type : "string[]",
-      nullable : true,
-      required : false,
-      input : false,
-      defaultValue : null
-    },
-    dc_id: {
-      type : "string",
-      nullable : true,
-      required : false,
-      input : false,
-      defaultValue : null
-    }
-  }
   },
   secret: process.env.BETTER_AUTH_SECRET,
   socialProviders: {

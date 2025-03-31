@@ -35,10 +35,16 @@ export default function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <Link href="/" className="font-medium transition-colors hover:text-primary">
+            <Link
+              href="/"
+              className="font-medium transition-colors hover:text-primary"
+            >
               Home
             </Link>
-            <Link href="/users" className="font-medium transition-colors hover:text-primary">
+            <Link
+              href="/users"
+              className="font-medium transition-colors hover:text-primary"
+            >
               Users
             </Link>
           </nav>
@@ -49,17 +55,25 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-        <div className="hidden md:flex">
-            {!loading && user ? <ProfileBtn pfp={user.image || ''} name={user.name || 'Guest'} /> : <SignInBtn />}
+          <div className="hidden md:flex">
+            {!loading && user ? (
+              <ProfileBtn pfp={user.image || ""} name={user.name || "Guest"} />
+            ) : (
+              <SignInBtn />
+            )}
           </div>
           <div className="hidden md:flex">
-            {!loading && user && <NotificationsComp/>}
+            {!loading && user && <NotificationsComp />}
           </div>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon" className="rounded-full">
-                {theme === "dark" ? <Moon className="w-5" /> : <Sun className="w-5" />}
+                {theme === "dark" ? (
+                  <Moon className="w-5" />
+                ) : (
+                  <Sun className="w-5" />
+                )}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -74,8 +88,17 @@ export default function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </Button>
         </div>
       </div>
@@ -85,21 +108,44 @@ export default function Header() {
           <div className="flex flex-col gap-6">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input type="search" placeholder="Search..." className="w-full pl-10" />
+              <Input
+                type="search"
+                placeholder="Search..."
+                className="w-full pl-10"
+              />
             </div>
             <nav className="flex flex-col gap-6 text-base">
-              <Link href="/" className="font-medium transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+              <Link
+                href="/"
+                className="font-medium transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Home
               </Link>
-              <Link href="/users" className="font-medium transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+              <Link
+                href="/users"
+                className="font-medium transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Users
               </Link>
-              <Link href="/about" className="font-medium transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+              <Link
+                href="/about"
+                className="font-medium transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 About
               </Link>
             </nav>
             <div className="flex flex-col gap-2">
-              {!loading && user ? <ProfileBtn pfp={user.image || ''} name={user.name || 'Guest'} /> : <SignInBtn />}
+              {!loading && user ? (
+                <ProfileBtn
+                  pfp={user.image || ""}
+                  name={user.name || "Guest"}
+                />
+              ) : (
+                <SignInBtn />
+              )}
             </div>
           </div>
         </div>

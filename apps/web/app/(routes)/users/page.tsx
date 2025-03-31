@@ -12,7 +12,7 @@ export default function UsersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [userTypeFilter, setUserTypeFilter] = useState("all");
   const { users } = useUsersStore();
-  
+
   const filteredUsers = useMemo(() => {
     const now = new Date();
     const thirtyDaysAgo = subDays(now, 30).getTime();
@@ -31,7 +31,10 @@ export default function UsersPage() {
 
       if (userTypeFilter === "new") {
         if (!user.createdAt) return false;
-        const createdAtDate = typeof user.createdAt === 'string' ? parseISO(user.createdAt) : new Date(user.createdAt);
+        const createdAtDate =
+          typeof user.createdAt === "string"
+            ? parseISO(user.createdAt)
+            : new Date(user.createdAt);
         return createdAtDate.getTime() >= thirtyDaysAgo;
       }
 

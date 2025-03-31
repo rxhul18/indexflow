@@ -2,7 +2,11 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { BellIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -95,7 +99,9 @@ export default function NotificationsComp() {
   const handleNotificationClick = (id: number) => {
     setNotifications(
       notifications.map((notification) =>
-        notification.id === id ? { ...notification, unread: false } : notification,
+        notification.id === id
+          ? { ...notification, unread: false }
+          : notification,
       ),
     );
   };
@@ -103,7 +109,12 @@ export default function NotificationsComp() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button size="icon" variant="outline" className="relative rounded-full" aria-label="Open notifications">
+        <Button
+          size="icon"
+          variant="outline"
+          className="relative rounded-full"
+          aria-label="Open notifications"
+        >
           <BellIcon size={16} aria-hidden="true" />
           {unreadCount > 0 && (
             <Badge className="absolute -top-2 left-full min-w-5 -translate-x-1/2 px-1">
@@ -116,7 +127,10 @@ export default function NotificationsComp() {
         <div className="flex items-baseline justify-between gap-4 px-3 py-2">
           <div className="text-sm font-semibold">Notifications</div>
           {unreadCount > 0 && (
-            <button className="text-xs font-medium hover:underline" onClick={handleMarkAllAsRead}>
+            <button
+              className="text-xs font-medium hover:underline"
+              onClick={handleMarkAllAsRead}
+            >
               Mark all as read
             </button>
           )}
@@ -153,7 +167,9 @@ export default function NotificationsComp() {
                   </span>
                   .
                 </button>
-                <div className="text-muted-foreground text-xs">{notification.timestamp}</div>
+                <div className="text-muted-foreground text-xs">
+                  {notification.timestamp}
+                </div>
               </div>
               {notification.unread && (
                 <div className="absolute end-0 self-center">

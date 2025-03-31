@@ -3,7 +3,11 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Tooltip,
   TooltipContent,
@@ -63,22 +67,32 @@ export default function ShareLinkBtn() {
                         <div
                           className={cn(
                             "transition-all",
-                            copied ? "scale-100 opacity-100" : "scale-0 opacity-0",
+                            copied
+                              ? "scale-100 opacity-100"
+                              : "scale-0 opacity-0",
                           )}
                         >
-                          <CheckIcon className="stroke-emerald-500" size={16} aria-hidden="true" />
+                          <CheckIcon
+                            className="stroke-emerald-500"
+                            size={16}
+                            aria-hidden="true"
+                          />
                         </div>
                         <div
                           className={cn(
                             "absolute transition-all",
-                            copied ? "scale-0 opacity-0" : "scale-100 opacity-100",
+                            copied
+                              ? "scale-0 opacity-0"
+                              : "scale-100 opacity-100",
                           )}
                         >
                           <CopyIcon size={16} aria-hidden="true" />
                         </div>
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent className="px-2 py-1 text-xs">Copy to clipboard</TooltipContent>
+                    <TooltipContent className="px-2 py-1 text-xs">
+                      Copy to clipboard
+                    </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               </div>

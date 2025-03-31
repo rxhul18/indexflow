@@ -21,7 +21,9 @@ export default function QuestionsList({
 
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState(searchParams.get("sort") || "newest");
-  const [tagFil, setTagFil] = useState(searchParams.get("filter") || selectedTag || tagName || "");
+  const [tagFil, setTagFil] = useState(
+    searchParams.get("filter") || selectedTag || tagName || "",
+  );
   const [searchQuery, setSearchQuery] = useState("");
 
   const questionsPerPage = 5;
@@ -32,7 +34,9 @@ export default function QuestionsList({
     const urlTag = searchParams.get("filter");
     setTagFil(urlTag || selectedTag || tagName || "");
     if (urlTag || selectedTag || tagName) {
-      router.push(`?filter=${urlTag || selectedTag || tagName}`, { scroll: false });
+      router.push(`?filter=${urlTag || selectedTag || tagName}`, {
+        scroll: false,
+      });
     }
   }, [selectedTag, tagName, searchParams, router]);
 
@@ -43,16 +47,21 @@ export default function QuestionsList({
       filteredQuestions = filteredQuestions.filter(
         (q) =>
           q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          q.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()))
+          q.tags.some((t) =>
+            t.toLowerCase().includes(searchQuery.toLowerCase()),
+          ),
       );
     }
 
     if (tagFil) {
-      filteredQuestions = filteredQuestions.filter((q) => q.tags.includes(tagFil));
+      filteredQuestions = filteredQuestions.filter((q) =>
+        q.tags.includes(tagFil),
+      );
     }
 
     return [...filteredQuestions].sort((a, b) => {
-      if (filter === "newest") return compareDesc(new Date(a.createdAt), new Date(b.createdAt));
+      if (filter === "newest")
+        return compareDesc(new Date(a.createdAt), new Date(b.createdAt));
       if (filter === "hot") return b.votes - a.votes;
       if (filter === "top") return b.views - a.views;
       return 0;
@@ -61,7 +70,7 @@ export default function QuestionsList({
 
   const [sortedQuestions, setSortedQuestions] = useState(getSortedQuestions());
   const [loadedQuestions, setLoadedQuestions] = useState(() =>
-    sortedQuestions.slice(0, questionsPerPage)
+    sortedQuestions.slice(0, questionsPerPage),
   );
 
   useEffect(() => {
@@ -73,7 +82,7 @@ export default function QuestionsList({
   const loadMoreQuestions = () => {
     setLoading(true);
     setLoadedQuestions((prev) =>
-      sortedQuestions.slice(0, prev.length + questionsPerPage)
+      sortedQuestions.slice(0, prev.length + questionsPerPage),
     );
     setLoading(false);
   };
@@ -88,7 +97,8 @@ export default function QuestionsList({
         loadMoreQuestions();
       }
     });
-    if (lastQuestionElementRef.current) observer.current.observe(lastQuestionElementRef.current);
+    if (lastQuestionElementRef.current)
+      observer.current.observe(lastQuestionElementRef.current);
   }, [loadedQuestions]);
 
   const handleFilterChange = (value: string) => {
@@ -100,7 +110,13 @@ export default function QuestionsList({
     <div className="flex-1 relative h-[calc(100vh-120px)] overflow-x-hidden py-5">
       <div className="flex flex-col justify-between items-start mb-6 gap-4 sticky top-0 bg-background z-10">
         <h1 className="text-3xl font-bold">
-          {filter === "newest" ? "Recent Questions" : filter === "hot" ? "Hot Questions" : filter === "top" ? "Top Questions" : "Questions"}
+          {filter === "newest"
+            ? "Recent Questions"
+            : filter === "hot"
+              ? "Hot Questions"
+              : filter === "top"
+                ? "Top Questions"
+                : "Questions"}
         </h1>
         <div className="flex flex-col md:flex-row items-center justify-between h-full w-full gap-4 md:gap-8">
           <div className="relative w-full md:w-full flex flex-1">
@@ -113,7 +129,11 @@ export default function QuestionsList({
             />
           </div>
 
-          <Tabs value={filter} onValueChange={handleFilterChange} className="w-full sm:w-auto">
+          <Tabs
+            value={filter}
+            onValueChange={handleFilterChange}
+            className="w-full sm:w-auto"
+          >
             <TabsList>
               <TabsTrigger value="newest" className="cursor-pointer">
                 <Clock className="h-4 w-4 mr-2" />
@@ -135,7 +155,11 @@ export default function QuestionsList({
       <div className="space-y-4 relative overflow-y-auto h-full overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
         {loadedQuestions.map((question, index) => (
           <QuestionCard
-            ref={index === loadedQuestions.length - 1 ? lastQuestionElementRef : null}
+            ref={
+              index === loadedQuestions.length - 1
+                ? lastQuestionElementRef
+                : null
+            }
             key={question.id}
             question={question}
           />

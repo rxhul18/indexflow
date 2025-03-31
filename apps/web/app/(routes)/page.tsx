@@ -16,9 +16,18 @@ export default function Home() {
   const [hasAttemptedTagsFetch, setHasAttemptedTagsFetch] = useState(false);
   const [hasAttemptedUsersFetch, setHasAttemptedUsersFetch] = useState(false);
 
-  const SERVER_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/server/all" : "https://api.indexflow.site/v1/bot/server/all";
-  const TAGS_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/bot/tag/all" : "https://api.indexflow.site/v1/bot/tag/all"; 
-  const USER_API_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/user/public" : "https://api.indexflow.site/v1/user/public";
+  const SERVER_API_ENDPOINT =
+    process.env.NODE_ENV == "development"
+      ? "http://localhost:3001/v1/bot/server/all"
+      : "https://api.indexflow.site/v1/bot/server/all";
+  const TAGS_API_ENDPOINT =
+    process.env.NODE_ENV == "development"
+      ? "http://localhost:3001/v1/bot/tag/all"
+      : "https://api.indexflow.site/v1/bot/tag/all";
+  const USER_API_ENDPOINT =
+    process.env.NODE_ENV == "development"
+      ? "http://localhost:3001/v1/user/public"
+      : "https://api.indexflow.site/v1/user/public";
 
   useEffect(() => {
     async function fetchServers() {
@@ -26,7 +35,7 @@ export default function Home() {
 
       const data = await fetch(SERVER_API_ENDPOINT);
       const response = await data.json();
-      if(response?.servers){
+      if (response?.servers) {
         setServers(response.servers);
       }
       setSkeleton(false);
@@ -42,14 +51,14 @@ export default function Home() {
       setTagLoading(true);
       const data = await fetch(TAGS_API_ENDPOINT);
       const response = await data.json();
-      if(response?.tags){
+      if (response?.tags) {
         setTags(response.tags);
       }
       setTagLoading(false);
       setHasAttemptedTagsFetch(true);
     }
 
-    if (tags.length === 0 && !hasAttemptedTagsFetch ) {
+    if (tags.length === 0 && !hasAttemptedTagsFetch) {
       fetchTags();
     }
   }, [tags.length, hasAttemptedTagsFetch, setTags]);
@@ -58,7 +67,7 @@ export default function Home() {
     async function fetchUsers() {
       const data = await fetch(USER_API_ENDPOINT);
       const response = await data.json();
-      if(response?.users){
+      if (response?.users) {
         setUsers(response.users);
       }
       setHasAttemptedUsersFetch(true);
@@ -75,12 +84,20 @@ export default function Home() {
         {/* TagName at the top for more space */}
         <div className="bg-card rounded-lg border p-4 w-full">
           <h2 className="text-xl font-semibold mb-4">Popular Tags</h2>
-          <TagName tags={tags} onTagSelect={setSelectedTag} isLoading={tagLoading} />
+          <TagName
+            tags={tags}
+            onTagSelect={setSelectedTag}
+            isLoading={tagLoading}
+          />
         </div>
 
         <div className="flex flex-col lg:flex-row gap-4">
           <main className="flex-1 min-w-0 py-5">
-            <Suspense fallback={<div className="text-center py-4">Loading questions...</div>}>
+            <Suspense
+              fallback={
+                <div className="text-center py-4">Loading questions...</div>
+              }
+            >
               <AllQuestions tagName={selectedTag} selectedTag={selectedTag} />
             </Suspense>
           </main>
@@ -119,7 +136,7 @@ export default function Home() {
                           {name}
                         </h3>
                       </div>
-                      <JoinCommunityBtn InvUrl={invite_url ?? ''} />
+                      <JoinCommunityBtn InvUrl={invite_url ?? ""} />
                     </div>
                   ))}
                 </div>

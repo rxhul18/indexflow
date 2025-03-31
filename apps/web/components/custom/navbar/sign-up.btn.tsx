@@ -13,8 +13,14 @@ import { authClient } from "@iflow/auth";
 import { toast } from "sonner";
 import Tos from "@/components/tos";
 
-export function SignInBtn({name, type}: {name?: string, type?: "default" | "secondary" | "outline" | "ghost"}) {
-  const CALLBACK_URL = "https://www.indexflow.site/"
+export function SignInBtn({
+  name,
+  type,
+}: {
+  name?: string;
+  type?: "default" | "secondary" | "outline" | "ghost";
+}) {
+  const CALLBACK_URL = "https://www.indexflow.site/";
   const authHandler = async (provider: "google" | "discord" | "github") => {
     switch (provider) {
       case "google":
@@ -104,7 +110,13 @@ export function SignInBtn({name, type}: {name?: string, type?: "default" | "seco
           </Button>
         </div>
         <div>
-        <span>By signing-up you agree to our <span><Tos/></span>.</span>
+          <span>
+            By signing-up you agree to our{" "}
+            <span>
+              <Tos />
+            </span>
+            .
+          </span>
         </div>
       </DialogContent>
     </Dialog>

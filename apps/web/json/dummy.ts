@@ -104,7 +104,8 @@ export const questions = [
   },
   {
     id: "8",
-    title: "Best practices for handling API routes in React.js with React/App Router",
+    title:
+      "Best practices for handling API routes in React.js with React/App Router",
     content:
       "I'm migrating from Pages Router to App Router and I'm confused about how to properly structure my API routes now...",
     tags: ["next.js", "api", "app-router"],
