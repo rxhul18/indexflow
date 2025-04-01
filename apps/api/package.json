@@ -1,8 +1,7 @@
 {
-  "name": "@iflow/api",
+  "name": "iflow-api",
   "version": "0.1.0",
   "private": true,
-  "types": "./types/index.d.ts",
   "scripts": {
     "dev": "next dev -p 3001 --turbopack",
     "prebuild": "turbo --filter=@iflow/db db:generate",
