@@ -4,21 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useUser } from "@/context/user.context";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Search, Menu, X, Sun, Moon } from "lucide-react";
 
 import { SignInBtn } from "./sign-up.btn";
 import Logo from "../logo";
 import SearchInputCommand from "./search.comp";
-import NotificationsComp from "@/components/notify";
+// import NotificationsComp from "@/components/notify";
 import ProfileBtn from "../user/profile.btn";
 
 export default function Header() {
@@ -62,31 +55,16 @@ export default function Header() {
               <SignInBtn />
             )}
           </div>
-          <div className="hidden md:flex">
+          {/* <div className="hidden md:flex">
             {!loading && user && <NotificationsComp />}
-          </div>
+          </div> */}
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon" className="rounded-full">
-                {theme === "dark" ? (
-                  <Moon className="w-5" />
-                ) : (
-                  <Sun className="w-5" />
-                )}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setTheme("light")}>
-                <Sun className="mr-2 h-4 w-4" />
-                <span>Light</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
-                <Moon className="mr-2 h-4 w-4" />
-                <span>Dark</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button variant="outline" size="icon" className="rounded-full" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+            <div className="relative">
+              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:rotate-90 dark:scale-0" />
+              <Moon className="absolute top-0 h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            </div> 
+          </Button>
 
           <Button
             variant="ghost"

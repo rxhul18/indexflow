@@ -16,11 +16,15 @@ import {
 } from "@/components/ui/tooltip";
 import { CheckIcon, CopyIcon, Share } from "lucide-react";
 import { useId, useRef, useState } from "react";
-// import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function ShareLinkBtn() {
   const id = useId();
-  // const url = usePathname();
+  const pathname = usePathname();
+  const domain = process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:3000' 
+    : 'https://indexflow.site';
+  const url = `${domain}${pathname}`;
   const [copied, setCopied] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -50,8 +54,7 @@ export default function ShareLinkBtn() {
                   id={id}
                   className="pe-9"
                   type="text"
-                  defaultValue="https://originui.com/Avx8HD"
-                  // value={url}
+                  value={url}
                   aria-label="Share link"
                   readOnly
                 />
