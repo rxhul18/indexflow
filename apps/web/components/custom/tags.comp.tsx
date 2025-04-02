@@ -1,6 +1,5 @@
-import { useRouter } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
 import { TagType } from "@iflow/types";
@@ -11,18 +10,10 @@ interface TagsCompProps {
   isLoading?: boolean;
 }
 
-export default function TagsComp({
-  tags,
-  onTagSelect,
-  isLoading,
-}: TagsCompProps) {
+export default function TagsComp({ tags, onTagSelect, isLoading }: TagsCompProps) {
   return (
     <Suspense fallback={<div>Loading tags...</div>}>
-      <TagsCompContent
-        tags={tags}
-        onTagSelect={onTagSelect}
-        isLoading={isLoading}
-      />
+      <TagsCompContent tags={tags} onTagSelect={onTagSelect} isLoading={isLoading} />
     </Suspense>
   );
 }
@@ -30,11 +21,8 @@ export default function TagsComp({
 function TagsCompContent({ tags, onTagSelect, isLoading }: TagsCompProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [tagName, setTagName] = useState("");
 
-  useEffect(() => {
-    setTagName(searchParams.get("filter") || "");
-  }, [searchParams]);
+  const tagName = useMemo(() => searchParams.get("filter") || "", [searchParams]);
 
   useEffect(() => {
     if (onTagSelect) {
@@ -43,28 +31,23 @@ function TagsCompContent({ tags, onTagSelect, isLoading }: TagsCompProps) {
   }, [tagName, onTagSelect]);
 
   const handleTagClick = (tag: string) => {
-    setTagName((prevTag) => {
-      const newTag = prevTag === tag ? "" : tag;
-      const params = new URLSearchParams(searchParams.toString());
-      if (newTag) {
-        params.set("filter", newTag);
-      } else {
-        params.delete("filter");
-      }
-      const newUrl = params.toString() ? `?${params.toString()}` : "/";
-      router.replace(newUrl, { scroll: false });
-      return newTag;
-    });
+    const newTag = tagName === tag ? "" : tag;
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (newTag) {
+      params.set("filter", newTag);
+    } else {
+      params.delete("filter");
+    }
+
+    router.replace(params.toString() ? `?${params.toString()}` : "/", { scroll: false });
   };
 
   if (isLoading) {
     return (
       <div className="flex flex-wrap gap-2">
         {Array.from({ length: 8 }).map((_, index) => (
-          <Badge
-            key={index}
-            className="w-16 h-5 bg-secondary rounded-md animate-pulse"
-          />
+          <Badge key={index} className="w-16 h-5 bg-secondary rounded-md animate-pulse" />
         ))}
       </div>
     );
@@ -80,9 +63,7 @@ function TagsCompContent({ tags, onTagSelect, isLoading }: TagsCompProps) {
           className="cursor-pointer"
         >
           {tag.name}
-          <span className="ml-1 text-xs text-muted-foreground">
-            × {tag.usages}
-          </span>
+          <span className="ml-1 text-xs text-muted-foreground">× {tag.usages}</span>
         </Badge>
       ))}
     </div>

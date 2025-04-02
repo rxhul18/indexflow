@@ -5,11 +5,23 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@repo/ui"],
   images: {
-    domains: [
-      "avatars.githubusercontent.com",
-      "github.com",
-      "cdn.discordapp.com",
-      "lh3.googleusercontent.com",
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+      },
+      {
+        protocol: 'https', 
+        hostname: 'github.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.discordapp.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
     ],
   },
   compiler: {

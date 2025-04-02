@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { compareDesc } from "date-fns";
 import { Clock, FlameIcon, ArrowUpIcon, Loader2, Search } from "lucide-react";
@@ -18,91 +18,71 @@ export default function QuestionsList({
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState(searchParams.get("sort") || "newest");
-  const [tagFil, setTagFil] = useState(
-    searchParams.get("filter") || selectedTag || tagName || "",
-  );
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const questionsPerPage = 5;
   const observer = useRef<IntersectionObserver | null>(null);
   const lastQuestionElementRef = useRef(null);
 
-  useEffect(() => {
-    const urlTag = searchParams.get("filter");
-    setTagFil(urlTag || selectedTag || tagName || "");
-    if (urlTag || selectedTag || tagName) {
-      router.push(`?filter=${urlTag || selectedTag || tagName}`, {
-        scroll: false,
-      });
-    }
-  }, [selectedTag, tagName, searchParams, router]);
+  const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const getSortedQuestions = () => {
-    let filteredQuestions = questions;
+  const filter = searchParams.get("sort") || "newest";
+  const tagFilter = searchParams.get("filter") || selectedTag || tagName || "";
+  
 
-    if (searchQuery) {
-      filteredQuestions = filteredQuestions.filter(
-        (q) =>
-          q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          q.tags.some((t) =>
-            t.toLowerCase().includes(searchQuery.toLowerCase()),
-          ),
-      );
-    }
+  const getFilteredQuestions = () => {
+    return questions.filter((q) => {
+      const matchesSearch =
+        searchQuery.length === 0 ||
+        q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        q.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    if (tagFil) {
-      filteredQuestions = filteredQuestions.filter((q) =>
-        q.tags.includes(tagFil),
-      );
-    }
+      const matchesTag = !tagFilter || q.tags.includes(tagFilter);
 
-    return [...filteredQuestions].sort((a, b) => {
-      if (filter === "newest")
-        return compareDesc(new Date(a.createdAt), new Date(b.createdAt));
+      return matchesSearch && matchesTag;
+    });
+  };
+
+  const sortedQuestions = useMemo(() => {
+    const filteredQuestions = getFilteredQuestions();
+
+    return filteredQuestions.sort((a, b) => {
+      if (filter === "newest") return compareDesc(new Date(a.createdAt), new Date(b.createdAt));
       if (filter === "hot") return b.votes - a.votes;
       if (filter === "top") return b.views - a.views;
       return 0;
     });
-  };
+  }, [filter, searchQuery, tagFilter]);
 
-  const [sortedQuestions, setSortedQuestions] = useState(getSortedQuestions());
-  const [loadedQuestions, setLoadedQuestions] = useState(() =>
-    sortedQuestions.slice(0, questionsPerPage),
-  );
+  const questionsPerPage = 5;
+  const [loadedQuestions, setLoadedQuestions] = useState(sortedQuestions.slice(0, questionsPerPage));
 
   useEffect(() => {
-    const updatedQuestions = getSortedQuestions();
-    setSortedQuestions(updatedQuestions);
-    setLoadedQuestions(updatedQuestions.slice(0, questionsPerPage));
-  }, [searchQuery, filter, tagFil, searchParams]);
+    setLoadedQuestions(sortedQuestions.slice(0, questionsPerPage));
+  }, [sortedQuestions]);
 
   const loadMoreQuestions = () => {
     setLoading(true);
-    setLoadedQuestions((prev) =>
-      sortedQuestions.slice(0, prev.length + questionsPerPage),
-    );
-    setLoading(false);
+    setTimeout(() => {
+      setLoadedQuestions((prev) => sortedQuestions.slice(0, prev.length + questionsPerPage));
+      setLoading(false);
+    }, 500);
   };
 
   useEffect(() => {
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver((entries) => {
-      if (
-        entries[0].isIntersecting &&
-        loadedQuestions.length < sortedQuestions.length
-      ) {
+      if (entries[0].isIntersecting && loadedQuestions.length < sortedQuestions.length) {
         loadMoreQuestions();
       }
     });
-    if (lastQuestionElementRef.current)
+
+    if (lastQuestionElementRef.current) {
       observer.current.observe(lastQuestionElementRef.current);
-  }, [loadedQuestions]);
+    }
+
+    return () => observer.current?.disconnect();
+  }, [loadedQuestions, sortedQuestions]);
 
   const handleFilterChange = (value: string) => {
-    setFilter(value);
     router.push(`?sort=${value}`, { scroll: false });
   };
 
@@ -118,8 +98,9 @@ export default function QuestionsList({
                 ? "Top Questions"
                 : "Questions"}
         </h1>
+
         <div className="flex flex-col md:flex-row items-center justify-between h-full w-full gap-4 md:gap-8">
-          <div className="relative w-full md:w-full flex flex-1">
+          <div className="relative w-full flex flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               placeholder="Search questions..."
@@ -129,23 +110,19 @@ export default function QuestionsList({
             />
           </div>
 
-          <Tabs
-            value={filter}
-            onValueChange={handleFilterChange}
-            className="w-full sm:w-auto"
-          >
+          <Tabs value={filter} onValueChange={handleFilterChange} className="w-full sm:w-auto">
             <TabsList>
-              <TabsTrigger value="newest" className="cursor-pointer">
+              <TabsTrigger value="newest">
                 <Clock className="h-4 w-4 mr-2" />
-                <span>Newest</span>
+                Newest
               </TabsTrigger>
-              <TabsTrigger value="hot" className="cursor-pointer">
+              <TabsTrigger value="hot">
                 <FlameIcon className="h-4 w-4 mr-2" />
-                <span>Hot</span>
+                Hot
               </TabsTrigger>
-              <TabsTrigger value="top" className="cursor-pointer">
+              <TabsTrigger value="top">
                 <ArrowUpIcon className="h-4 w-4 mr-2" />
-                <span>Top</span>
+                Top
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -155,11 +132,7 @@ export default function QuestionsList({
       <div className="space-y-4 relative overflow-y-auto h-full overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
         {loadedQuestions.map((question, index) => (
           <QuestionCard
-            ref={
-              index === loadedQuestions.length - 1
-                ? lastQuestionElementRef
-                : null
-            }
+            ref={index === loadedQuestions.length - 1 ? lastQuestionElementRef : null}
             key={question.id}
             question={question}
           />

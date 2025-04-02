@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { UserProvider } from "@/context/user.context";
+import { ContentProvider } from "@/context/content.context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -65,6 +66,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background`}
       >
+        <ContentProvider>
         <UserProvider>
           <ThemeProvider
             attribute="class"
@@ -75,6 +77,7 @@ export default function RootLayout({
             {children}
           </ThemeProvider>
         </UserProvider>
+        </ContentProvider>
       </body>
     </html>
   );
