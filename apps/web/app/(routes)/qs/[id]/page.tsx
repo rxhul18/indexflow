@@ -59,7 +59,6 @@ export default NextAuth({
     `,
     tags: ["next.js", "authentication", "nextauth"],
     votes: 42,
-    views: 1253,
     author: {
       name: "JaneDev",
       avatar: "/placeholder.svg?height=40&width=40",
@@ -153,7 +152,7 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
           <div className="flex flex-wrap gap-2 items-center text-sm text-muted-foreground">
             <span>Asked {question.createdAt}</span>
             <span>•</span>
-            <span>Viewed {question.views} times</span>
+            {/* <span>Viewed {question.views} times</span> */}
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { ArrowBigUp, CalendarRange, Eye, MessageSquare } from "lucide-react";
+import { ArrowBigUp, CalendarRange, MessageSquare } from "lucide-react";
 import React from "react";
 import { format } from "date-fns";
 
@@ -61,12 +61,12 @@ const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
                   {question.answers} answers
                 </span>
               </div>
-              <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
+              {/* <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
                 <Eye className="h-4 w-4" />
                 <span className="text-xs sm:text-sm">
                   {question.views} views
                 </span>
-              </div>
+              </div> */}
               <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
                 <CalendarRange className="h-4 w-4" />
                 <span className="text-xs sm:text-sm">
