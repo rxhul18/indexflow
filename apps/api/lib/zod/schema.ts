@@ -58,7 +58,6 @@ const anonProfileSchema = z.object({
 const tagSchema = z.object({
   id: z.string(),
   name: z.string(),
-  usedAt: z.union([z.date(), z.string()]).nullable().optional(),
   posts: z.array(z.string()).optional(),
   usages: z.number().optional(),
   createdAt: z.union([z.date(), z.string()]),
@@ -77,6 +76,9 @@ const indexedQnsSchema = z.object({
   server_id: z.string(),
   thread_id: z.string(),
   thread_mems: z.array(z.string()).optional(),
+  tags: z.array(z.string()).optional(),
+  up_votes: z.number().optional(),
+  down_votes: z.number().optional(),
   msg_url: z.string(),
   createdAt: z.union([z.date(), z.string()]),
   updatedAt: z.union([z.date(), z.string()]),
@@ -94,6 +96,8 @@ const indexedAnsSchema = z.object({
   server_id: z.string(),
   thread_id: z.string(),
   msg_url: z.string(),
+  up_votes: z.number().optional(),
+  down_votes: z.number().optional(),
   createdAt: z.union([z.date(), z.string()]),
   updatedAt: z.union([z.date(), z.string()]),
 });

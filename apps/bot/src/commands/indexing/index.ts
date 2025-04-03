@@ -172,13 +172,15 @@ async function handleIndexQuestion(
   firstMessage: Message,
   threadChannel: ThreadChannel,
   interaction: ButtonInteraction,
+  ansId?: string | null
 ) {
   await indexQns({
     id: firstMessage.id,
     title: threadChannel.name,
     author: firstMessage.author.id,
+    ans_id: ansId,
     content: firstMessage.content,
-    server_id: firstMessage.guildId,
+    server_id: firstMessage.guildId!,
     thread_id: threadChannel.id,
     msg_url: firstMessage.url,
     createdAt: new Date(),
@@ -204,7 +206,7 @@ async function handleIndexAnswer(
   threadChannel: ThreadChannel,
   interaction: ButtonInteraction,
 ) {
-  await handleIndexQuestion(client, firstMessage, threadChannel, interaction);
+  await handleIndexQuestion(client, firstMessage, threadChannel, interaction, repliedMessage.id);
 
   await indexAns({
     id: repliedMessage.id,

@@ -15,6 +15,7 @@ import questions from "./routes/questions";
 import profile from "./routes/bot/profile";
 import ping from "./routes/ping";
 import stats from "./routes/bot/stats";
+import vote from "./routes/vote";
 
 export const runtime = "edge";
 const app = new Hono().basePath("/v1");
@@ -50,6 +51,7 @@ app.route("/bot/index/ans", indexedAns);
 app.route("/bot/stats", stats);
 app.route("/bot/profile", profile);
 
+app.route("/vote", vote);
 app.route("/ping", ping);
 app.route("/user", user);
 app.route("/data", data);

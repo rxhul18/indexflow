@@ -41,6 +41,16 @@ export type ConfigType = {
   updatedAt: Date | string;
 };
 
+export type TagType = {
+  id: string;
+  name: string;
+  owner_id?: string;
+  posts?: string[];
+  usages?: number;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+};
+
 export type IndexQnsType = {
   id: string;
   title: string;
@@ -50,9 +60,12 @@ export type IndexQnsType = {
   tldr?: string | null;
   is_anon?: boolean;
   is_nsfw?: boolean;
-  server_id: string | null;
+  server_id: string;
   thread_id: string;
   thread_mems?: string[];
+  tags?: string[];
+  up_votes?: number;
+  down_votes?: number;
   msg_url: string;
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -70,6 +83,8 @@ export type IndexAnsType = {
   server_id: string;
   thread_id: string;
   msg_url: string;
+  up_votes?: number;
+  down_votes?: number;
   createdAt: Date | string;
   updatedAt: Date | string;
 };
