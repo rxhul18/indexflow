@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useContext, ReactNode, useEffect, useState } from "react";
 import { useServersStore, useTagsStore, useUsersStore } from "@/lib/zustand";
+import { ConfigType, ServerType } from "@iflow/types";
 
 interface ContentContextType {
   contentLoading: boolean;
@@ -42,8 +43,8 @@ export function ContentProvider({ children }: { children: ReactNode }) {
         const response = await data.json();
         const configResponse = await configData.json();
        
-        const serverIdSet = new Set(configResponse?.configs?.map((config: any) => config.server_id));
-        const finalData = response?.servers?.filter((item: any) => serverIdSet.has(item.id)) || [];
+        const serverIdSet = new Set(configResponse?.configs?.map((config: ConfigType) => config.server_id));
+        const finalData = response?.servers?.filter((item: ServerType) => serverIdSet.has(item.id)) || [];
        
         if (response?.servers) {
           setServers(finalData);
