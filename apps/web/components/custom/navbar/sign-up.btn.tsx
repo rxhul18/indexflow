@@ -20,7 +20,9 @@ export function SignInBtn({
   name?: string;
   type?: "default" | "secondary" | "outline" | "ghost";
 }) {
-  const CALLBACK_URL = "https://www.indexflow.site/";
+  const CALLBACK_URL = process.env.NODE_ENV === 'development' 
+  ? 'http://localhost:3000' 
+  : 'https://indexflow.site';
   const authHandler = async (provider: "google" | "discord" | "github") => {
     switch (provider) {
       case "google":

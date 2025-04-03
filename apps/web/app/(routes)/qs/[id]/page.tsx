@@ -7,6 +7,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { SubbcribeCommunityBtn } from "@/components/custom/subcribe.community.btn";
 import ShareLinkBtn from "@/components/custom/share.btn";
+import MDXFormatter from "@/components/custom/mdx.formatter";
 
 export async function generateMetadata(): Promise<Metadata> {
   const question = {
@@ -161,9 +162,10 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
         {/* Question content */}
         <div className="space-y-4">
           <div
-            dangerouslySetInnerHTML={{ __html: question.content }}
             className="border py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full"
-          />
+          >
+            <MDXFormatter content={question.content}/>
+          </div>
 
           <div className="flex flex-wrap gap-2 mt-4">
             {question.tags.map((tag) => (
@@ -254,10 +256,11 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
 
                 {/* Answer content */}
                 <div className="space-y-4">
-                  <div
-                    dangerouslySetInnerHTML={{ __html: answer.content }}
-                    className="border py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full"
-                  />
+                <div
+            className="border py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full"
+          >
+            <MDXFormatter content={answer.content}/>
+          </div>
                   <div className="flex justify-end items-center mt-6">
                     <div className="flex items-center gap-3">
                       <div className="text-sm text-muted-foreground">
