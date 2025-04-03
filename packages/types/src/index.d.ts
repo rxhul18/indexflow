@@ -64,8 +64,8 @@ export type IndexQnsType = {
   thread_id: string;
   thread_mems?: string[];
   tags?: string[];
-  up_votes?: number;
-  down_votes?: number;
+  up_votes?: number | null;
+  down_votes?: number | null;
   msg_url: string;
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -83,8 +83,8 @@ export type IndexAnsType = {
   server_id: string;
   thread_id: string;
   msg_url: string;
-  up_votes?: number;
-  down_votes?: number;
+  up_votes?: number | null;
+  down_votes?: number | null;
   createdAt: Date | string;
   updatedAt: Date | string;
 };
