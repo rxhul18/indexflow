@@ -28,6 +28,7 @@ import MultipleSelector, { Option } from "@/components/ui/multiselect"
 import { useTagsStore } from "@/lib/zustand";
 import { authClient } from "@iflow/auth";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 
 export default function ProfileBtn({
@@ -52,7 +53,7 @@ export default function ProfileBtn({
   });
   const router = useRouter();
   const { tags } = useTagsStore();
-  const tagOptions:Option[] = tags.map((tag) => ({
+  const tagOptions: Option[] = tags.map((tag) => ({
     value: tag.id,
     label: tag.name,
   }));
@@ -148,15 +149,19 @@ export default function ProfileBtn({
                 <div className="*:not-first:mt-2">
                   <Label>Tags</Label>
                   <MultipleSelector
-                  commandProps={{
-                    label: "Select frameworks",
-                  }}
-                  value={tagOptions.slice(0, 0)}
-                  defaultOptions={tagOptions}
-                    placeholder="Select frameworks"
+                    commandProps={{
+                      label: "Select frameworks",
+                    }}
+                    value={tagOptions.slice(0, 0)}
+                    defaultOptions={tagOptions}
+                    placeholder="Select Tags (max 5)"
                     hideClearAllButton
                     hidePlaceholderWhenSelected
                     emptyIndicator={<p className="text-center text-sm">No results found</p>}
+                    maxSelected={5}
+                    onMaxSelected={() => {
+                      toast.error("You can only select up to 5 tags")
+                    }}
                   />
                 </div>
                 <div className="*:not-first:mt-2">
@@ -189,10 +194,10 @@ export default function ProfileBtn({
         </div>
         {/* </ScrollArea> */}
         <DialogFooter className="border-t px-6 py-4 !flex !justify-between">
-        <DialogClose asChild>
-          <Button variant="destructive" onClick={handleSingOut}>
-            <LogOut /> Logout
-          </Button>
+          <DialogClose asChild>
+            <Button variant="destructive" onClick={handleSingOut}>
+              <LogOut /> Logout
+            </Button>
           </DialogClose>
           <div className="flex gap-2">
             <DialogClose asChild>

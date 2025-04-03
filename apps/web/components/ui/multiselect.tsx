@@ -471,7 +471,7 @@ const MultipleSelector = ({
                   onClick={() => handleUnselect(option)}
                   aria-label="Remove"
                 >
-                  <XIcon size={14} aria-hidden="true" />
+                  <XIcon size={14} aria-hidden="true" className="cursor-pointer" />
                 </button>
               </div>
             )
