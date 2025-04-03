@@ -10,3 +10,6 @@ export const log_guild = new WebhookClient({
 export const log_config = new WebhookClient({
   url: CONFIG.WEBHOOK_CONFIG_LOGGING,
 });
+export const log_topgg = new WebhookClient({
+  url: CONFIG.WEBHOOK_TOPGG_LOGGING!,
+});
