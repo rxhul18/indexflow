@@ -12,7 +12,7 @@ export default function OnboardingBanner() {
   if (!isVisible) return null
 
   return (
-    <div className="dark  bg-muted/40 text-foreground px-4 py-3">
+    <div className="dark  bg-muted/80 text-foreground px-4 py-3">
       <div className="flex gap-2 md:items-center">
         <div className="flex grow gap-3 md:items-center">
           <div

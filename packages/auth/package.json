@@ -12,6 +12,8 @@
   "dependencies": {
     "@iflow/db": "workspace:*",
     "@iflow/typescript-config": "workspace:*",
+    "@polar-sh/better-auth": "^0.0.9",
+    "@polar-sh/sdk": "^0.32.4",
     "better-auth": "^1.2.3",
     "better-call": "^1.0.4",
     "oslo": "^1.2.1"
