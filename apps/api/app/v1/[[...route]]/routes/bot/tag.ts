@@ -73,7 +73,6 @@ const tag = new Hono()
           name: body.name,
           posts: [],
           usages: 0,
-          usedAt: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
         },
