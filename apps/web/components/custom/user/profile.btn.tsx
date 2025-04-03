@@ -26,6 +26,8 @@ import ConnectedAcount from "./connected.acount";
 import AdvanceSettings from "./advance.settings";
 import MultipleSelector, { Option } from "@/components/ui/multiselect"
 import { useTagsStore } from "@/lib/zustand";
+import { authClient } from "@iflow/auth";
+import { useRouter } from "next/navigation";
 
 
 export default function ProfileBtn({
@@ -48,12 +50,23 @@ export default function ProfileBtn({
     initialValue:
       "Hey, I am Rahul Shah, a web developer who loves turning ideas into amazing websites!",
   });
-
+  const router = useRouter();
   const { tags } = useTagsStore();
   const tagOptions:Option[] = tags.map((tag) => ({
     value: tag.id,
     label: tag.name,
   }));
+
+  const handleSingOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.refresh();
+          window.location.reload();
+        },
+      },
+    });
+  }
 
   return (
     <Dialog>
@@ -176,9 +189,11 @@ export default function ProfileBtn({
         </div>
         {/* </ScrollArea> */}
         <DialogFooter className="border-t px-6 py-4 !flex !justify-between">
-          <Button variant="destructive">
+        <DialogClose asChild>
+          <Button variant="destructive" onClick={handleSingOut}>
             <LogOut /> Logout
           </Button>
+          </DialogClose>
           <div className="flex gap-2">
             <DialogClose asChild>
               <Button type="button" variant="outline">

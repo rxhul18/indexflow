@@ -20,7 +20,7 @@ export default function Header() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex justify-center">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/90 flex justify-center">
       <div className="min-w-[90%] md:container flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-2 md:gap-10">
           <Link href="/" className="flex items-center gap-2">

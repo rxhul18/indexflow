@@ -1,44 +1,74 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
-import { useEffect, useState } from "react";
+
+import { useMemo, ReactNode } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
 import DOMPurify from "isomorphic-dompurify";
-import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
 
 interface MDXFormatterProps {
-  content: string;
+  children: string;
 }
 
-const MDXFormatter = ({ content }: MDXFormatterProps) => {
-  const [formattedContent, setFormattedContent] = useState("");
+interface CodeProps {
+  inline?: boolean;
+  className?: string;
+  children?: ReactNode;
+}
 
-  useEffect(() => {
-    const formatContent = () => {
-      // Clean the HTML content first
-      let cleanContent = DOMPurify.sanitize(content);
+interface LinkProps {
+  href?: string;
+  children?: ReactNode;
+}
 
-      // Find all code blocks and apply syntax highlighting
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = cleanContent;
-      
-      const codeBlocks = tempDiv.querySelectorAll('pre code');
-      codeBlocks.forEach((block) => {
-        hljs.highlightElement(block as HTMLElement);
-      });
-
-      // Get the formatted HTML
-      cleanContent = tempDiv.innerHTML;
-
-      setFormattedContent(cleanContent);
-    };
-
-    formatContent();
-  }, [content]);
+const MDXFormatter = ({ children }: MDXFormatterProps) => {
+  const sanitizedContent = useMemo(() => DOMPurify.sanitize(children), [children]);
 
   return (
-    <div 
-      className="prose max-w-none dark:prose-invert"
-      dangerouslySetInnerHTML={{ __html: formattedContent }}
-    />
+    <div className="prose max-w-none dark:prose-invert">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeHighlight, rehypeRaw]}
+        components={{
+            code({ inline = false, children = null }: CodeProps) {
+                return inline ? (
+                  <code className="inline-flex max-w-max bg-black dark:bg-secondary/100 dark:text-white px-1 py-0.5 rounded">
+                    {children}
+                  </code>
+                ) : (
+                  <pre className="p-2 rounded-md dark:bg-secondary/100 bg-black text-white w-fit overflow-x-auto">
+                    <code className="block w-full">{children}</code>
+                  </pre>
+                );
+              },
+          h1: ({ children }) => <h1 className="text-3xl font-bold">{children}</h1>,
+          h2: ({ children }) => <h2 className="text-2xl font-semibold">{children}</h2>,
+          h3: ({ children }) => <h3 className="text-xl font-medium">{children}</h3>,
+          a: ({ href, children }: LinkProps) => (
+            <a href={href} className="text-blue-500 hover:underline">
+              {children}
+            </a>
+          ),
+          blockquote: ({ children }) => (
+            <blockquote className="border-l-4 border-gray-500 pl-4 italic">{children}</blockquote>
+          ),
+          ul: ({ children }) => <ul className="list-disc pl-5">{children}</ul>,
+          ol: ({ children }) => <ol className="list-decimal pl-5">{children}</ol>,
+          li: ({ children }) => <li>{children}</li>,
+          strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+          b: ({ children }) => <b className="font-bold">{children}</b>,
+          em: ({ children }) => <em className="italic">{children}</em>,
+          img: ({ src, alt }) => (
+            <img src={src} alt={alt} className="max-w-[600px] h-auto rounded-md my-2" />
+          ),
+        }}
+      >
+        {sanitizedContent}
+      </ReactMarkdown>
+    </div>
   );
 };
 

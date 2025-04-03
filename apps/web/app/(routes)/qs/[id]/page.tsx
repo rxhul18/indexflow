@@ -30,34 +30,7 @@ export default function QuestionPage() {
   const question = {
     id: id,
     title: "How do I implement authentication with Next.js and NextAuth?",
-    content: `
-      <div class="markdown">
-        <p>I'm trying to add authentication to my Next.js application using NextAuth.js but I'm running into issues with the callback URLs.</p>
-        
-        <p>Here's my current setup:</p>
-        
-        <pre><code>// pages/api/auth/[...nextauth].js
-import NextAuth from "next-auth";
-import GithubProvider from "next-auth/providers/github";
-
-export default NextAuth({
-  providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
-  ],
-});</code></pre>
-
-        <p>But when I try to sign in, I get the following error:</p>
-        
-        <pre><code>Error: The callback URL you specified is not valid.</code></pre>
-        
-        <p>I've already added <code>http://localhost:3000/api/auth/callback/github</code> to my GitHub OAuth application settings.</p>
-        
-        <p>What am I missing here? Any help would be greatly appreciated!</p>
-      </div>
-    `,
+    content: "## fuck it idk why it is not working. \n- suck my `dick` bro \n- me too **[DJ BABU](https://s.s)** \n\n ```js console.log(ok)``` \n ![alt text](https://cdn.discordapp.com/attachments/1357375635961680043/1357375636330643677/fuck_yt_1.png?ex=67effa12&is=67eea892&hm=7a25484c11674e28becfa8ed5a63f6135091044dc2d0783d1d0b0456c71b39a2&)",
     tags: ["next.js", "authentication", "nextauth"],
     votes: 42,
     author: {
@@ -150,10 +123,26 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
             ← Back to questions
           </Link>
           <h1 className="text-2xl md:text-3xl font-bold">{question.title}</h1>
-          <div className="flex flex-wrap gap-2 items-center text-sm text-muted-foreground">
-            <span>Asked {question.createdAt}</span>
-            <span>•</span>
-            {/* <span>Viewed {question.views} times</span> */}
+          <div className="flex flex-wrap gap-1 items-center text-sm text-muted-foreground">
+          <div className="flex items-center gap-3">
+              <div className="text-sm text-muted-foreground">
+                Posted {question.createdAt} in
+              </div>
+              <div className="flex items-center gap-2">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage
+                    src={question.author.avatar}
+                    alt={question.author.name}
+                  />
+                  <AvatarFallback>
+                    {question.author.name.slice(0, 2)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="text-sm font-medium">
+                  {question.author.name}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -162,9 +151,11 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
         {/* Question content */}
         <div className="space-y-4">
           <div
-            className="border py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full"
+            className="border p-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full"
           >
-            <MDXFormatter content={question.content}/>
+            <MDXFormatter>
+            {question.content}
+            </MDXFormatter>
           </div>
 
           <div className="flex flex-wrap gap-2 mt-4">
@@ -197,7 +188,7 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
 
             <div className="flex items-center gap-3">
               <div className="text-sm text-muted-foreground">
-                asked {question.createdAt}
+                Asked {question.createdAt} by
               </div>
               <div className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
@@ -259,12 +250,14 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
                 <div
             className="border py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full"
           >
-            <MDXFormatter content={answer.content}/>
+            <MDXFormatter>
+            {answer.content}
+            </MDXFormatter>
           </div>
                   <div className="flex justify-end items-center mt-6">
                     <div className="flex items-center gap-3">
                       <div className="text-sm text-muted-foreground">
-                        answered {answer.createdAt}
+                        Answered {answer.createdAt} by
                       </div>
                       <div className="flex items-center gap-2">
                         <Avatar className="h-8 w-8">
