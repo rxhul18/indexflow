@@ -27,16 +27,32 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     process.env.NODE_ENV == "development"
       ? "http://localhost:3001/v1/user/public"
       : "https://api.indexflow.site/v1/user/public";
+  const CONFIG_SERVER_API_ENDPOINT =
+    process.env.NODE_ENV == "development"
+      ? "http://localhost:3001/v1/bot/server/config/all"
+      : "https://api.indexflow.site/v1/bot/server/config/all";
+
 
   useEffect(() => {
     async function fetchServers() {
       setContentLoading(true);
-      const data = await fetch(SERVER_API_ENDPOINT);
-      const response = await data.json();
-      if (response?.servers) {
-        setServers(response.servers);
+      try {
+        const data = await fetch(SERVER_API_ENDPOINT);
+        const configData = await fetch(CONFIG_SERVER_API_ENDPOINT);
+        const response = await data.json();
+        const configResponse = await configData.json();
+       
+        const serverIdSet = new Set(configResponse?.configs?.map((config: any) => config.server_id));
+        const finalData = response?.servers?.filter((item: any) => serverIdSet.has(item.id)) || [];
+       
+        if (response?.servers) {
+          setServers(finalData);
+        }
+      } catch (error) {
+        console.error("Error fetching server data:", error);
+      } finally {
+        setContentLoading(false);
       }
-      setContentLoading(false);
     }
 
     if (servers.length === 0) {
