@@ -61,9 +61,6 @@ export default function Header() {
               <SignInBtn />
             )}
           </div>
-          {/* <div className="hidden md:flex">
-            {!loading && user && <NotificationsComp />}
-          </div> */}
 
           <Button
             variant="outline"

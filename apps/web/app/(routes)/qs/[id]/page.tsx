@@ -166,19 +166,16 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
           <div className="flex flex-col gap-3 md:flex-row justify-between items-start md:items-center mt-6 pt-4 border-t">
             <div className="flex">
               <div className="flex items-center gap-2 md:gap-4 bg-primary/12 w-fit rounded-full p-1">
-                <Button variant="outline" size="icon" className="rounded-full">
+                <Button variant="outline" size="icon" className="rounded-full hover:bg-black">
                   <ArrowBigUp className="size-5" />
                 </Button>
                 <span className="font-semibold text-lg">{question.votes}</span>
-                <Button variant="outline" size="icon" className="rounded-full">
+                <Button variant="outline" size="icon" className="rounded-full hover:bg-black">
                   <ArrowBigDown className="size-5" />
                 </Button>
               </div>
               <div className="flex items-center gap-2 flex-1 px-2">
                 <SubbcribeCommunityBtn InvUrl="/api/subscribe" />
-                {/* <Button variant="outline" size="lg">
-                  <Bookmark />
-                </Button> */}
                 <ShareLinkBtn />
               </div>
             </div>
@@ -218,36 +215,41 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
               <div className="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-4">
                 {/* Voting */}
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 md:gap-4 bg-primary/12 w-fit rounded-full p-1">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="rounded-full"
-                    >
-                      <ArrowBigUp className="size-5" />
-                    </Button>
-                    <span className="font-semibold text-lg">
-                      {answer.votes}
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="rounded-full"
-                    >
-                      <ArrowBigDown className="size-5" />
-                    </Button>
-                  </div>
                   {answer.isAccepted && (
                     <CheckCircle2 className="size-7 text-green-500" />
+                  )}
+                  {answer.isAccepted && (
+                    <p className="text-md text-muted-foreground">
+                      Correct Answer
+                    </p>
                   )}
                 </div>
 
                 {/* Answer content */}
                 <div className="space-y-4">
-                  <div className="border py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full">
+                  <div className={`border ${answer.isAccepted && "border-green-500" } py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full`}>
                     <MDXFormatter>{answer.content}</MDXFormatter>
                   </div>
-                  <div className="flex justify-end items-center mt-6">
+                  <div className="flex justify-between items-center mt-6">
+                    <div className="flex items-center gap-2 md:gap-4 bg-primary/12 w-fit rounded-full p-1">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full hover:bg-black"
+                      >
+                        <ArrowBigUp className="size-5" />
+                      </Button>
+                      <span className="font-semibold text-lg">
+                        {answer.votes}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full hover:bg-black"
+                      >
+                        <ArrowBigDown className="size-5" />
+                      </Button>
+                    </div>
                     <div className="flex items-center gap-3">
                       <div className="text-sm text-muted-foreground">
                         Answered {answer.createdAt} by
