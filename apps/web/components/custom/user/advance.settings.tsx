@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/accordion"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
+import AnonProfileComp from "./anon.profile"
 
 export default function AdvanceSettings() {
     return (
@@ -37,7 +39,24 @@ export default function AdvanceSettings() {
                         />
                     </AccordionPrimitive.Trigger>
                 </AccordionPrimitive.Header>
-                <AccordionContent className="text-muted-foreground ms-3 ps-10 pb-2 space-y-2">
+                <AccordionContent className="text-muted-foreground ms-3 ps-10 pb-2 space-y-2 mt-5">
+                    <div className="*:not-first:mt-2">
+                        <Label htmlFor={"anon-name"}>Anon Identifier</Label>
+                        <div className="flex rounded-md shadow-xs">
+                            <Input
+                                id={"anon-name"}
+                                className="-me-px rounded-e-none shadow-none"
+                                placeholder="google"
+                                type="text"
+                            />
+                            <span className="border-input bg-background text-muted-foreground -z-10 inline-flex items-center rounded-e-md border px-3 text-sm">
+                                .iflow
+                            </span>
+                        </div>
+                    </div>
+                    <Label htmlFor={"anon"}>Anonymous Profile</Label>
+                    <AnonProfileComp />
+                    <Separator />
                     <div className="*:not-first:mt-2">
                         <Label htmlFor={"ip"}>IP Address</Label>
                         <Input
@@ -53,7 +72,7 @@ export default function AdvanceSettings() {
                         <div className="relative">
                             <Input className="peer ps-9" placeholder="India"
                                 type="text"
-                                readOnly/>
+                                readOnly />
                             <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
                                 <MapPinned size={16} aria-hidden="true" />
                             </div>

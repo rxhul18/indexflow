@@ -26,8 +26,8 @@ export default function ConnectedAcount() {
                                     <Link2Icon />
                                 </span>
                                 <span className="flex flex-col space-y-1">
-                                    <span>Connected Acount</span>
-                                    <span className="text-sm font-normal">View your connected acount with google and github</span>
+                                    <span>Connected Account</span>
+                                    <span className="text-sm font-normal">View your connected account with Google, Discord and GitHub.</span>
                                 </span>
                             </span>
                             <PlusIcon
@@ -37,7 +37,7 @@ export default function ConnectedAcount() {
                             />
                         </AccordionPrimitive.Trigger>
                     </AccordionPrimitive.Header>
-                    <AccordionContent className="text-muted-foreground ms-3 ps-10 pb-2">
+                    <AccordionContent className="text-muted-foreground ms-3 ps-10 pb-2 mt-5">
                         {/* {item.content} */}
                         <Button size={"lg"}>
                             <Icons.discord />
