@@ -25,7 +25,10 @@ interface LinkProps {
 }
 
 const MDXFormatter = ({ children }: MDXFormatterProps) => {
-  const sanitizedContent = useMemo(() => DOMPurify.sanitize(children), [children]);
+  const sanitizedContent = useMemo(
+    () => DOMPurify.sanitize(children),
+    [children],
+  );
 
   return (
     <div className="prose max-w-none dark:prose-invert">
@@ -33,36 +36,52 @@ const MDXFormatter = ({ children }: MDXFormatterProps) => {
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight, rehypeRaw]}
         components={{
-            code({ inline = false, children = null }: CodeProps) {
-                return inline ? (
-                  <code className="inline-flex max-w-max bg-black dark:bg-secondary/100 dark:text-white px-1 py-0.5 rounded">
-                    {children}
-                  </code>
-                ) : (
-                  <pre className="p-2 rounded-md dark:bg-secondary/100 bg-black text-white w-fit overflow-x-auto">
-                    <code className="block w-full">{children}</code>
-                  </pre>
-                );
-              },
-          h1: ({ children }) => <h1 className="text-3xl font-bold">{children}</h1>,
-          h2: ({ children }) => <h2 className="text-2xl font-semibold">{children}</h2>,
-          h3: ({ children }) => <h3 className="text-xl font-medium">{children}</h3>,
+          code({ inline = false, children = null }: CodeProps) {
+            return inline ? (
+              <code className="inline-flex max-w-max bg-black dark:bg-secondary/100 dark:text-white px-1 py-0.5 rounded">
+                {children}
+              </code>
+            ) : (
+              <pre className="p-2 rounded-md dark:bg-secondary/100 bg-black text-white w-fit overflow-x-auto">
+                <code className="block w-full">{children}</code>
+              </pre>
+            );
+          },
+          h1: ({ children }) => (
+            <h1 className="text-3xl font-bold">{children}</h1>
+          ),
+          h2: ({ children }) => (
+            <h2 className="text-2xl font-semibold">{children}</h2>
+          ),
+          h3: ({ children }) => (
+            <h3 className="text-xl font-medium">{children}</h3>
+          ),
           a: ({ href, children }: LinkProps) => (
             <a href={href} className="text-blue-500 hover:underline">
               {children}
             </a>
           ),
           blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-gray-500 pl-4 italic">{children}</blockquote>
+            <blockquote className="border-l-4 border-gray-500 pl-4 italic">
+              {children}
+            </blockquote>
           ),
           ul: ({ children }) => <ul className="list-disc pl-5">{children}</ul>,
-          ol: ({ children }) => <ol className="list-decimal pl-5">{children}</ol>,
+          ol: ({ children }) => (
+            <ol className="list-decimal pl-5">{children}</ol>
+          ),
           li: ({ children }) => <li>{children}</li>,
-          strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+          strong: ({ children }) => (
+            <strong className="font-bold">{children}</strong>
+          ),
           b: ({ children }) => <b className="font-bold">{children}</b>,
           em: ({ children }) => <em className="italic">{children}</em>,
           img: ({ src, alt }) => (
-            <img src={src} alt={alt} className="max-w-[600px] h-auto rounded-md my-2" />
+            <img
+              src={src}
+              alt={alt}
+              className="max-w-[600px] h-auto rounded-md my-2"
+            />
           ),
         }}
       >

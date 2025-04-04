@@ -16,7 +16,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { AtSignIcon, CheckIcon, ImagePlusIcon, LogOut, XIcon } from "lucide-react";
+import {
+  AtSignIcon,
+  CheckIcon,
+  ImagePlusIcon,
+  LogOut,
+  XIcon,
+} from "lucide-react";
 import { useId, useState } from "react";
 import Image from "next/image";
 import UserBtn from "./user.btn";
@@ -24,13 +30,12 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ConnectedAcount from "./connected.acount";
 import AdvanceSettings from "./advance.settings";
-import MultipleSelector, { Option } from "@/components/ui/multiselect"
+import MultipleSelector, { Option } from "@/components/ui/multiselect";
 import { useTagsStore } from "@/lib/zustand";
 import { authClient } from "@iflow/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ConnectedServers from "./connected.servers";
-
 
 export default function ProfileBtn({
   pfp,
@@ -40,8 +45,8 @@ export default function ProfileBtn({
   name: string;
 }) {
   const id = useId();
-  const fstName = name.split(' ')[0];
-  const lstName = name.split(' ')[1] || '';
+  const fstName = name.split(" ")[0];
+  const lstName = name.split(" ")[1] || "";
   const maxLength = 180;
   const {
     value,
@@ -69,7 +74,7 @@ export default function ProfileBtn({
         },
       },
     });
-  }
+  };
 
   return (
     <Dialog>
@@ -117,10 +122,14 @@ export default function ProfileBtn({
                 <div className="*:not-first:mt-2">
                   <Label htmlFor={`${id}-username`}>Username</Label>
                   <div className="relative">
-                    <Input id={`${id}-username`} className="peer ps-9" placeholder="rahulshah69"
+                    <Input
+                      id={`${id}-username`}
+                      className="peer ps-9"
+                      placeholder="rahulshah69"
                       defaultValue="SkidGod4444"
                       type="text"
-                      required />
+                      required
+                    />
                     <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
                       <AtSignIcon size={16} aria-hidden="true" />
                     </div>
@@ -159,10 +168,12 @@ export default function ProfileBtn({
                     placeholder="Select Tags (max 5)"
                     hideClearAllButton
                     hidePlaceholderWhenSelected
-                    emptyIndicator={<p className="text-center text-sm">No results found</p>}
+                    emptyIndicator={
+                      <p className="text-center text-sm">No results found</p>
+                    }
                     maxSelected={5}
                     onMaxSelected={() => {
-                      toast.error("You can only select up to 5 tags")
+                      toast.error("You can only select up to 5 tags");
                     }}
                   />
                 </div>
@@ -182,7 +193,9 @@ export default function ProfileBtn({
                     role="status"
                     aria-live="polite"
                   >
-                    <span className="tabular-nums">{limit - characterCount}</span>{" "}
+                    <span className="tabular-nums">
+                      {limit - characterCount}
+                    </span>{" "}
                     characters left
                   </p>
                 </div>
@@ -191,7 +204,7 @@ export default function ProfileBtn({
                 <Separator />
                 <ConnectedAcount />
                 <Separator />
-                <AdvanceSettings isDisabled/>
+                <AdvanceSettings isDisabled />
               </form>
             </div>
           </ScrollArea>
@@ -286,17 +299,16 @@ function ProfileBg({ defaultImage }: { defaultImage?: string }) {
 }
 
 function Avatar({ pfp }: { pfp?: string }) {
-
   return (
     <div className="-mt-10 px-6">
       <div className="border-background bg-muted relative flex size-20 items-center justify-center overflow-hidden rounded-full border-4 shadow-xs shadow-black/10">
-      <Image
-            src={pfp || "https://avatar.vercel.sh/jane"}
-            className="h-full w-full object-cover"
-            width={80}
-            height={80}
-            alt="Profile image"
-          />
+        <Image
+          src={pfp || "https://avatar.vercel.sh/jane"}
+          className="h-full w-full object-cover"
+          width={80}
+          height={80}
+          alt="Profile image"
+        />
       </div>
     </div>
   );

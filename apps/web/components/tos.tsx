@@ -31,7 +31,7 @@ export default function Tos() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <span className="text-muted-foreground hover:underline cursor-pointer">
+        <span className="text-muted-foreground underline cursor-pointer">
           Terms & Conditions
         </span>
       </DialogTrigger>

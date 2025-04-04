@@ -30,7 +30,8 @@ export default function QuestionPage() {
   const question = {
     id: id,
     title: "How do I implement authentication with Next.js and NextAuth?",
-    content: "## fuck it idk why it is not working. \n- suck my `dick` bro \n- me too **[DJ BABU](https://s.s)** \n\n ```js console.log(ok)``` \n ![alt text](https://cdn.discordapp.com/attachments/1357375635961680043/1357375636330643677/fuck_yt_1.png?ex=67effa12&is=67eea892&hm=7a25484c11674e28becfa8ed5a63f6135091044dc2d0783d1d0b0456c71b39a2&)",
+    content:
+      "## fuck it idk why it is not working. \n- suck my `dick` bro \n- me too **[DJ BABU](https://s.s)** \n\n ```js console.log(ok)``` \n ![alt text](https://cdn.discordapp.com/attachments/1357375635961680043/1357375636330643677/fuck_yt_1.png?ex=67effa12&is=67eea892&hm=7a25484c11674e28becfa8ed5a63f6135091044dc2d0783d1d0b0456c71b39a2&)",
     tags: ["next.js", "authentication", "nextauth"],
     votes: 42,
     author: {
@@ -124,7 +125,7 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
           </Link>
           <h1 className="text-2xl md:text-3xl font-bold">{question.title}</h1>
           <div className="flex flex-wrap gap-1 items-center text-sm text-muted-foreground">
-          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3">
               <div className="text-sm text-muted-foreground">
                 Posted {question.createdAt} in
               </div>
@@ -150,12 +151,8 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
       <div className="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-4">
         {/* Question content */}
         <div className="space-y-4">
-          <div
-            className="border p-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full"
-          >
-            <MDXFormatter>
-            {question.content}
-            </MDXFormatter>
+          <div className="border p-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full">
+            <MDXFormatter>{question.content}</MDXFormatter>
           </div>
 
           <div className="flex flex-wrap gap-2 mt-4">
@@ -247,13 +244,9 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
 
                 {/* Answer content */}
                 <div className="space-y-4">
-                <div
-            className="border py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full"
-          >
-            <MDXFormatter>
-            {answer.content}
-            </MDXFormatter>
-          </div>
+                  <div className="border py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full">
+                    <MDXFormatter>{answer.content}</MDXFormatter>
+                  </div>
                   <div className="flex justify-end items-center mt-6">
                     <div className="flex items-center gap-3">
                       <div className="text-sm text-muted-foreground">

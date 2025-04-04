@@ -4,18 +4,20 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { Badge } from "./ui/badge"
-import { Gem } from "lucide-react"
-import { Button } from "./ui/button"
-import Link from "next/link"
+} from "@/components/ui/tooltip";
+import { Badge } from "./ui/badge";
+import { Gem } from "lucide-react";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 export default function PremiumOnlyBadge() {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-        <Badge variant={"secondary"}><Gem /> Premium Only</Badge>
+          <Badge variant={"secondary"}>
+            <Gem /> Premium Only
+          </Badge>
         </TooltipTrigger>
         <TooltipContent className="py-3 flex bg-muted/95 w-[500px] h-full items-center justify-center z-[5000]">
           <div className="space-y-2">
@@ -31,20 +33,21 @@ export default function PremiumOnlyBadge() {
                 This is a Premium Only feature you can&apos;t make changes
               </p>
               <p className="text-muted-foreground text-xs">
-                Unlock Premium features by becoming an iFlow Supporter through purchase, or get them FREE when you UP-VOTE us on Top.gg! Thanks.
+                Unlock Premium features by becoming an iFlow Supporter through
+                purchase, or get them FREE when you UP-VOTE us on Top.gg!
+                Thanks.
               </p>
             </div>
             <div className="flex flex-row justify-between items-center">
               <Link href={"/support"}>
-              <Button size={"sm"}>
-              <Gem /> Get Premium for Free
-              </Button>
+                <Button size={"sm"}>
+                  <Gem /> Get Premium for Free
+                </Button>
               </Link>
             </div>
           </div>
         </TooltipContent>
-        
       </Tooltip>
     </TooltipProvider>
-  )
+  );
 }

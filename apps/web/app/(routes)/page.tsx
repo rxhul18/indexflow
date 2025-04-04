@@ -11,12 +11,11 @@ export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
   const { servers } = useServersStore();
   const { tags } = useTagsStore();
-  const {contentLoading} = useContent();
+  const { contentLoading } = useContent();
 
   return (
     <div className="flex w-full justify-center py-8">
       <div className="flex flex-col gap-4 min-w-[90%] md:container w-full px-4 relative">
-        
         <div className="bg-card rounded-lg border p-4 w-full">
           <h2 className="text-xl font-semibold mb-4">Popular Tags</h2>
           <TagName

@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 
-import { useState } from "react"
-import { ArrowRightIcon } from "lucide-react"
+import { useState } from "react";
+import { ArrowRightIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -15,10 +15,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 export default function OnboardingComp() {
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(1);
 
   const stepContent = [
     {
@@ -41,20 +41,20 @@ export default function OnboardingComp() {
       description:
         "Access our extensive documentation and community resources to make the most of Origin UI.",
     },
-  ]
+  ];
 
-  const totalSteps = stepContent.length
+  const totalSteps = stepContent.length;
 
   const handleContinue = () => {
     if (step < totalSteps) {
-      setStep(step + 1)
+      setStep(step + 1);
     }
-  }
+  };
 
   return (
     <Dialog
       onOpenChange={(open) => {
-        if (open) setStep(1)
+        if (open) setStep(1);
       }}
     >
       <DialogTrigger asChild>
@@ -84,7 +84,7 @@ export default function OnboardingComp() {
                   key={index}
                   className={cn(
                     "bg-primary size-1.5 rounded-full",
-                    index + 1 === step ? "bg-primary" : "opacity-20"
+                    index + 1 === step ? "bg-primary" : "opacity-20",
                   )}
                 />
               ))}
@@ -118,5 +118,5 @@ export default function OnboardingComp() {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

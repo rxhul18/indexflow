@@ -22,7 +22,7 @@ const polarClient = new Polar({
   // Use 'sandbox' if you're using the Polar Sandbox environment
   // Remember that access tokens, products, etc. are completely separated between environments.
   // Access tokens obtained in Production are for instance not usable in the Sandbox environment.
-  server: 'production'
+  server: "production",
 });
 
 export const auth = betterAuth({
@@ -92,23 +92,26 @@ export const auth = betterAuth({
       checkout: {
         enabled: true,
         products: [
-            {
-                productId: "e57d2c06-96ef-499b-a642-71a648fab297", // ID of Product from Polar Dashboard
-                slug: "iflow" // Custom slug for easy reference in Checkout URL, e.g. /checkout/pro
-            }
+          {
+            productId: "e57d2c06-96ef-499b-a642-71a648fab297", // ID of Product from Polar Dashboard
+            slug: "iflow", // Custom slug for easy reference in Checkout URL, e.g. /checkout/pro
+          },
         ],
-        successUrl: "/success?checkout_id={CHECKOUT_ID}"
-    },
+        successUrl: "/success?checkout_id={CHECKOUT_ID}",
+      },
       webhooks: {
         secret: process.env.POLAR_WEBHOOK_SECRET!,
         onCheckoutCreated: async (payload) => {
           console.log(payload.data.url);
+        },
+        onCustomerCreated: async (payload) => {
+          console.log(
+            `Customer ${payload.data.name} created for org: ${payload.data.organizationId}`,
+          );
+        },
       },
-      onCustomerCreated: async (payload) => {
-        console.log(`Customer ${payload.data.name} created for org: ${payload.data.organizationId}`);
-      }
-    }
-    })],
+    }),
+  ],
   socialProviders: {
     github: {
       clientId: process.env.GITHUB_CLIENT_ID!,
@@ -117,7 +120,7 @@ export const auth = betterAuth({
     discord: {
       clientId: process.env.DISCORD_CLIENT_ID!,
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
-      scope: ["guilds", "guilds.join", "connections"]
+      scope: ["guilds", "guilds.join", "connections"],
     },
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -126,10 +129,10 @@ export const auth = betterAuth({
   },
   account: {
     accountLinking: {
-        enabled: true,
-        allowDifferentEmails: true,
-        trustedProviders: ["google", "github", "discord"],
-        allowUnlinkingAll: true
-    }
-},
+      enabled: true,
+      allowDifferentEmails: true,
+      trustedProviders: ["google", "github", "discord"],
+      allowUnlinkingAll: true,
+    },
+  },
 });

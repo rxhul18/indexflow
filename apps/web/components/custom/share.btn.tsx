@@ -21,9 +21,10 @@ import { usePathname } from "next/navigation";
 export default function ShareLinkBtn() {
   const id = useId();
   const pathname = usePathname();
-  const domain = process.env.NODE_ENV === 'development' 
-    ? 'http://localhost:3000' 
-    : 'https://indexflow.site';
+  const domain =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : "https://indexflow.site";
   const url = `${domain}${pathname}`;
   const [copied, setCopied] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);

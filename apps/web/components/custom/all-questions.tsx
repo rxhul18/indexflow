@@ -26,7 +26,6 @@ export default function QuestionsList({
 
   const filter = searchParams.get("sort") || "newest";
   const tagFilter = searchParams.get("filter") || selectedTag || tagName || "";
-  
 
   const getFilteredQuestions = () => {
     return questions.filter((q) => {
@@ -45,7 +44,8 @@ export default function QuestionsList({
     const filteredQuestions = getFilteredQuestions();
 
     return filteredQuestions.sort((a, b) => {
-      if (filter === "newest") return compareDesc(new Date(a.createdAt), new Date(b.createdAt));
+      if (filter === "newest")
+        return compareDesc(new Date(a.createdAt), new Date(b.createdAt));
       if (filter === "hot") return b.votes - a.votes;
       if (filter === "top") return b.views - a.views;
       return 0;
@@ -53,7 +53,9 @@ export default function QuestionsList({
   }, [filter, searchQuery, tagFilter]);
 
   const questionsPerPage = 5;
-  const [loadedQuestions, setLoadedQuestions] = useState(sortedQuestions.slice(0, questionsPerPage));
+  const [loadedQuestions, setLoadedQuestions] = useState(
+    sortedQuestions.slice(0, questionsPerPage),
+  );
 
   useEffect(() => {
     setLoadedQuestions(sortedQuestions.slice(0, questionsPerPage));
@@ -62,7 +64,9 @@ export default function QuestionsList({
   const loadMoreQuestions = () => {
     setLoading(true);
     setTimeout(() => {
-      setLoadedQuestions((prev) => sortedQuestions.slice(0, prev.length + questionsPerPage));
+      setLoadedQuestions((prev) =>
+        sortedQuestions.slice(0, prev.length + questionsPerPage),
+      );
       setLoading(false);
     }, 500);
   };
@@ -70,7 +74,10 @@ export default function QuestionsList({
   useEffect(() => {
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && loadedQuestions.length < sortedQuestions.length) {
+      if (
+        entries[0].isIntersecting &&
+        loadedQuestions.length < sortedQuestions.length
+      ) {
         loadMoreQuestions();
       }
     });
@@ -110,7 +117,11 @@ export default function QuestionsList({
             />
           </div>
 
-          <Tabs value={filter} onValueChange={handleFilterChange} className="w-full sm:w-auto">
+          <Tabs
+            value={filter}
+            onValueChange={handleFilterChange}
+            className="w-full sm:w-auto"
+          >
             <TabsList>
               <TabsTrigger value="newest">
                 <Clock className="h-4 w-4 mr-2" />
@@ -132,7 +143,11 @@ export default function QuestionsList({
       <div className="space-y-4 relative overflow-y-auto h-full overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
         {loadedQuestions.map((question, index) => (
           <QuestionCard
-            ref={index === loadedQuestions.length - 1 ? lastQuestionElementRef : null}
+            ref={
+              index === loadedQuestions.length - 1
+                ? lastQuestionElementRef
+                : null
+            }
             key={question.id}
             question={question}
           />

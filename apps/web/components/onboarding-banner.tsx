@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { RocketIcon, XIcon } from "lucide-react"
+import { useState } from "react";
+import { RocketIcon, XIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import OnboardingComp from "./onboarding"
+import { Button } from "@/components/ui/button";
+import OnboardingComp from "./onboarding";
 
 export default function OnboardingBanner() {
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(true);
 
-  if (!isVisible) return null
+  if (!isVisible) return null;
 
   return (
     <div className="dark  bg-muted/80 text-foreground px-4 py-3">
@@ -23,15 +23,13 @@ export default function OnboardingBanner() {
           </div>
           <div className="flex grow flex-col justify-between gap-3 md:flex-row md:items-center">
             <div className="space-y-0.5">
-              <p className="text-sm font-medium">
-                Boost your experience
-              </p>
+              <p className="text-sm font-medium">Boost your experience</p>
               <p className="text-muted-foreground text-sm">
                 The new feature is live! Continue onboarding to experience it.
               </p>
             </div>
             <div className="flex gap-2 max-md:flex-wrap">
-              <OnboardingComp/>
+              <OnboardingComp />
             </div>
           </div>
         </div>
@@ -49,5 +47,5 @@ export default function OnboardingBanner() {
         </Button>
       </div>
     </div>
-  )
+  );
 }

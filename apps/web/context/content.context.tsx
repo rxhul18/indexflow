@@ -1,5 +1,11 @@
 "use client";
-import { createContext, useContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import { useServersStore, useTagsStore, useUsersStore } from "@/lib/zustand";
 import { ConfigType, ServerType } from "@iflow/types";
 
@@ -33,7 +39,6 @@ export function ContentProvider({ children }: { children: ReactNode }) {
       ? "http://localhost:3001/v1/bot/server/config/all"
       : "https://api.indexflow.site/v1/bot/server/config/all";
 
-
   useEffect(() => {
     async function fetchServers() {
       setContentLoading(true);
@@ -42,10 +47,17 @@ export function ContentProvider({ children }: { children: ReactNode }) {
         const configData = await fetch(CONFIG_SERVER_API_ENDPOINT);
         const response = await data.json();
         const configResponse = await configData.json();
-       
-        const serverIdSet = new Set(configResponse?.configs?.map((config: ConfigType) => config.server_id));
-        const finalData = response?.servers?.filter((item: ServerType) => serverIdSet.has(item.id)) || [];
-       
+
+        const serverIdSet = new Set(
+          configResponse?.configs?.map(
+            (config: ConfigType) => config.server_id,
+          ),
+        );
+        const finalData =
+          response?.servers?.filter((item: ServerType) =>
+            serverIdSet.has(item.id),
+          ) || [];
+
         if (response?.servers) {
           setServers(finalData);
         }
@@ -96,9 +108,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <ContentContext.Provider value={value}>
-      {children}
-    </ContentContext.Provider>
+    <ContentContext.Provider value={value}>{children}</ContentContext.Provider>
   );
 }
 

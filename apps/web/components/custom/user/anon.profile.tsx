@@ -1,11 +1,15 @@
-import { useId } from "react"
+import { useId } from "react";
 
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import UserBtn from "./user.btn"
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import UserBtn from "./user.btn";
 
-export default function AnonProfileComp({ isDisabled}: {isDisabled: boolean}) {
-  const id = useId()
+export default function AnonProfileComp({
+  isDisabled,
+}: {
+  isDisabled: boolean;
+}) {
+  const id = useId();
 
   return (
     <div className="border-input has-data-[state=checked]:border-ring relative flex w-full items-start gap-2 rounded-md border p-4 shadow-xs outline-none">
@@ -30,5 +34,5 @@ export default function AnonProfileComp({ isDisabled}: {isDisabled: boolean}) {
         </div>
       </div>
     </div>
-  )
+  );
 }
