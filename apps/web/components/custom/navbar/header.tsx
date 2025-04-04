@@ -40,6 +40,12 @@ export default function Header() {
             >
               Users
             </Link>
+            <Link
+              href="/support"
+              className="font-medium transition-colors hover:text-primary"
+            >
+              Support
+            </Link>
           </nav>
         </div>
 

@@ -1,6 +1,5 @@
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import {
-    Link2Icon,
     PlusIcon
 } from "lucide-react"
 import { Icons } from "@/components/icons";
@@ -11,7 +10,7 @@ import {
 } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 
-export default function ConnectedAcount() {
+export default function ConnectedServers() {
     return (
         <Accordion type="single" collapsible className="w-full" defaultValue="3">
             {/* {items.map((item) => ( */}
@@ -23,11 +22,11 @@ export default function ConnectedAcount() {
                                     className="flex size-10 shrink-0 items-center justify-center rounded-full border"
                                     aria-hidden="true"
                                 >
-                                    <Link2Icon />
+                                    <Icons.discord />
                                 </span>
                                 <span className="flex flex-col space-y-1">
-                                    <span>Connected Accounts</span>
-                                    <span className="text-sm font-normal">Manage your all social connected accounts.</span>
+                                    <span>Discord Servers</span>
+                                    <span className="text-sm font-normal">View your all connected Discord Servers.</span>
                                 </span>
                             </span>
                             <PlusIcon
@@ -39,20 +38,10 @@ export default function ConnectedAcount() {
                     </AccordionPrimitive.Header>
                     <AccordionContent className="text-muted-foreground ms-3 ps-10 pb-2 mt-2">
                         {/* {item.content} */}
-                        <div className="flex flex-col gap-2">
                         <Button size={"lg"}>
                             <Icons.discord />
-                            Connect Discord Account
+                            Link Discord Server
                         </Button>
-                        <Button size={"lg"} variant={"secondary"}>
-                            <Icons.gitHub />
-                            Connect GitHub Account
-                        </Button>
-                        <Button size={"lg"} variant={"secondary"}>
-                            <Icons.google />
-                            Connect Google Account
-                        </Button>
-                        </div>
                     </AccordionContent>
                 </AccordionItem>
             {/* ))} */}

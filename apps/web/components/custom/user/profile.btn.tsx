@@ -29,6 +29,7 @@ import { useTagsStore } from "@/lib/zustand";
 import { authClient } from "@iflow/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import ConnectedServers from "./connected.servers";
 
 
 export default function ProfileBtn({
@@ -39,7 +40,8 @@ export default function ProfileBtn({
   name: string;
 }) {
   const id = useId();
-
+  const fstName = name.split(' ')[0];
+  const lstName = name.split(' ')[1] || '';
   const maxLength = 180;
   const {
     value,
@@ -85,8 +87,8 @@ export default function ProfileBtn({
           username.
         </DialogDescription>
         <div className="overflow-y-auto">
-          <ProfileBg defaultImage="/sai-bg.png" />
-          <Avatar defaultImage="/rahul.jpeg" />
+          <ProfileBg defaultImage="https://avatar.vercel.sh/jill" />
+          <Avatar pfp={pfp} />
           <ScrollArea className="h-[calc(100vh-25rem)] w-full">
             <div className="px-6 pt-4 pb-6">
               <form className="space-y-4">
@@ -96,7 +98,7 @@ export default function ProfileBtn({
                     <Input
                       id={`${id}-first-name`}
                       placeholder="Ra.."
-                      defaultValue="Rahul"
+                      defaultValue={fstName}
                       type="text"
                       required
                     />
@@ -105,8 +107,8 @@ export default function ProfileBtn({
                     <Label htmlFor={`${id}-last-name`}>Last name</Label>
                     <Input
                       id={`${id}-last-name`}
-                      placeholder="Sha..."
-                      defaultValue="Shah"
+                      placeholder="Dhal"
+                      defaultValue={lstName}
                       type="text"
                       required
                     />
@@ -185,9 +187,11 @@ export default function ProfileBtn({
                   </p>
                 </div>
                 <Separator />
+                <ConnectedServers />
+                <Separator />
                 <ConnectedAcount />
                 <Separator />
-                <AdvanceSettings />
+                <AdvanceSettings isDisabled/>
               </form>
             </div>
           </ScrollArea>
@@ -281,40 +285,18 @@ function ProfileBg({ defaultImage }: { defaultImage?: string }) {
   );
 }
 
-function Avatar({ defaultImage }: { defaultImage?: string }) {
-  const { previewUrl, fileInputRef, handleThumbnailClick, handleFileChange } =
-    useImageUpload();
-
-  const currentImage = previewUrl || defaultImage;
+function Avatar({ pfp }: { pfp?: string }) {
 
   return (
     <div className="-mt-10 px-6">
       <div className="border-background bg-muted relative flex size-20 items-center justify-center overflow-hidden rounded-full border-4 shadow-xs shadow-black/10">
-        {currentImage && (
-          <Image
-            src={currentImage}
+      <Image
+            src={pfp || "https://avatar.vercel.sh/jane"}
             className="h-full w-full object-cover"
             width={80}
             height={80}
             alt="Profile image"
           />
-        )}
-        <button
-          type="button"
-          className="focus-visible:border-ring focus-visible:ring-ring/50 absolute flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
-          onClick={handleThumbnailClick}
-          aria-label="Change profile picture"
-        >
-          <ImagePlusIcon size={16} aria-hidden="true" />
-        </button>
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          className="hidden"
-          accept="image/*"
-          aria-label="Upload profile picture"
-        />
       </div>
     </div>
   );
