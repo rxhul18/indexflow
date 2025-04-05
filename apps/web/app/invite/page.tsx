@@ -32,6 +32,14 @@ export default function BotInvitePage() {
       
   });
   }
+
+  useEffect(() => {
+    if (user && isDiscordLinked && !effLoading) {
+      const invlink = "https://discord.com/api/oauth2/authorize?client_id=1346709873412407319&permissions=8&scope=bot%20applications.commands";
+      window.location.replace(invlink);
+    }
+  }, [user, isDiscordLinked, effLoading]);
+  
   useEffect(() => {
     if (user && !loading) {
       setEffLoading(true);
@@ -99,15 +107,6 @@ export default function BotInvitePage() {
     )
   }
 
-  if(user && isDiscordLinked && !effLoading) {
-    return (
-      <BlurFade delay={0.5}>
-      <div className="flex items-center justify-center h-screen w-screen relative">
-        Hyeee
-      </div>
-      </BlurFade>
-    )
-  };
 
   return (
     <BlurFade delay={0.5}>

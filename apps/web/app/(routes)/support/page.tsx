@@ -1,13 +1,18 @@
 import React from "react";
-import { CheckIcon, RefreshCcwIcon } from "lucide-react"
+import { CheckIcon, Gem, RefreshCcwIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import Link from "next/link";
 
 export default function PricingPage() {
   const id = "price"
   return (
-    <div className="flex w-full items-center justify-center overflow-hidden py-10">
+    <div className="flex flex-col w-full items-center justify-center overflow-hidden py-10">
+      <h1 className="text-3xl md:text-4xl font-bold my-6">“Want to support us?”</h1>
+      <p className="text-muted-foreground mb-10 text-center max-w-xl">
+      You can help by voting every 12 hours or by subscribing to a monthly plan. In return we will give you access to all Premium features.
+        </p>
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 min-w-[90%] md:container w-full px-4">
         <div className="w-md max-w-[95%] border rounded-md p-4">
           <div className="mb-2 flex flex-col gap-2">
@@ -15,12 +20,12 @@ export default function PricingPage() {
               className="flex size-11 shrink-0 items-center justify-center rounded-full border"
               aria-hidden="true"
             >
-              <RefreshCcwIcon className="opacity-80" size={16} />
+              <RefreshCcwIcon className="opacity-80" size={20} />
             </div>
             <div>
-              <h2 className="text-left">Change your plan</h2>
-              <h3 className="text-left">
-                Pick one of the following plans.
+            <h1 className="text-left text-2xl font-semibold">iFlow Votter</h1>
+            <h3 className="text-left text-muted-foreground">
+                Support us by voting on Top.gg for 12 hours
               </h3>
             </div>
           </div>
@@ -28,7 +33,7 @@ export default function PricingPage() {
           <form className="space-y-5">
             <RadioGroup className="gap-2" defaultValue="1">
               {/* Radio card #1 */}
-              <div className="border-input has-data-[state=checked]:border-ring has-data-[state=checked]:bg-accent relative flex w-full items-center gap-2 rounded-md border px-4 py-3 shadow-xs outline-none">
+              <div className="border-input has-data-[state=checked]:border-ring has-data-[state=checked]:bg-accent relative flex w-full items-center gap-2 rounded-md border px-4 py-2 shadow-xs outline-none">
                 <RadioGroupItem
                   value="1"
                   id={`${id}-1`}
@@ -36,12 +41,12 @@ export default function PricingPage() {
                   className="order-1 after:absolute after:inset-0"
                 />
                 <div className="grid grow gap-1">
-                  <Label htmlFor={`${id}-1`}>Essential</Label>
+                  <Label htmlFor={`${id}-1`} className="font-bold text-lg">Vote for free</Label>
                   <p
                     id={`${id}-1-description`}
                     className="text-muted-foreground text-xs"
                   >
-                    $4 per member/month
+                    Every 12 Hours
                   </p>
                 </div>
               </div>
@@ -58,7 +63,7 @@ export default function PricingPage() {
                     className="text-primary mt-0.5 shrink-0"
                     aria-hidden="true"
                   />
-                  Create unlimited projects.
+                  Enable anonymous indexing.
                 </li>
                 <li className="flex gap-2">
                   <CheckIcon
@@ -66,7 +71,7 @@ export default function PricingPage() {
                     className="text-primary mt-0.5 shrink-0"
                     aria-hidden="true"
                   />
-                  Remove watermarks.
+                  Enable anonymous profile.
                 </li>
                 <li className="flex gap-2">
                   <CheckIcon
@@ -74,7 +79,7 @@ export default function PricingPage() {
                     className="text-primary mt-0.5 shrink-0"
                     aria-hidden="true"
                   />
-                  Add unlimited users and free viewers.
+                  Index unlimited threads.
                 </li>
                 <li className="flex gap-2">
                   <CheckIcon
@@ -82,7 +87,7 @@ export default function PricingPage() {
                     className="text-primary mt-0.5 shrink-0"
                     aria-hidden="true"
                   />
-                  Upload unlimited files.
+                  Unlimited voting limits on post.
                 </li>
                 <li className="flex gap-2">
                   <CheckIcon
@@ -90,7 +95,7 @@ export default function PricingPage() {
                     className="text-primary mt-0.5 shrink-0"
                     aria-hidden="true"
                   />
-                  7-day money back guarantee.
+                  Get your server&apos;s API endpoint.
                 </li>
                 <li className="flex gap-2">
                   <CheckIcon
@@ -101,12 +106,17 @@ export default function PricingPage() {
                   Advanced permissions.
                 </li>
               </ul>
+              <p className="inline-flex gap-1 bg-muted py-1 px-2 rounded-md">
+                <span className="text-xs hover:underline text-muted-foreground">Valid till your vote&apos;s validity (12 hours) then you need to vote again to get access.</span>
+              </p>
             </div>
 
             <div className="grid gap-2">
+              <Link href="https://top.gg/bot/1346709873412407319/vote" target="_blank" rel="noopener noreferrer">
               <Button type="button" className="w-full">
-                Subscribe
+                Get for a Free Vote
               </Button>
+              </Link>
             </div>
           </form>
         </div>
@@ -116,32 +126,31 @@ export default function PricingPage() {
               className="flex size-11 shrink-0 items-center justify-center rounded-full border"
               aria-hidden="true"
             >
-              <RefreshCcwIcon className="opacity-80" size={16} />
+              <Gem className="opacity-80" size={20} />
             </div>
             <div>
-              <h2 className="text-left">Change your plan</h2>
-              <h3 className="text-left">
-                Pick one of the following plans.
+              <h1 className="text-left text-2xl font-semibold">iFlow Supporter</h1>
+              <h3 className="text-left text-muted-foreground">
+                Support us by giving a small amount
               </h3>
             </div>
           </div>
 
           <form className="space-y-5">
             <RadioGroup className="gap-2" defaultValue="2">
-              <div className="border-input has-data-[state=checked]:border-ring has-data-[state=checked]:bg-accent relative flex w-full items-center gap-2 rounded-md border px-4 py-3 shadow-xs outline-none">
+              <div className="border-input has-data-[state=checked]:border-ring has-data-[state=checked]:bg-accent relative flex w-full items-center gap-2 rounded-md border px-4 py-2 shadow-sm outline-none">
                 <RadioGroupItem
                   value="2"
                   id={`${id}-2`}
-                  aria-describedby={`${id}-2-description`}
                   className="order-1 after:absolute after:inset-0"
                 />
                 <div className="grid grow gap-1">
-                  <Label htmlFor={`${id}-2`}>Standard</Label>
+                  <Label htmlFor={`${id}-2`} className="font-bold text-lg">$1.99 Minimum</Label>
                   <p
                     id={`${id}-2-description`}
                     className="text-muted-foreground text-xs"
                   >
-                    $19 per member/month
+                    Every Month
                   </p>
                 </div>
               </div>
@@ -158,7 +167,7 @@ export default function PricingPage() {
                     className="text-primary mt-0.5 shrink-0"
                     aria-hidden="true"
                   />
-                  Create unlimited projects.
+                  Enable anonymous indexing.
                 </li>
                 <li className="flex gap-2">
                   <CheckIcon
@@ -166,7 +175,7 @@ export default function PricingPage() {
                     className="text-primary mt-0.5 shrink-0"
                     aria-hidden="true"
                   />
-                  Remove watermarks.
+                  Enable anonymous profile.
                 </li>
                 <li className="flex gap-2">
                   <CheckIcon
@@ -174,7 +183,7 @@ export default function PricingPage() {
                     className="text-primary mt-0.5 shrink-0"
                     aria-hidden="true"
                   />
-                  Add unlimited users and free viewers.
+                  Enable anonymous server.
                 </li>
                 <li className="flex gap-2">
                   <CheckIcon
@@ -182,7 +191,7 @@ export default function PricingPage() {
                     className="text-primary mt-0.5 shrink-0"
                     aria-hidden="true"
                   />
-                  Upload unlimited files.
+                  Index unlimited threads.
                 </li>
                 <li className="flex gap-2">
                   <CheckIcon
@@ -190,7 +199,23 @@ export default function PricingPage() {
                     className="text-primary mt-0.5 shrink-0"
                     aria-hidden="true"
                   />
-                  7-day money back guarantee.
+                  Get your server&apos;s API endpoint.
+                </li>
+                <li className="flex gap-2">
+                  <CheckIcon
+                    size={16}
+                    className="text-primary mt-0.5 shrink-0"
+                    aria-hidden="true"
+                  />
+                  No login wall on server join button.
+                </li>
+                <li className="flex gap-2">
+                  <CheckIcon
+                    size={16}
+                    className="text-primary mt-0.5 shrink-0"
+                    aria-hidden="true"
+                  />
+                  Unlimited voting limits on post.
                 </li>
                 <li className="flex gap-2">
                   <CheckIcon
