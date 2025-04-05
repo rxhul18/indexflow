@@ -50,7 +50,7 @@ export default async function alive(client: Client) {
 
       log_config.send({ embeds: [embed] });
 
-      if(isConfig.success) {
+      if (isConfig.success) {
         const loggin_wbhk = isConfig.data.configs.log_channel_webhook;
         const log_config = new WebhookClient({
           url: loggin_wbhk,

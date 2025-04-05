@@ -198,7 +198,7 @@ async function handleIndexQuestion(
     .map((att) => `![image](${att.url})`);
 
   const fullContent = [text, ...imageMarkdowns].join("\n\n");
-  console.log(fullContent)
+  console.log(fullContent);
   await indexQns({
     id: firstMessage.id,
     title: threadChannel.name,
@@ -272,12 +272,12 @@ async function handleIndexAnswer(
 
   for (const message of nonBotMessages.values()) {
     const text = message.content;
-  const attachments = [...message.attachments.values()];
-  const imageMarkdowns = attachments
-    .filter((att) => att.contentType?.startsWith("image/"))
-    .map((att) => `![image](${att.url})`);
+    const attachments = [...message.attachments.values()];
+    const imageMarkdowns = attachments
+      .filter((att) => att.contentType?.startsWith("image/"))
+      .map((att) => `![image](${att.url})`);
 
-  const fullContent = [text, ...imageMarkdowns].join("\n\n");
+    const fullContent = [text, ...imageMarkdowns].join("\n\n");
     await indexAns({
       id: message.id,
       author: message.author.id,

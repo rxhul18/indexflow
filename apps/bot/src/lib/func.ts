@@ -381,5 +381,5 @@ export {
   getRandomAnonName,
   createAnonProfile,
   getAnonProfileById,
-  updateServer
+  updateServer,
 };

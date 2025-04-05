@@ -1,5 +1,9 @@
 import { checkBot } from "@/actions/checks/check.bot";
-import { paginationSchema, serverSchema, serverUpdateSchema } from "@/lib/zod/schema";
+import {
+  paginationSchema,
+  serverSchema,
+  serverUpdateSchema,
+} from "@/lib/zod/schema";
 import { zValidator } from "@/lib/zod/validator";
 import { cache } from "@iflow/cache";
 import { prisma } from "@iflow/db";
@@ -89,7 +93,7 @@ const server = new Hono()
       console.log(error);
     }
   })
-  
+
   .put("/update", zValidator("json", serverUpdateSchema), async (c) => {
     const body = c.req.valid("json");
     try {
