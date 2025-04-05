@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import AutoPoster from "topgg-autoposter";
+import { AutoPoster } from "topgg-autoposter";
 import { CONFIG } from "../../configs/config";
 import { log_topgg } from "../../lib/loggers";
 

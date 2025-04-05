@@ -1,5 +1,5 @@
 import { checkBot } from "@/actions/checks/check.bot";
-import { paginationSchema, serverSchema } from "@/lib/zod/schema";
+import { paginationSchema, serverSchema, serverUpdateSchema } from "@/lib/zod/schema";
 import { zValidator } from "@/lib/zod/validator";
 import { cache } from "@iflow/cache";
 import { prisma } from "@iflow/db";
@@ -87,6 +87,34 @@ const server = new Hono()
       return c.json({ newServer }, 200);
     } catch (error) {
       console.log(error);
+    }
+  })
+  
+  .put("/update", zValidator("json", serverUpdateSchema), async (c) => {
+    const body = c.req.valid("json");
+    try {
+      const updatedServer = await prisma.server.update({
+        where: { id: body.id },
+        data: {
+          name: body.name,
+          owner_id: body.owner_id,
+          logo: body.logo || null,
+          updatedAt: new Date(),
+        },
+      });
+
+      // Invalidate cache if exists
+      const cacheKey = `server:${body.id}`;
+      try {
+        await cache.del(cacheKey);
+      } catch (cacheError) {
+        console.error("Error deleting server cache (update):", cacheError);
+      }
+
+      return c.json({ updatedServer }, 200);
+    } catch (error) {
+      console.log("Error updating server:", error);
+      return c.json({ message: "Failed to update server", status: 500 }, 500);
     }
   })
 

@@ -23,6 +23,18 @@ const serverSchema = z.object({
   updatedAt: z.union([z.date(), z.string()]),
 });
 
+const serverUpdateSchema = z.object({
+  id: z.string(),
+  name: z.string().optional(),
+  owner_id: z.string().optional(),
+  is_config: z.boolean().optional(),
+  config_id: z.string().nullable().optional(),
+  logo: z.string().nullable().optional(),
+  invite_url: z.string().nullable().optional(),
+  createdAt: z.union([z.date(), z.string()]).optional(),
+  updatedAt: z.union([z.date(), z.string()]),
+});
+
 const configSchema = z.object({
   id: z.string(),
   server_id: z.string(),
@@ -117,4 +129,5 @@ export {
   configSchema,
   serverAPISchema,
   anonProfileSchema,
+  serverUpdateSchema,
 };

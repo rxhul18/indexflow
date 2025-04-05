@@ -25,7 +25,7 @@ export default {
   ownerPermit: false,
   cat: "indexing",
   run: async (
-    client: Client & { config: { default_color: ColorResolvable } },
+    client: Client & { config: { owner: string[] } },
     message: Message,
   ) => {
     try {
@@ -53,11 +53,28 @@ export default {
         );
       }
 
+      const threadChannel = message.channel as ThreadChannel;
+      const firstMessage = await threadChannel.fetchStarterMessage();
       const configId = message.guildId! + message.guild?.ownerId!;
       const isConfig = await getServerConfigById(configId);
+      const member = await message.guild?.members.fetch(message.author.id);
+      const configRoleId = isConfig.data.config.mod_role;
+      const hasRole = member?.roles.cache.has(configRoleId);
+      const authorizedUsers = [...client.config.owner];
+      console.log(hasRole);
 
       if (!isConfig.success) {
         return sendNotConfigMessage(client, message);
+      }
+
+      if (
+        isConfig.success &&
+        !hasRole &&
+        message.author.id !== message.guild?.ownerId &&
+        message.author.id !== firstMessage?.author.id &&
+        !authorizedUsers.includes(message.author.id)
+      ) {
+        return sendNotiFlowMod(message, configRoleId);
       }
 
       await askIndexSelection(client, message, repliedMessage);
@@ -174,12 +191,20 @@ async function handleIndexQuestion(
   interaction: ButtonInteraction,
   ansId?: string | null,
 ) {
+  const text = firstMessage.content;
+  const attachments = [...firstMessage.attachments.values()];
+  const imageMarkdowns = attachments
+    .filter((att) => att.contentType?.startsWith("image/"))
+    .map((att) => `![image](${att.url})`);
+
+  const fullContent = [text, ...imageMarkdowns].join("\n\n");
+  console.log(fullContent)
   await indexQns({
     id: firstMessage.id,
     title: threadChannel.name,
     author: firstMessage.author.id,
     ans_id: ansId,
-    content: firstMessage.content,
+    content: fullContent,
     server_id: firstMessage.guildId!,
     thread_id: threadChannel.id,
     msg_url: firstMessage.url,
@@ -214,10 +239,18 @@ async function handleIndexAnswer(
     repliedMessage.id,
   );
 
+  const text = repliedMessage.content;
+  const attachments = [...repliedMessage.attachments.values()];
+  const imageMarkdowns = attachments
+    .filter((att) => att.contentType?.startsWith("image/"))
+    .map((att) => `![image](${att.url})`);
+
+  const fullContent = [text, ...imageMarkdowns].join("\n\n");
+
   await indexAns({
     id: repliedMessage.id,
     author: repliedMessage.author.id,
-    content: repliedMessage.content,
+    content: fullContent,
     qns_id: firstMessage.id,
     server_id: firstMessage.guild?.id!,
     thread_id: threadChannel.id,
@@ -238,10 +271,17 @@ async function handleIndexAnswer(
   );
 
   for (const message of nonBotMessages.values()) {
+    const text = message.content;
+  const attachments = [...message.attachments.values()];
+  const imageMarkdowns = attachments
+    .filter((att) => att.contentType?.startsWith("image/"))
+    .map((att) => `![image](${att.url})`);
+
+  const fullContent = [text, ...imageMarkdowns].join("\n\n");
     await indexAns({
       id: message.id,
       author: message.author.id,
-      content: message.content,
+      content: fullContent,
       qns_id: firstMessage.id,
       server_id: firstMessage.guild?.id!,
       thread_id: threadChannel.id,
@@ -290,6 +330,22 @@ async function sendNotConfigMessage(client: Client, message: Message) {
     )
     .setThumbnail(
       client.user?.avatarURL() || message.author.displayAvatarURL(),
+    );
+
+  if (
+    message.channel instanceof TextChannel ||
+    message.channel instanceof ThreadChannel
+  ) {
+    await message.channel.send({ embeds: [em] });
+  }
+}
+
+async function sendNotiFlowMod(message: Message, roleId: string) {
+  const em = new EmbedBuilder()
+    .setTitle("Request Denied!")
+    .setColor("Red")
+    .setDescription(
+      `You need <@&${roleId}> role to index this on web.\n Pls ask <@${message.guild?.ownerId}> to assign you this role.\n\n Or you can create your own thread with your question.`,
     );
 
   if (

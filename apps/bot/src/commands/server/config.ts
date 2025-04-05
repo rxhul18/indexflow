@@ -10,6 +10,7 @@ import {
   ButtonInteraction,
   Guild,
   ThreadChannel,
+  ChannelType,
 } from "discord.js";
 import { createServerConfig, getServerConfigById } from "../../lib/func";
 
@@ -99,14 +100,17 @@ async function checkIfConfigExists(guild: Guild, client: Client) {
     }
 
     const configChannel = guild.channels.cache.find(
-      (ch) => ch.name.toLowerCase() === "help" && ch.type === 15,
+      (ch) =>
+        ch.name.toLowerCase() === "help" && ch.type === ChannelType.GuildForum,
     );
     if (configChannel) {
       qna_channel_id = configChannel.id;
     }
 
     const loggingChannel = guild.channels.cache.find(
-      (ch) => ch.name.toLowerCase() === "iflow-logs" && ch.type === 0,
+      (ch) =>
+        ch.name.toLowerCase() === "iflow-logs" &&
+        ch.type === ChannelType.GuildText,
     );
     if (loggingChannel) {
       log_channel_id = loggingChannel.id;

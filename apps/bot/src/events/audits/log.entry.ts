@@ -4,8 +4,10 @@ import {
   GuildAuditLogsEntry,
   Guild,
   EmbedBuilder,
+  WebhookClient,
 } from "discord.js";
 import { log_config } from "../../lib/loggers";
+import { getServerConfigById } from "../../lib/func";
 
 export default async function alive(client: Client) {
   client.on(
@@ -13,6 +15,8 @@ export default async function alive(client: Client) {
     async (entry: GuildAuditLogsEntry, guild: Guild) => {
       const executorId = entry.executor?.id;
       const botId = client.user?.id;
+      const configId = guild.id! + guild.ownerId!;
+      const isConfig = await getServerConfigById(configId);
 
       if (!executorId || executorId !== botId) {
         return null;
@@ -45,6 +49,15 @@ export default async function alive(client: Client) {
       );
 
       log_config.send({ embeds: [embed] });
+
+      if(isConfig.success) {
+        const loggin_wbhk = isConfig.data.configs.log_channel_webhook;
+        const log_config = new WebhookClient({
+          url: loggin_wbhk,
+        });
+
+        log_config.send({ embeds: [embed] });
+      }
     },
   );
 }

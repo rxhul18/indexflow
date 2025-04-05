@@ -25,6 +25,18 @@ export type ServerType = {
   updatedAt: Date | string;
 };
 
+export type ServerUpdateType = {
+  id: string;
+  name?: string;
+  owner_id?: string;
+  is_config?: boolean;
+  config_id?: string | null;
+  logo?: string | null;
+  invite_url?: string | null;
+  createdAt?: Date | string;
+  updatedAt: Date | string;
+};
+
 export type ConfigType = {
   id: string;
   server_id: string;

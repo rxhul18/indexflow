@@ -22,10 +22,15 @@ export default async function handleBotJoin(
 
       if (systemChannel) {
         const owner = await guild.fetchOwner();
+        const em = new EmbedBuilder()
+        .setTitle("Onboarding Notification!")
+        .setDescription(
+          `Thanks for inviting me to **${guild.name}**! \n If you need any help, feel free to use the **${client.config.prefix}help** command.`,
+        )
         if (owner) {
           systemChannel.send(
-            `Hello, <@${owner.id}>! Thanks for inviting me to **${guild.name}**! \n If you need any help, feel free to use the **${client.config.prefix}help** command.`,
-          );
+            {embeds: [em], content: `Hello, <@${owner.id}>!`}
+            );
         }
       }
 

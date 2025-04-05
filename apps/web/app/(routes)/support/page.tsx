@@ -1,12 +1,17 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { CheckIcon, Gem, RefreshCcwIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import Link from "next/link";
+import { PolarEmbedCheckout } from '@polar-sh/checkout/embed'
 
 export default function PricingPage() {
   const id = "price"
+  useEffect(() => {
+    PolarEmbedCheckout.init();
+  }, []);
   return (
     <div className="flex flex-col w-full items-center justify-center overflow-hidden py-10">
       <h1 className="text-3xl md:text-4xl font-bold my-6">“Want to support us?”</h1>
@@ -229,9 +234,14 @@ export default function PricingPage() {
             </div>
 
             <div className="grid gap-2">
-              <Button type="button" className="w-full">
+              <Link
+                href="https://buy.polar.sh/polar_cl_hNh6awtLmw3ksUrnBs7IoylAnLsuwfagHz5wT2fifTb"
+                data-polar-checkout
+                data-polar-checkout-theme="dark"
+                className={buttonVariants({ variant: "default" })}
+              >
                 Subscribe
-              </Button>
+              </Link>
             </div>
           </form>
         </div>

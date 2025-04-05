@@ -5,6 +5,7 @@ import {
   IndexAnsType,
   IndexQnsType,
   ServerType,
+  ServerUpdateType,
 } from "../types";
 
 const api = CONFIG.BOT_API_ENDPOINT;
@@ -236,6 +237,19 @@ async function createServer(serverData: ServerType) {
   return data;
 }
 
+async function updateServer(serverData: ServerUpdateType) {
+  const response = await fetch(`${api}/server/update`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${bearer}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(serverData),
+  });
+  const data = await response.json();
+  return data;
+}
+
 async function getServerById(id: string) {
   const response = await fetch(`${api}/server/${id}`, {
     method: "GET",
@@ -367,4 +381,5 @@ export {
   getRandomAnonName,
   createAnonProfile,
   getAnonProfileById,
+  updateServer
 };
