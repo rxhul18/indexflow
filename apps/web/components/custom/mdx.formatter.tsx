@@ -8,6 +8,7 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import DOMPurify from "isomorphic-dompurify";
 import "highlight.js/styles/github-dark.css";
+import Image from "next/image";
 
 interface MDXFormatterProps {
   children: string;
@@ -42,9 +43,11 @@ const MDXFormatter = ({ children }: MDXFormatterProps) => {
                 {children}
               </code>
             ) : (
-              <pre className="p-2 rounded-md dark:bg-secondary/100 bg-black text-white w-fit overflow-x-auto">
-                <code className="block w-full">{children}</code>
-              </pre>
+              <div className="p-2 rounded-md dark:bg-secondary/100 bg-black text-white w-fit overflow-x-auto">
+                <pre className="whitespace-pre-wrap">
+                  <code className="block w-full">{children}</code>
+                </pre>
+              </div>
             );
           },
           h1: ({ children }) => (
@@ -77,9 +80,11 @@ const MDXFormatter = ({ children }: MDXFormatterProps) => {
           b: ({ children }) => <b className="font-bold">{children}</b>,
           em: ({ children }) => <em className="italic">{children}</em>,
           img: ({ src, alt }) => (
-            <img
-              src={src}
-              alt={alt}
+            <Image
+              src={src!}
+              alt={alt!}
+              width={600}
+              height={400}
               className="max-w-[600px] h-auto rounded-md my-2"
             />
           ),

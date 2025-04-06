@@ -5,14 +5,18 @@ import { RocketIcon, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import OnboardingComp from "./onboarding";
+import { useUser } from "@/context/user.context";
+import useLocalStorage from "@/hooks/use-local";
 
 export default function OnboardingBanner() {
   const [isVisible, setIsVisible] = useState(true);
+  const { user, loading } = useUser();
+  const [hidden, setHidden] = useLocalStorage("hideOnboardingBanner", false);
 
-  if (!isVisible) return null;
+  if (!isVisible || loading || (user && hidden)) return null;
 
   return (
-    <div className="dark  bg-muted/80 text-foreground px-4 py-3">
+    <div className="dark bg-muted dark:bg-muted/80 text-foreground px-4 py-3">
       <div className="flex gap-2 md:items-center">
         <div className="flex grow gap-3 md:items-center">
           <div
@@ -23,9 +27,13 @@ export default function OnboardingBanner() {
           </div>
           <div className="flex grow flex-col justify-between gap-3 md:flex-row md:items-center">
             <div className="space-y-0.5">
-              <p className="text-sm font-medium">Boost your experience</p>
+              <p className="text-sm font-medium">
+                What the F*** is this IndexFlow?
+              </p>
               <p className="text-muted-foreground text-sm">
-                The new feature is live! Continue onboarding to experience it.
+                Don&apos;t know how to use IndexFLow and convert your threads
+                into webpages and index them on google? No worries click on Get
+                Started.
               </p>
             </div>
             <div className="flex gap-2 max-md:flex-wrap">
@@ -36,7 +44,10 @@ export default function OnboardingBanner() {
         <Button
           variant="ghost"
           className="group -my-1.5 -me-2 size-8 shrink-0 p-0 hover:bg-transparent"
-          onClick={() => setIsVisible(false)}
+          onClick={() => {
+            setIsVisible(false);
+            setHidden(true);
+          }}
           aria-label="Close banner"
         >
           <XIcon

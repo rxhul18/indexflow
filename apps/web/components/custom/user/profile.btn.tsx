@@ -35,7 +35,7 @@ import { useTagsStore } from "@/lib/zustand";
 import { authClient } from "@iflow/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import ConnectedServers from "./connected.servers";
+// import ConnectedServers from "./connected.servers";
 
 export default function ProfileBtn({
   pfp,
@@ -199,8 +199,8 @@ export default function ProfileBtn({
                     characters left
                   </p>
                 </div>
-                <Separator />
-                <ConnectedServers />
+                {/* <Separator />
+                <ConnectedServers /> */}
                 <Separator />
                 <ConnectedAcount />
                 <Separator />

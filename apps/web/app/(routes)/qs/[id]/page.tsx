@@ -31,7 +31,7 @@ export default function QuestionPage() {
     id: id,
     title: "How do I implement authentication with Next.js and NextAuth?",
     content:
-      "## fuck it idk why it is not working. \n- suck my `dick` bro \n- me too **[DJ BABU](https://s.s)** \n\n ```js console.log(ok)``` \n ![alt text](https://cdn.discordapp.com/attachments/1357375635961680043/1357375636330643677/fuck_yt_1.png?ex=67effa12&is=67eea892&hm=7a25484c11674e28becfa8ed5a63f6135091044dc2d0783d1d0b0456c71b39a2&)",
+      "## fuck it idk why it is not working. \n- suck my `dick` bro \n- me too **[DJ BABU](https://s.s)** \n\n ```js console.log(ok)``` \n ![img](https://cdn.discordapp.com/attachments/1357375635961680043/1357375636330643677/fuck_yt_1.png?ex=67f29d12&is=67f14b92&hm=59aa3b19148c583b894c049c6b3c19c5177d1af5fbecf79ae800c8bbaf147285&)",
     tags: ["next.js", "authentication", "nextauth"],
     votes: 42,
     author: {
@@ -166,11 +166,19 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
           <div className="flex flex-col gap-3 md:flex-row justify-between items-start md:items-center mt-6 pt-4 border-t">
             <div className="flex">
               <div className="flex items-center gap-2 md:gap-4 bg-primary/12 w-fit rounded-full p-1">
-                <Button variant="outline" size="icon" className="rounded-full hover:bg-black">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full hover:bg-black"
+                >
                   <ArrowBigUp className="size-5" />
                 </Button>
                 <span className="font-semibold text-lg">{question.votes}</span>
-                <Button variant="outline" size="icon" className="rounded-full hover:bg-black">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full hover:bg-black"
+                >
                   <ArrowBigDown className="size-5" />
                 </Button>
               </div>
@@ -227,7 +235,9 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
 
                 {/* Answer content */}
                 <div className="space-y-4">
-                  <div className={`border ${answer.isAccepted && "border-green-500" } py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full`}>
+                  <div
+                    className={`border ${answer.isAccepted && "border-green-500"} py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full`}
+                  >
                     <MDXFormatter>{answer.content}</MDXFormatter>
                   </div>
                   <div className="flex justify-between items-center mt-6">

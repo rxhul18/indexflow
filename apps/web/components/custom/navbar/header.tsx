@@ -44,7 +44,7 @@ export default function Header() {
               href="/support"
               className="font-medium transition-colors hover:text-primary"
             >
-              Support
+              Pricing
             </Link>
           </nav>
         </div>

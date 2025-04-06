@@ -25,7 +25,8 @@ export default function ConnectedAcount() {
               <span className="flex flex-col space-y-1">
                 <span>Connected Accounts</span>
                 <span className="text-sm font-normal">
-                  Manage your all social connected accounts.
+                  Manage all yours social connected accounts. You can also use
+                  one of them to login to your iFlow account.
                 </span>
               </span>
             </span>
@@ -39,7 +40,11 @@ export default function ConnectedAcount() {
         <AccordionContent className="text-muted-foreground ms-3 ps-10 pb-2 mt-2">
           {/* {item.content} */}
           <div className="flex flex-col gap-2">
-            <Button size={"lg"}>
+            <Button
+              size={"lg"}
+              variant={"secondary"}
+              className="bg-[#1877f2] w-full hover:bg-[#1877f2]/90"
+            >
               <Icons.discord />
               Connect Discord Account
             </Button>
@@ -47,7 +52,11 @@ export default function ConnectedAcount() {
               <Icons.gitHub />
               Connect GitHub Account
             </Button>
-            <Button size={"lg"} variant={"secondary"}>
+            <Button
+              size={"lg"}
+              variant={"secondary"}
+              className="bg-[#DB4437] w-full hover:bg-[#DB4437]/90"
+            >
               <Icons.google />
               Connect Google Account
             </Button>

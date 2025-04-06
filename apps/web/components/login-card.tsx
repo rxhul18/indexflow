@@ -1,24 +1,23 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Icons } from "./icons"
-import Tos from "./tos"
-import { authClient } from "@iflow/auth"
-import { toast } from "sonner"
-import useLocalStorage from "@/hooks/use-local"
+} from "@/components/ui/card";
+import { Icons } from "./icons";
+import Tos from "./tos";
+import { authClient } from "@iflow/auth";
+import { toast } from "sonner";
+import useLocalStorage from "@/hooks/use-local";
 
 export function LoginCards({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-
-  const [inv, setInvite] = useLocalStorage("isInviteProccess", false)
+  const [inv, setInvite] = useLocalStorage("isInviteProccess", false);
 
   const CALLBACK_URL =
     process.env.NODE_ENV === "development"
@@ -39,7 +38,7 @@ export function LoginCards({
             onError() {
               setInvite(!inv);
               toast.success("Oops Error Occured!");
-            }
+            },
           },
         });
         break;
@@ -55,7 +54,7 @@ export function LoginCards({
             onError() {
               setInvite(!inv);
               toast.success("Oops Error Occured!");
-            }
+            },
           },
         });
         break;
@@ -71,7 +70,7 @@ export function LoginCards({
             onError() {
               setInvite(false);
               toast.success("Oops Error Occured!");
-            }
+            },
           },
         });
         break;
@@ -91,28 +90,28 @@ export function LoginCards({
         <CardContent>
           <div className="grid gap-6">
             <div className="flex flex-col gap-4">
-              <Button 
+              <Button
                 type="button"
-                variant="outline" 
-                className="bg-[#1877f2] w-full hover:bg-[#1877f2]/90" 
+                variant="outline"
+                className="bg-[#1877f2] w-full hover:bg-[#1877f2]/90"
                 onClick={(e) => {
                   e.preventDefault();
                   authHandler("discord");
                 }}
               >
-                <Icons.discord/>
+                <Icons.discord />
                 Continue with Discord
               </Button>
-              <Button 
+              <Button
                 type="button"
-                variant="outline" 
-                className="bg-[#DB4437] w-full hover:bg-[#DB4437]/90" 
+                variant="outline"
+                className="bg-[#DB4437] w-full hover:bg-[#DB4437]/90"
                 onClick={(e) => {
                   e.preventDefault();
                   authHandler("google");
                 }}
               >
-                <Icons.google/>
+                <Icons.google />
                 Continue with Google
               </Button>
             </div>
@@ -122,16 +121,16 @@ export function LoginCards({
               </span>
             </div>
             <div className="grid gap-6">
-              <Button 
+              <Button
                 type="button"
-                variant="outline" 
-                className="w-full" 
+                variant="outline"
+                className="w-full"
                 onClick={(e) => {
                   e.preventDefault();
                   authHandler("github");
                 }}
               >
-                <Icons.gitHub/>
+                <Icons.gitHub />
                 Continue with GitHub
               </Button>
             </div>
@@ -142,8 +141,8 @@ export function LoginCards({
         </CardContent>
       </Card>
       <div className="text-balance text-center text-sm text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
-        By clicking continue, you agree to our  <Tos />.
+        By clicking continue, you agree to our <Tos />.
       </div>
     </div>
-  )
+  );
 }
