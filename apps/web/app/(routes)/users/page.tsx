@@ -3,9 +3,9 @@
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, Suspense } from "react";
 import { subDays, parseISO } from "date-fns";
-import UserGrid from "../../../components/custom/user/usercard";
+import UserGrid from "../../../components/custom/user/users.card";
 import { useUsersStore } from "@/lib/zustand";
 
 export default function UsersPage() {
@@ -76,7 +76,10 @@ export default function UsersPage() {
           {/* </div> */}
         </div>
         <div className="overflow-y-auto h-full overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+          
+          <Suspense fallback={<div className="text-center py-4">Loading users...</div>}>
           <UserGrid filteredUsers={filteredUsers} />
+    </Suspense>
         </div>
       </div>
     </div>
