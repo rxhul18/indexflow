@@ -1,10 +1,12 @@
 export type UserType = {
   id: string;
   name: string;
+  username?: string | null;
   email: string;
   role?: string | null;
   location?: string | null;
   bio?: string | null;
+  website?: string | null;
   active?: Date | null;
   reputation?: string | null;
   recentTags?: string[] | null;
@@ -12,6 +14,7 @@ export type UserType = {
   createdAt: Date | string;
   updatedAt: Date | string;
   image?: string | null;
+  banner?: string | null;
 };
 
 export type ServerType = {

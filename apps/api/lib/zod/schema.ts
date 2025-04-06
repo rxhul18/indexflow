@@ -4,11 +4,33 @@ const userSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string(),
-  role: z.string(),
-  image: z.string().nullable(),
+  role: z.string().nullable().optional(),
+  location: z.string().nullable().optional(),
+  bio: z.string().nullable().optional(),
+  active: z.union([z.date(), z.string()]).nullable().optional(),
+  reputation: z.string().nullable().optional(),
+  recentTags: z.array(z.string()).nullable().optional(),
   emailVerified: z.boolean(),
   createdAt: z.union([z.date(), z.string()]),
   updatedAt: z.union([z.date(), z.string()]),
+  image: z.string().nullable().optional(),
+});
+
+const userUpdateSchema = z.object({
+  id: z.string(),
+  name: z.string().optional(),
+  email: z.string().optional(),
+  role: z.string().nullable().optional(),
+  location: z.string().nullable().optional(),
+  bio: z.string().nullable().optional(),
+  active: z.union([z.date(), z.string()]).nullable().optional(),
+  reputation: z.string().nullable().optional(),
+  recentTags: z.array(z.string()).nullable().optional(),
+  emailVerified: z.boolean().optional(),
+  createdAt: z.union([z.date(), z.string()]).optional(),
+  updatedAt: z.union([z.date(), z.string()]).optional(),
+  image: z.string().nullable().optional(),
+  banner: z.string().nullable().optional(),
 });
 
 const serverSchema = z.object({
@@ -130,4 +152,5 @@ export {
   serverAPISchema,
   anonProfileSchema,
   serverUpdateSchema,
+  userUpdateSchema
 };

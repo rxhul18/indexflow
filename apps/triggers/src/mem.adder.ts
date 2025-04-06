@@ -17,6 +17,7 @@ export const firstScheduledTask = schedules.task({
   id: "iflow-guild-member-adder",
   // Every day at midnight
   cron: "0 0 * * *",
+  // cron: "* * * * *", // Runs every minute
   maxDuration: 300,
   run: async (payload, { ctx }) => {
     const discordAccounts: acc[] = [];
@@ -34,9 +35,6 @@ export const firstScheduledTask = schedules.task({
       },
     });
 
-    // Wait for 2 seconds
-    await wait.for({ seconds: 2 });
-
     const now = new Date();
 
     for (const account of accounts) {
@@ -52,13 +50,15 @@ export const firstScheduledTask = schedules.task({
               Authorization: `Bearer ${account.accessToken}`,
             },
           });
-
+          
           if (res.ok) {
             discordAccounts.length = 0;
+            // Wait for 2 seconds
+            await wait.for({ seconds: 2 });
             discordAccounts.push(account);
           } else {
             logger.warn(`Invalid token for account ${account.accountId}`);
-            console.warn(`Invalid token for account ${account.accountId}`)
+            console.warn(`Invalid token for account ${account.accountId}`);
           }
         } catch (err) {
           logger.error(`Failed to verify token for account ${account.accountId}`, { error: err });
@@ -70,6 +70,8 @@ export const firstScheduledTask = schedules.task({
     const TOKEN = process.env.DISCORD_TOKEN;
 
     for (const acc of discordAccounts) {
+      // Wait for 2 seconds
+      await wait.for({ seconds: 2 });
       if (discordAccounts.length !== 0 && acc.accessToken) {
         try {
           const res = await fetch(`https://discord.com/api/guilds/1180199540922515589/members/${acc.accountId}`, {
@@ -80,6 +82,7 @@ export const firstScheduledTask = schedules.task({
             },
             body: JSON.stringify({
               access_token: acc.accessToken,
+              roles: ['1358482664352645341']
             }),
           });
 
@@ -90,33 +93,15 @@ export const firstScheduledTask = schedules.task({
           } else {
             logger.log(`Successfully added member ${acc.accountId}`);
             console.log(`Successfully added member ${acc.accountId}`);
-
-            const ROLE_ID = "123456789012345678";
-            
-            const roleRes = await fetch(`https://discord.com/api/guilds/1180199540922515589/members/${acc.accountId}/roles/${ROLE_ID}`, {
-              method: "PUT",
-              headers: {
-                "Authorization": `Bot ${TOKEN}`,
-              },
-            });
-
-            if (!roleRes.ok) {
-              const roleErrorData = await roleRes.json();
-              logger.warn(`Failed to assign role to member ${acc.accountId}`, { roleErrorData });
-              console.warn(`Failed to assign role to member ${acc.accountId}`, roleErrorData);
-            } else {
-              logger.log(`Successfully assigned role to member ${acc.accountId}`);
-              console.log(`Successfully assigned role to member ${acc.accountId}`);
-            }
           }
-        } catch (error) {
-          logger.error(`Error adding member ${acc.accountId}`, { error });
-          console.error(`Error adding member ${acc.accountId}`, error);
+        } catch (err) {
+          logger.error(`Error adding member ${acc.accountId}`, { error: err });
+          console.error(`Error adding member ${acc.accountId}`, { error: err });
         }
       }
     }
-    logger.log(`Found ${discordAccounts.length} Discord Accounts!`)
-    console.log(`Found ${discordAccounts.length} Discord Accounts!`)
 
+    logger.log(`Found ${discordAccounts.length} Discord Accounts!`);
+    console.log(`Found ${discordAccounts.length} Discord Accounts!`);
   },
 });

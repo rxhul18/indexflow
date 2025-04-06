@@ -11,9 +11,13 @@ datasource db {
 model User {
   id            String    @id
   name          String
+  username      String?
+  bio           String?
+  website       String?
   email         String
   emailVerified Boolean
   image         String?
+  banner        String?
   role          String?   @default("user")
   location      String?
   active        DateTime?

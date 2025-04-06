@@ -3,7 +3,7 @@ import { cache } from "@iflow/cache";
 import { Hono } from "hono";
 import { prisma } from "@iflow/db";
 import { ZodError } from "zod";
-import { paginationSchema, userSchema } from "@/lib/zod/schema";
+import { paginationSchema, userSchema, userUpdateSchema } from "@/lib/zod/schema";
 import { checkLogin } from "@/actions/checks/check.login";
 import { checkAdmin } from "@/actions/checks/check.admin";
 import { zValidator } from "@/lib/zod/validator";
@@ -141,9 +141,37 @@ const user = new Hono()
     return c.json(response, 200);
   })
 
-  // this middleware applies login & admin checks to below routes
-  .use(checkLogin, checkAdmin)
-  // this middleware applies login & admin checks to below routes
+  .use(checkLogin)
+
+  .put("/update", zValidator("json", userUpdateSchema), async (c) => {
+    const body = c.req.valid("json");
+    const { id, ...updateData } = body;
+    try {
+      const updatedUser = await prisma.user.update({
+        where: { id: id },
+        data: {
+          ...updateData,
+          updatedAt: new Date(),
+          recentTags: updateData.recentTags ?? [],
+        },
+      });
+
+      // Invalidate cache if exists
+      const cacheKey = `user:${body.id}`;
+      try {
+        await cache.del(cacheKey);
+      } catch (cacheError) {
+        console.error("Error deleting user cache (update):", cacheError);
+      }
+
+      return c.json({ updatedUser }, 200);
+    } catch (error) {
+      console.log("Error updating user:", error);
+      return c.json({ message: "Failed to update user", status: 500 }, 500);
+    }
+  })
+
+  .use(checkAdmin)
 
   .get("/all", zValidator("query", paginationSchema), async (c) => {
     const { cursor, take } = c.req.valid("query");
