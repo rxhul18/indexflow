@@ -4,6 +4,7 @@ export type UserType = {
   email: string;
   role?: string | null;
   location?: string | null;
+  bio?: string | null;
   active?: Date | null;
   reputation?: string | null;
   recentTags?: string[] | null;
