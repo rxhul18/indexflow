@@ -10,7 +10,9 @@
   "license": "ISC",
   "packageManager": "pnpm@10.7.1",
   "dependencies": {
-    "@trigger.dev/sdk": "^3.3.17"
+    "@trigger.dev/sdk": "^3.3.17",
+    "@iflow/types": "workspace:*",
+    "@iflow/db": "workspace:*"
   },
   "devDependencies": {
     "@trigger.dev/build": "^3.3.17"

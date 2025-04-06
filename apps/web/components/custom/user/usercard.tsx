@@ -70,16 +70,14 @@ export default function UserGrid({
                       {user.image ? (
                         <Image
                           src={user.image || "/placeholder.svg"}
-                          alt={user.name}
+                          alt={user.name || "User Image"}
                           width={56}
                           height={56}
                           className="object-cover w-full h-full rounded-full transition-transform group-hover:scale-105"
                         />
-                      ) : user.name ? (
-                        <div className="flex items-center justify-center w-full h-full">{user.name}</div>
                       ) : (
                         <div className="flex items-center justify-center w-full h-full text-lg font-semibold">
-                          {user.name.charAt(0)}
+                          {user.name ? user.name.charAt(0) : "U"}
                         </div>
                       )}
                     </div>
@@ -157,14 +155,14 @@ export default function UserGrid({
                     {selectedUser.image ? (
                       <Image
                         src={selectedUser.image || "/placeholder.svg"}
-                        alt={selectedUser.name}
+                        alt={selectedUser.name || "User Image"}
                         width={80}
                         height={80}
                         className="object-cover w-full h-full"
                       />
                     ) : (
                       <div className="flex items-center justify-center w-full h-full bg-pink-600 text-white text-xl font-semibold">
-                        {selectedUser.name.charAt(0)}
+                        {selectedUser.name ? selectedUser.name.charAt(0) : "U"}
                       </div>
                     )}
                   </div>
@@ -256,4 +254,3 @@ export default function UserGrid({
     </>
   )
 }
-

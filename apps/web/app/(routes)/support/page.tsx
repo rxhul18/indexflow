@@ -261,6 +261,14 @@ export default function PricingPage() {
             </div>
 
             <div className="grid gap-2">
+            {/* <Link
+                  href="https://buy.polar.sh/polar_cl_hNh6awtLmw3ksUrnBs7IoylAnLsuwfagHz5wT2fifTb"
+                  data-polar-checkout
+                  data-polar-checkout-theme="dark"
+                  className={buttonVariants({ variant: "default" })}
+                >
+                  Subscribe
+                </Link> */}
               {!loading && user ? (
                 <Link
                   href="https://buy.polar.sh/polar_cl_hNh6awtLmw3ksUrnBs7IoylAnLsuwfagHz5wT2fifTb"

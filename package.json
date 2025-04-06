@@ -13,6 +13,7 @@
     "dev:web":"cd apps/web && pnpm dev",
     "dev:api":"cd apps/api && pnpm dev",
     "dev:bot":"cd apps/bot && pnpm dev",
+    "db:studio":"cd packages/db && pnpm db:studio",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "test": "turbo run test",

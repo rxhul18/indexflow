@@ -5,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search } from "lucide-react";
 import { useState, useMemo } from "react";
 import { subDays, parseISO } from "date-fns";
-import UserGrid from "./usercard";
+import UserGrid from "../../../components/custom/user/usercard";
 import { useUsersStore } from "@/lib/zustand";
 
 export default function UsersPage() {
