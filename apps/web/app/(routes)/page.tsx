@@ -6,12 +6,17 @@ import { Suspense, useState } from "react";
 import { JoinCommunityBtn } from "@/components/custom/join.community.btn";
 import { useServersStore, useTagsStore } from "@/lib/zustand";
 import { useContent } from "@/context/content.context";
-
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { Clock, MessageSquare } from "lucide-react"
+import Link from "next/link"
+import { Threads } from "@/json/dummy"
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
   const { servers } = useServersStore();
   const { tags } = useTagsStore();
   const { contentLoading } = useContent();
+  const router = useRouter();
 
   return (
     <div className="flex w-full justify-center py-8">
@@ -38,6 +43,39 @@ export default function Home() {
 
           {/* Community Form */}
           <aside className="w-full lg:w-[350px] py-10 space-y-6 sticky lg:top-[100px] h-fit flex-shrink-0">
+            <div className="rounded-lg border p-4">
+              <div className="mb-4 flex items-center">
+                <div className="relative flex size-2.5 mr-2">
+                  <div className="absolute inline-flex size-full animate-ping rounded-full bg-green-400 opacity-75"></div>
+                  <div className="relative inline-flex size-full rounded-full bg-green-500"></div>
+                </div>
+                <h2 className="text-xl font-bold">Active Threads</h2>
+              </div>
+              <div className="space-y-3 overflow-y-auto h-[calc(100vh-55vh)] overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+                {Threads.map((thread) => (
+                  <div
+                    key={thread.id}
+                    className="rounded-md border bg-background p-3 transition-colors"
+                  >
+                    <Link href={`/thread/${thread.id}`} className="block">
+                      <h3 className="font-medium ">{thread.title}</h3>
+                      <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{thread.description}</p>
+
+                      <div className="mt-2 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-3.5 w-3.5" />
+                          <span>{thread.lastActive}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <MessageSquare className="h-3.5 w-3.5" />
+                          <span>{thread.replies} replies</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
             <div className="rounded-lg border p-4">
               <h2 className="text-xl font-semibold mb-4">Communities</h2>
               <p className="text-muted-foreground mb-4">
@@ -75,6 +113,15 @@ export default function Home() {
                   ))}
                 </div>
               )}
+              <Button
+                variant="outline"
+                className="w-full mt-4"
+                onClick={() => {
+                  router.push("/communities");
+                }}
+              >
+                More Communities
+              </Button>
             </div>
           </aside>
         </div>

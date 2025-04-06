@@ -94,7 +94,7 @@ export default function QuestionsList({
   };
 
   return (
-    <div className="flex-1 relative h-[calc(100vh-120px)] overflow-x-hidden py-5">
+    <div className="flex-1 relative h-[100vh] overflow-x-hidden py-5">
       <div className="flex flex-col justify-between items-start mb-6 gap-4 sticky top-0 bg-background z-10">
         <h1 className="text-3xl font-bold">
           {filter === "newest"
