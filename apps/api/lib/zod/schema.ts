@@ -152,5 +152,5 @@ export {
   serverAPISchema,
   anonProfileSchema,
   serverUpdateSchema,
-  userUpdateSchema
+  userUpdateSchema,
 };

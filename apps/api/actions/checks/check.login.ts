@@ -12,7 +12,13 @@ export const checkLogin = async (c: Context, next: Next) => {
       return await next();
     }
 
-    return c.json({ message: "You are not authorized. Please login on: https://indexflow.site/" }, 401);
+    return c.json(
+      {
+        message:
+          "You are not authorized. Please login on: https://indexflow.site/",
+      },
+      401,
+    );
   } catch (error) {
     console.error("Check login middleware error:", error);
     return c.json({ message: "Internal Server Error" }, 500);
