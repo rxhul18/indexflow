@@ -7,7 +7,7 @@ import CommunityGrid from "../../../components/custom/community/communities.card
 import { useServersStore } from "@/lib/zustand";
 import { useSearchParams, useRouter } from "next/navigation";
 
-export default function CommunitiesPage() {
+function CommunitiesPageContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const { servers } = useServersStore();
   const searchParams = useSearchParams();
@@ -64,11 +64,17 @@ export default function CommunitiesPage() {
           </div>
         </div>
         <div className="overflow-y-auto h-full overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-          <Suspense fallback={<div className="text-center py-4">Loading communities...</div>}>
-            <CommunityGrid filteredServers={filteredServers} />
-          </Suspense>
+          <CommunityGrid filteredServers={filteredServers} />
         </div>
       </div>
     </div>
+  );
+}
+
+export default function CommunitiesPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-4">Loading search...</div>}>
+      <CommunitiesPageContent />
+    </Suspense>
   );
 }

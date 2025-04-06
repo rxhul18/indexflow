@@ -11,6 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@better-fetch/fetch": "^1.1.18",
     "@iflow/auth": "workspace:*",
     "@iflow/types": "workspace:*",
     "@polar-sh/checkout": "^0.1.10",

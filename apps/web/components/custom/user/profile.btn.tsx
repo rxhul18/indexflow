@@ -31,6 +31,7 @@ import { useTagsStore } from "@/lib/zustand";
 import { authClient } from "@iflow/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { updateUser } from "@/lib/func";
 
 export default function ProfileBtn({
   userId,
@@ -57,7 +58,7 @@ export default function ProfileBtn({
   const [usernameV, setUsernameV] = useState(username?.length !== 0 ? username : null)
   const [websiteV, setWebsiteV] = useState(website?.length !== 0 ? website : null)
   const [tagsV, setTagsV] = useState<string[]>(Array.isArray(tags) ? tags : []);
-  const [isTyping, setIsTyping] = useState(false);
+  // const [isTyping, setIsTyping] = useState(false);
 
   const {
     value: bioValue,
@@ -101,25 +102,18 @@ export default function ProfileBtn({
     setTagsV(options.map((opt) => opt.value));
   };
   
-  const USER_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/user/update" : "https://api.indexflow.site/v1/user/update"
-
   const handleSaveBtn = async () => {
-    const res = await fetch(USER_ENDPOINT, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: userId,
-        name: fullName,
-        username: usernameV,
-        website: websiteV,
-        bio: bioValue,
-        tags: tagsV,
-      }),
-    });
+    console.log(fullName, usernameV, websiteV, bioValue, tagsV)
+    const res = await updateUser({
+      id: userId,
+      name: fullName,
+      username: usernameV!,
+      website: websiteV!,
+      bio: bioValue,
+      recentTags: tagsV,
+    })
   
-    if (!res.ok) {
+    if (res.res.error) {
       toast.error("Failed to update profile");
       return;
     }
@@ -220,14 +214,17 @@ export default function ProfileBtn({
                       className="peer ps-9"
                       placeholder="rahulshah69"
                       defaultValue={usernameV!}
-                      onChange={(e) => {setUsernameV(e.target.value); setIsTyping(true);}}
+                      onChange={(e) => setUsernameV(e.target.value)}
                       type="text"
                       required
                     />
                     <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
                       <AtSignIcon size={16} aria-hidden="true" />
                     </div>
-                    {isTyping ? (
+                    <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 peer-disabled:opacity-50">
+                        <CheckIcon size={16} className="text-emerald-500" aria-hidden="true" />
+                      </div>
+                    {/* {isTyping ? (
                       <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3">
                         <svg
                           className="animate-spin h-4 w-4 text-muted-foreground/80"
@@ -254,7 +251,7 @@ export default function ProfileBtn({
                       <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 peer-disabled:opacity-50">
                         <CheckIcon size={16} className="text-emerald-500" aria-hidden="true" />
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </div>
                 <div className="*:not-first:mt-2">

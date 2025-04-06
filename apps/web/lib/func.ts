@@ -1,5 +1,8 @@
 "use server";
 
+import { betterFetch } from "@better-fetch/fetch";
+import { headers } from "next/headers";
+
 const USER_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/user/update" : "https://api.indexflow.site/v1/user/update"
 
 export async function updateUser(
@@ -9,20 +12,24 @@ export async function updateUser(
     username: string;
     website: string;
     bio: string;
-    tags: string[];
+    reputation: string;
+    active: Date;
+    location: string;
+    banner: string;
+    recentTags: string[];
   }>
 ) {
-  const res = await fetch(USER_ENDPOINT, {
+  const res = await betterFetch(USER_ENDPOINT, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      cookie: (await headers()).get("cookie") || "",
     },
     body: JSON.stringify(body),
   });
 
-  const data = await res.json();
+  console.log(res)
   return {
-    success: res.ok,
-    data,
+    res
   };
 }

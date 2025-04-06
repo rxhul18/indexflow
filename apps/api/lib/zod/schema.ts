@@ -4,6 +4,8 @@ const userSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string(),
+  username: z.string().nullable().optional(),
+  website: z.string().nullable().optional(),
   role: z.string().nullable().optional(),
   location: z.string().nullable().optional(),
   bio: z.string().nullable().optional(),
@@ -19,6 +21,8 @@ const userSchema = z.object({
 const userUpdateSchema = z.object({
   id: z.string(),
   name: z.string().optional(),
+  username: z.string().optional(),
+  website: z.string().optional(),
   email: z.string().optional(),
   role: z.string().nullable().optional(),
   location: z.string().nullable().optional(),
