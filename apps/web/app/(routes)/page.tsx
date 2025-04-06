@@ -6,12 +6,15 @@ import { Suspense, useState } from "react";
 import { JoinCommunityBtn } from "@/components/custom/join.community.btn";
 import { useServersStore, useTagsStore } from "@/lib/zustand";
 import { useContent } from "@/context/content.context";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
   const { servers } = useServersStore();
   const { tags } = useTagsStore();
   const { contentLoading } = useContent();
+  const router = useRouter();
 
   return (
     <div className="flex w-full justify-center py-8">
@@ -75,6 +78,15 @@ export default function Home() {
                   ))}
                 </div>
               )}
+              <Button
+                variant="default"
+                className="w-full mt-4"
+                onClick={() => {
+                  router.push("/communities");
+                }}
+              >
+                More Communities
+              </Button>
             </div>
           </aside>
         </div>

@@ -10,47 +10,55 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
-import { useTagsStore, useUsersStore } from "@/lib/zustand";
+import { useTagsStore, useUsersStore, useServersStore } from "@/lib/zustand";
 import { questions } from "@/json/dummy";
 import { useRouter } from "next/navigation";
-import { TagType, UserType } from "@iflow/types";
+import { TagType, UserType, ServerType } from "@iflow/types";
 
 export default function SearchInputCommand() {
   const [commandOpen, setCommandOpen] = useState(false);
   const { users } = useUsersStore();
   const { tags } = useTagsStore();
+  const { servers } = useServersStore();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<{
     users: UserType[];
     tags: TagType[];
+    servers: ServerType[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     questions: any[];
-  }>({ users: [], tags: [], questions: [] });
+  }>({ users: [], tags: [], servers: [], questions: [] });
 
   useEffect(() => {
     if (searchQuery.trim() === "") {
-      setSearchResults({ users: [], tags: [], questions: [] });
+      setSearchResults({ users: [], tags: [], servers: [], questions: [] });
       return;
     }
 
+    const normalizedSearch = searchQuery.trim().toLowerCase();
     const filteredUsers = users.filter((user) =>
-      user.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      user.name.toLowerCase().includes(normalizedSearch),
     );
     const filteredTags = tags.filter((tag) =>
-      tag.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      tag.name.toLowerCase().includes(normalizedSearch),
+    );
+    const filteredServers = servers.filter((server) =>
+      server.name?.trim().toLowerCase().includes(normalizedSearch),
     );
     const filteredQuestions = questions.filter(
       (q) =>
-        q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        q.content.toLowerCase().includes(searchQuery.toLowerCase()),
+        q.title.toLowerCase().includes(normalizedSearch) ||
+        q.content.toLowerCase().includes(normalizedSearch),
     );
 
     setSearchResults({
       users: filteredUsers,
       tags: filteredTags,
+      servers: filteredServers,
       questions: filteredQuestions,
     });
-  }, [searchQuery, users, tags, questions]);
+  }, [searchQuery, users, tags, servers, questions]);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -59,14 +67,16 @@ export default function SearchInputCommand() {
         setCommandOpen((open) => !open);
       }
     };
-    console.log({
-      tags: tags,
-      users: users,
-      questions: questions,
-    });
+
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
+
+  const handleServerSelect = (server: ServerType) => {
+    const serverName = server.name?.trim().toLowerCase().replace(/\s+/g, '+') || '';
+    router.push(`/communities?server=${serverName}`);
+    setCommandOpen(false);
+  };
 
   return (
     <div className="hidden md:flex md:items-center md:gap-3 flex-1 px-2 pl-6">
@@ -97,6 +107,20 @@ export default function SearchInputCommand() {
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
 
+              {searchResults.servers.length > 0 && (
+                <CommandGroup heading="Servers">
+                  {searchResults.servers.map((server) => (
+                    <CommandItem
+                      key={server.id}
+                      className="cursor-pointer"
+                      onSelect={() => handleServerSelect(server)}
+                    >
+                      {server.name}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+
               {searchResults.users.length > 0 && (
                 <CommandGroup heading="Users">
                   {searchResults.users.map((user) => (
@@ -104,7 +128,6 @@ export default function SearchInputCommand() {
                       key={user.id}
                       className="cursor-pointer"
                       onSelect={() => {
-                        // Use onSelect instead of onClick for better CommandItem handling
                         router.push(`/users`);
                         setCommandOpen(false);
                       }}
