@@ -41,6 +41,12 @@ export default function Header() {
               Users
             </Link>
             <Link
+              href="/communities"
+              className="font-medium transition-colors hover:text-primary"
+            >
+              Communities
+            </Link>
+            <Link
               href="/support"
               className="font-medium transition-colors hover:text-primary"
             >
@@ -114,6 +120,13 @@ export default function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Users
+              </Link>
+              <Link
+                href="/communities"
+                className="font-medium transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Communities
               </Link>
               <Link
                 href="/about"

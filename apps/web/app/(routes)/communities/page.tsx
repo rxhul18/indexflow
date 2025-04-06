@@ -49,7 +49,7 @@ export default function CommunitiesPage() {
 
   return (
     <div className="flex w-full justify-center h-[calc(100vh-120px)] overflow-hidden py-5">
-      <div className="flex flex-col gap-4 min-w-[90%] md:container w-full px-4">
+      <div className="flex flex-col min-w-[90%] md:container w-full px-4">
         <div className="flex flex-col md:flex-row min-w-full justify-between items-start mb-6 gap-4">
           <div className="relative w-full md:w-full flex flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
