@@ -5,12 +5,6 @@ import { headers } from "next/headers";
 
 const USER_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/user/update" : "https://api.indexflow.site/v1/user/update"
 
-
-export async function oklas() {
-  const reqHeaders = await headers();
-  console.log(reqHeaders);
-  return reqHeaders;
-}
 export async function updateUser(
   body: Partial<{
     id: string;

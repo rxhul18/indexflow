@@ -6,7 +6,6 @@ import { TicketPercent, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
 import { useUser } from "@/context/user.context";
-import { oklas } from "@/lib/func";
 
 const getCurrentSaleEndDate = () => {
   const startDate = new Date("2025-04-05T00:00:00Z");
@@ -70,9 +69,7 @@ export default function SalesBanner() {
     frame();
 
     setTimeout(async () => {
-      // window.location.href = "/support";
-      const mm = await oklas();
-      console.log(mm)
+      window.location.href = "/support";
     }, 1000);
   };
 

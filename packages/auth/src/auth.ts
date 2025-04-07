@@ -112,7 +112,7 @@ export const auth = betterAuth({
       },
     },
   },
-  secret: process.env.BETTER_AUTH_SECRET,
+  secret: process.env.BETTER_AUTH_SECRET || "4HVrZvV7HZreGEyFWdOFmNyh29393-0920kkd",
   plugins: [
     polar({
       client: polarClient,
@@ -164,4 +164,12 @@ export const auth = betterAuth({
       allowUnlinkingAll: true,
     },
   },
+  ...(process.env.NODE_ENV === "production" && {
+    advanced: {
+      crossSubDomainCookies: {
+        enabled: true,
+        domain: "indexflow.site",
+      },
+    },
+  }),
 });
