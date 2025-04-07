@@ -19,16 +19,18 @@ export async function updateUser(
     recentTags: string[];
   }>
 ) {
+  const cookies = (await headers()).get("cookie") || "";
   const res = await betterFetch(USER_ENDPOINT, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      cookie: (await headers()).get("cookie") || "",
+      cookie: cookies,
     },
     body: JSON.stringify(body),
   });
 
-  console.log(res)
+  console.log("Cookies:", cookies);
+
   return {
     res
   };

@@ -3,7 +3,6 @@ import { Context, Next } from "hono";
 
 export const checkLogin = async (c: Context, next: Next) => {
   try {
-    console.log(c.req.raw.headers.get("cookie"));
     const session = await auth.api.getSession({ headers: c.req.raw.headers });
     console.log("SESSION: ", session);
 
