@@ -1,10 +1,16 @@
 "use server";
 
-import { betterFetch } from "@better-fetch/fetch";
+// import { betterFetch } from "@better-fetch/fetch";
 import { headers } from "next/headers";
 
 const USER_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/user/update" : "https://api.indexflow.site/v1/user/update"
 
+
+export async function oklas() {
+  const reqHeaders = await headers();
+  console.log(reqHeaders);
+  return reqHeaders;
+}
 export async function updateUser(
   body: Partial<{
     id: string;
@@ -19,19 +25,20 @@ export async function updateUser(
     recentTags: string[];
   }>
 ) {
-  const cookies = (await headers()).get("cookie") || "";
-  const res = await betterFetch(USER_ENDPOINT, {
+  const res = await fetch(USER_ENDPOINT, {
     method: "PUT",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      cookie: cookies,
+      cookie: (await headers()).get("cookie") || "",
     },
     body: JSON.stringify(body),
   });
 
-  console.log("Cookies:", cookies);
+  const data = await res.json();
 
   return {
-    res
+    data,
+    status: res.status,
   };
 }

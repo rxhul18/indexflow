@@ -113,7 +113,7 @@ export default function ProfileBtn({
       recentTags: tagsV,
     })
   
-    if (res.res.error) {
+    if (!res.status) {
       toast.error("Failed to update profile");
       return;
     }

@@ -6,6 +6,7 @@ import { TicketPercent, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import confetti from "canvas-confetti";
 import { useUser } from "@/context/user.context";
+import { oklas } from "@/lib/func";
 
 const getCurrentSaleEndDate = () => {
   const startDate = new Date("2025-04-05T00:00:00Z");
@@ -68,8 +69,10 @@ export default function SalesBanner() {
 
     frame();
 
-    setTimeout(() => {
-      window.location.href = "/support";
+    setTimeout(async () => {
+      // window.location.href = "/support";
+      const mm = await oklas();
+      console.log(mm)
     }, 1000);
   };
 
@@ -110,7 +113,7 @@ export default function SalesBanner() {
   if (!isVisible || timeLeft.isExpired || loading || !user) return null;
 
   return (
-    <div className="dark bg-muted dark:bg-muted/80 text-foreground px-4 py-3 mt-1">
+    <div className="dark bg-muted dark:bg-muted/80 text-foreground px-4 py-3 mt-0.25">
       <div className="flex gap-2 md:items-center">
         <div className="flex grow gap-3 md:items-center">
           <div
