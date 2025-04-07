@@ -30,7 +30,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       try {
         const session = await authClient.getSession();
         if (session.data?.user) {
-          // console.log(user, "boobs")
+          console.warn(session, "boobs")
           setUser(session.data.user);
         } else {
           setUser(null);
