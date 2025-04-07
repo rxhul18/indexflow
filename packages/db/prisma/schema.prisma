@@ -11,26 +11,24 @@ datasource db {
 model User {
   id            String    @id
   name          String
+  username      String?
+  bio           String?
+  website       String?
   email         String
   emailVerified Boolean
   image         String?
+  banner        String?
+  role          String?   @default("user")
+  location      String?
+  active        DateTime?
+  reputation    String?
+  recentTags    String[]
   createdAt     DateTime
   updatedAt     DateTime
-  role          String @default("user")
-  reputation    String?
-  location      String?
-  bio           String?
-  username      String?
-  website       String?
-  active        DateTime?
-  banner        String?
-  recentTags    String[]
-  dc_id         String?
   sessions      Session[]
   accounts      Account[]
 
   @@unique([email])
-  @@unique([username])
   @@map("user")
 }
 
