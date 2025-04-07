@@ -13,6 +13,7 @@ import Logo from "../logo";
 import SearchInputCommand from "./search.comp";
 // import NotificationsComp from "@/components/notify";
 import ProfileBtn from "../user/profile.btn";
+import UserBtn from "../user/user.btn";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,12 +35,12 @@ export default function Header() {
             >
               Home
             </Link>
-            <Link
+            {/* <Link
               href="/users"
               className="font-medium transition-colors hover:text-primary"
             >
               Users
-            </Link>
+            </Link> */}
             <Link
               href="/communities"
               className="font-medium transition-colors hover:text-primary"
@@ -62,7 +63,8 @@ export default function Header() {
         <div className="flex items-center gap-4">
           <div className="hidden md:flex">
             {!loading && user ? (
-              <ProfileBtn userId={user.id} pfp={user.image || ""} name={user.name || "Guest"} username={user.username || ""} bio={user.bio || ""} website={user.website || ""} tags={ user.recentTags || []} />
+              // <ProfileBtn userId={user.id} pfp={user.image || ""} name={user.name || "Guest"} username={user.username || ""} bio={user.bio || ""} website={user.website || ""} tags={ user.recentTags || []} />
+              <UserBtn pfp={user.image || ""} name={user.name || "Guest"} />
             ) : (
               <SignInBtn />
             )}
@@ -138,7 +140,8 @@ export default function Header() {
             </nav>
             <div className="flex flex-col gap-2">
               {!loading && user ? (
-                <ProfileBtn userId={user.id} pfp={user.image || ""} name={user.name || "Guest"} username={user.username || ""} bio={user.bio || ""} website={user.website || ""} tags={ user.recentTags || []} />
+                // <ProfileBtn userId={user.id} pfp={user.image || ""} name={user.name || "Guest"} username={user.username || ""} bio={user.bio || ""} website={user.website || ""} tags={ user.recentTags || []} />
+                <UserBtn pfp={user.image || ""} name={user.name || "Guest"} />
               ) : (
                 <SignInBtn />
               )}
