@@ -6,37 +6,40 @@ import { compareDesc } from "date-fns";
 import { Clock, FlameIcon, ArrowUpIcon, Loader2, Search } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { questions } from "@/json/dummy";
 import QuestionCard from "@/components/custom/question-card";
+import { ApiQuestionType } from "@iflow/types";
+import { useContent } from "@/context/content.context";
 
 export default function QuestionsList({
   tagName,
   selectedTag,
+  questions
 }: {
   tagName: string;
   selectedTag: string;
+  questions: ApiQuestionType[];
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const observer = useRef<IntersectionObserver | null>(null);
   const lastQuestionElementRef = useRef(null);
-
+  const { contentLoading } = useContent();
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const filter = searchParams.get("sort") || "newest";
-  const tagFilter = searchParams.get("filter") || selectedTag || tagName || "";
+  const tagFilter = searchParams.get("filter") || selectedTag || tagName || "newest";
 
   const getFilteredQuestions = () => {
     return questions.filter((q) => {
       const matchesSearch =
         searchQuery.length === 0 ||
-        q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        q.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+        q.title.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesTag = !tagFilter || q.tags.includes(tagFilter);
+      // const matchesTag = !tagFilter || q.tags.includes(tagFilter);
 
-      return matchesSearch && matchesTag;
+      // return matchesSearch && matchesTag;
+      return matchesSearch;
     });
   };
 
@@ -46,11 +49,11 @@ export default function QuestionsList({
     return filteredQuestions.sort((a, b) => {
       if (filter === "newest")
         return compareDesc(new Date(a.createdAt), new Date(b.createdAt));
-      if (filter === "hot") return b.votes - a.votes;
-      if (filter === "top") return b.views - a.views;
+      // if (filter === "hot") return (b.votes || 0) - (a.votes || 0);
+      // if (filter === "top") return (b.views || 0) - (a.views || 0);
       return 0;
     });
-  }, [filter, searchQuery, tagFilter]);
+  }, [filter, searchQuery, tagFilter, questions]);
 
   const questionsPerPage = 5;
   const [loadedQuestions, setLoadedQuestions] = useState(
@@ -140,24 +143,55 @@ export default function QuestionsList({
         </div>
       </div>
 
-      <div className="space-y-4 relative h-full overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-        {loadedQuestions.map((question, index) => (
-          <QuestionCard
-            ref={
-              index === loadedQuestions.length - 1
-                ? lastQuestionElementRef
-                : null
-            }
-            key={question.id}
-            question={question}
-          />
-        ))}
-        {loading && (
-          <div className="justify-center items-center py-4 flex-1 flex">
-            <Loader2 className="animate-spin mr-3" /> Loading...
-          </div>
-        )}
-      </div>
+      {contentLoading ? (
+        <>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <div
+              key={index}
+              className="animate-pulse flex flex-col gap-4 p-6 border rounded-lg mb-4"
+            >
+              {/* Header with title */}
+              <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+
+              {/* Tags */}
+              <div className="flex gap-2">
+                <div className="h-4 bg-gray-200 rounded w-16"></div>
+                <div className="h-4 bg-gray-200 rounded w-16"></div>
+                <div className="h-4 bg-gray-200 rounded w-16"></div>
+              </div>
+
+              {/* Bottom metadata */}
+              <div className="flex justify-between items-center mt-2">
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 bg-gray-200 rounded-full"></div>
+                  <div className="h-4 bg-gray-200 rounded w-24"></div>
+                </div>
+                <div className="h-4 bg-gray-200 rounded w-20"></div>
+              </div>
+            </div>
+          ))}
+        </>
+      ) : (
+        <div className="space-y-4 relative h-[105vh] overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+          {loadedQuestions.map((question, index) => (
+            <QuestionCard
+              ref={
+                index === loadedQuestions.length - 1
+                  ? lastQuestionElementRef
+                  : null
+              }
+              key={question.id}
+              data={question}
+            />
+          ))
+          }
+          {loading && (
+            <div className="justify-center items-center py-4 flex-1 flex">
+              <Loader2 className="animate-spin mr-3" /> Loading...
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

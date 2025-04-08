@@ -122,3 +122,36 @@ export type AnonProfileType = {
   createdAt: Date | string;
   updatedAt: Date | string;
 };
+
+type Answer = {
+  id: string;
+  author: string;
+  content: string;
+  qns_id: string;
+  tldr: string | null;
+  server_id: string;
+  thread_id: string;
+  msg_url: string;
+  is_anon: boolean;
+  is_nsfw: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type ApiQuestionType = {
+  id: string;
+  title: string;
+  ans_id: string | null;
+  author: string;
+  content: string;
+  tldr: string | null;
+  is_anon: boolean;
+  is_nsfw: boolean;
+  server_id: string;
+  thread_id: string;
+  thread_mems: string[]; // assuming it's an array of member IDs
+  msg_url: string;
+  createdAt: string;
+  updatedAt: string;
+  answers: Answer[];
+}

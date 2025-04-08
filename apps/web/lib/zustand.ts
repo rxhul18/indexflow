@@ -1,4 +1,4 @@
-import { TagType, UserType, ServerType } from "@iflow/types";
+import { TagType, UserType, ServerType, ApiQuestionType } from "@iflow/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -22,6 +22,13 @@ type ServerStore = {
   removeServer: (serverId: string) => void;
   setServers: (servers: ServerType[]) => void;
 };
+
+type QuestionStore = {
+  questions: ApiQuestionType[];
+  addQuestion: (question: ApiQuestionType) => void;
+  removeQuestion: (questionId: string) => void;
+  setQuestions: (questions: ApiQuestionType[]) => void;
+}
 
 const useTagsStore = create<TagStore>()(
   persist(
@@ -71,4 +78,23 @@ const useServersStore = create<ServerStore>()(
   ),
 );
 
-export { useTagsStore, useUsersStore, useServersStore };
+
+const useQuestionsStore = create<QuestionStore>()(
+  persist(
+    (set) => ({
+      questions: [],
+      addQuestion: (question) =>
+        set((state) => ({ questions: [...state.questions, question] })),
+      removeQuestion: (questionId) =>
+        set((state) => ({
+          questions: state.questions.filter((q) => q.id !== questionId),
+        })),
+      setQuestions: (questions) => set({ questions }),
+    }),
+    {
+      name: "questions-storage",
+    },
+  )
+)
+
+export { useTagsStore, useUsersStore, useServersStore, useQuestionsStore };
