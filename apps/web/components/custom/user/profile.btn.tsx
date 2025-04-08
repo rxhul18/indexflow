@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { AtSignIcon, CheckIcon, LogOut } from "lucide-react";
+import { AtSignIcon, CheckIcon, Loader, LogOut } from "lucide-react";
 import { useId, useState } from "react";
 import Image from "next/image";
 import UserBtn from "./user.btn";
@@ -57,7 +57,8 @@ export default function ProfileBtn({
     website?.length !== 0 ? website : "https://indexflow.site",
   );
   const [tagsV, setTagsV] = useState<string[]>(Array.isArray(tags) ? tags : []);
-  // const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     value: bioValue,
@@ -103,6 +104,8 @@ export default function ProfileBtn({
 
   const handleSaveBtn = async () => {
     console.log(fullName, usernameV, websiteV, bioValue, tagsV);
+    setIsLoading(true);
+    setIsTyping(false);
     const res = await updateUser({
       id: userId,
       name: fullName,
@@ -113,9 +116,11 @@ export default function ProfileBtn({
     });
 
     if (res.success) {
+      setIsLoading(false);
       toast.success("Profile updated successfully");
       router.refresh();
     } else {
+      setIsTyping(true);
       toast.error("Failed to update profile");
     }
   };
@@ -162,6 +167,7 @@ export default function ProfileBtn({
                       maxLength={nameMaxLength}
                       onChange={(e) => {
                         nameHandleChange(e);
+                        setIsTyping(true);
                       }}
                       type="text"
                       required
@@ -187,6 +193,7 @@ export default function ProfileBtn({
                       maxLength={nameMaxLength}
                       onChange={(e) => {
                         nameLHandleChange(e);
+                        setIsTyping(true);
                       }}
                       type="text"
                       required
@@ -212,7 +219,7 @@ export default function ProfileBtn({
                       className="peer ps-9"
                       placeholder="rahulshah69"
                       defaultValue={usernameV!}
-                      onChange={(e) => setUsernameV(e.target.value)}
+                      onChange={(e) => {setUsernameV(e.target.value); setIsTyping(true);}}
                       type="text"
                       required
                     />
@@ -272,6 +279,7 @@ export default function ProfileBtn({
                           ? e.target.value.replace("https://", "")
                           : e.target.value;
                         setWebsiteV(inputValue);
+                        setIsTyping(true);
                       }}
                       type="text"
                     />
@@ -291,6 +299,7 @@ export default function ProfileBtn({
                     hidePlaceholderWhenSelected
                     onChange={(e) => {
                       handleTagsChange(e);
+                      setIsTyping(true);
                     }}
                     emptyIndicator={
                       <p className="text-center text-sm">No results found</p>
@@ -310,6 +319,7 @@ export default function ProfileBtn({
                     maxLength={maxLength}
                     onChange={(e) => {
                       bioHandleChange(e);
+                      setIsTyping(true);
                     }}
                     aria-describedby={`${id}-description`}
                   />
@@ -329,8 +339,8 @@ export default function ProfileBtn({
                 <ConnectedServers /> */}
                 <Separator />
                 <ConnectedAcount />
-                <Separator />
-                <AdvanceSettings isDisabled />
+                {/* <Separator />
+                <AdvanceSettings isDisabled /> */}
               </form>
             </div>
           </ScrollArea>
@@ -344,11 +354,20 @@ export default function ProfileBtn({
           </DialogClose>
           <div className="flex gap-2">
             <DialogClose asChild>
-              <Button type="button" variant="outline">
+              <Button type="button" variant="outline" onClick={() => {setIsTyping(false);}}>
                 Cancel
               </Button>
             </DialogClose>
-            <Button onClick={handleSaveBtn}>Save changes</Button>
+          <Button onClick={handleSaveBtn} disabled={!isTyping}>
+            {isLoading ? (
+              <>
+                <Loader className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              "Save changes"
+            )}
+          </Button>
           </div>
         </DialogFooter>
       </DialogContent>
