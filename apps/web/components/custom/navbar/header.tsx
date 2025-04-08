@@ -14,6 +14,7 @@ import SearchInputCommand from "./search.comp";
 // import NotificationsComp from "@/components/notify";
 import ProfileBtn from "../user/profile.btn";
 import UserBtn from "../user/user.btn";
+import AddBotBtn from "../add.bot.btn";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,6 +62,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
+          <AddBotBtn/>
           <div className="hidden md:flex">
             {!loading && user ? (
               <ProfileBtn
@@ -81,7 +83,7 @@ export default function Header() {
           <Button
             variant="outline"
             size="icon"
-            className="rounded-full"
+            className="hidden md:flex rounded-full"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
             <div className="relative">
@@ -146,7 +148,7 @@ export default function Header() {
                 About
               </Link>
             </nav>
-            <div className="flex flex-col gap-2">
+            <div className="flex gap-2">
               {!loading && user ? (
                 <ProfileBtn
                   userId={user.id}
@@ -161,6 +163,17 @@ export default function Header() {
                 // <UserBtn pfp={user.image || ""} name={user.name || "Guest"} />
                 <SignInBtn />
               )}
+              <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            <div className="relative">
+              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:rotate-90 dark:scale-0" />
+              <Moon className="absolute top-0 h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            </div>
+          </Button>
             </div>
           </div>
         </div>

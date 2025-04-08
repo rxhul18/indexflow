@@ -94,7 +94,7 @@ export default function QuestionsList({
   };
 
   return (
-    <div className="flex-1 relative h-[100vh] overflow-x-hidden py-5">
+    <div className="flex-1 relative h-full overflow-x-hidden">
       <div className="flex flex-col justify-between items-start mb-6 gap-4 sticky top-0 bg-background z-10">
         <h1 className="text-3xl font-bold">
           {filter === "newest"
@@ -140,7 +140,7 @@ export default function QuestionsList({
         </div>
       </div>
 
-      <div className="space-y-4 relative overflow-y-auto h-full overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+      <div className="space-y-4 relative h-full overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
         {loadedQuestions.map((question, index) => (
           <QuestionCard
             ref={

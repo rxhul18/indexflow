@@ -26,8 +26,8 @@ interface QuestionCardProps {
 const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
   ({ question }, ref) => {
     return (
-      <div ref={ref} className="overflow-hidden">
-        <Card className="overflow-hidden p-0">
+      <div ref={ref} className="overflow-y-hidden">
+        <Card className="overflow-y-hidden p-0">
           <CardContent className="p-4 sm:p-6">
             <div className="space-y-2 sm:space-y-3">
               <Link href={`/qs/${question.id}`}>
