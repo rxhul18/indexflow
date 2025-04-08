@@ -10,7 +10,7 @@ const questions = new Hono().get("/all", async (c) => {
   const cached = await cache.get(cacheKey);
 
   if (cached) {
-    console.log("Am hitting CACHE")
+    console.log("Am hitting CACHE");
     return c.json(cached);
   }
 
@@ -33,7 +33,7 @@ const questions = new Hono().get("/all", async (c) => {
   }));
 
   const responseData = { questions: enrichedQns };
-  console.log("Am hitting DB")
+  console.log("Am hitting DB");
   await cache.set(cacheKey, responseData, { ex: CACHE_EXPIRY });
 
   return c.json(responseData);
