@@ -123,15 +123,15 @@ export default function QuestionsList({
             className="w-full sm:w-auto"
           >
             <TabsList>
-              <TabsTrigger value="newest">
+              <TabsTrigger value="newest" className="cursor-pointer">
                 <Clock className="h-4 w-4 mr-2" />
                 Newest
               </TabsTrigger>
-              <TabsTrigger value="hot">
+              <TabsTrigger value="hot" className="cursor-pointer">
                 <FlameIcon className="h-4 w-4 mr-2" />
                 Hot
               </TabsTrigger>
-              <TabsTrigger value="top">
+              <TabsTrigger value="top" className="cursor-pointer">
                 <ArrowUpIcon className="h-4 w-4 mr-2" />
                 Top
               </TabsTrigger>
