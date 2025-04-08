@@ -31,7 +31,7 @@ export const firstScheduledTask = schedules.task({
         refreshToken: true,
         scope: true,
         createdAt: true,
-        updatedAt: true
+        updatedAt: true,
       },
     });
 
@@ -50,7 +50,7 @@ export const firstScheduledTask = schedules.task({
               Authorization: `Bearer ${account.accessToken}`,
             },
           });
-          
+
           if (res.ok) {
             discordAccounts.length = 0;
             // Wait for 2 seconds
@@ -61,8 +61,14 @@ export const firstScheduledTask = schedules.task({
             console.warn(`Invalid token for account ${account.accountId}`);
           }
         } catch (err) {
-          logger.error(`Failed to verify token for account ${account.accountId}`, { error: err });
-          console.error(`Failed to verify token for account ${account.accountId}`, { error: err });
+          logger.error(
+            `Failed to verify token for account ${account.accountId}`,
+            { error: err },
+          );
+          console.error(
+            `Failed to verify token for account ${account.accountId}`,
+            { error: err },
+          );
         }
       }
     }
@@ -74,17 +80,20 @@ export const firstScheduledTask = schedules.task({
       await wait.for({ seconds: 2 });
       if (discordAccounts.length !== 0 && acc.accessToken) {
         try {
-          const res = await fetch(`https://discord.com/api/guilds/1180199540922515589/members/${acc.accountId}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bot ${TOKEN}`,
+          const res = await fetch(
+            `https://discord.com/api/guilds/1180199540922515589/members/${acc.accountId}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bot ${TOKEN}`,
+              },
+              body: JSON.stringify({
+                access_token: acc.accessToken,
+                roles: ["1358482664352645341"],
+              }),
             },
-            body: JSON.stringify({
-              access_token: acc.accessToken,
-              roles: ['1358482664352645341']
-            }),
-          });
+          );
 
           if (!res.ok) {
             const errorData = await res.json();

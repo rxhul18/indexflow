@@ -8,9 +8,9 @@ import { useServersStore, useTagsStore } from "@/lib/zustand";
 import { useContent } from "@/context/content.context";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { Clock, MessageSquare } from "lucide-react"
-import Link from "next/link"
-import { Threads } from "@/json/dummy"
+import { Clock, MessageSquare } from "lucide-react";
+import Link from "next/link";
+import { Threads } from "@/json/dummy";
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
   const { servers } = useServersStore();
@@ -59,7 +59,9 @@ export default function Home() {
                   >
                     <Link href={`/thread/${thread.id}`} className="block">
                       <h3 className="font-medium ">{thread.title}</h3>
-                      <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{thread.description}</p>
+                      <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                        {thread.description}
+                      </p>
 
                       <div className="mt-2 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
                         <div className="flex items-center gap-1">

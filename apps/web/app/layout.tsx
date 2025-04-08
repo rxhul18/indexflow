@@ -39,14 +39,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://indexflow.site",
-    title: "IndexFlow | Index your Discord threads online and make them searchable",
+    title:
+      "IndexFlow | Index your Discord threads online and make them searchable",
     description:
       "A community-driven platform for indexing your Discord community and make your threads searchable on Google.",
     siteName: "IndexFlow",
   },
   twitter: {
     card: "summary_large_image",
-    title: "IndexFlow | Index your Discord threads online and make them searchable",
+    title:
+      "IndexFlow | Index your Discord threads online and make them searchable",
     description:
       "A community-driven platform for indexing your Discord community and make your threads searchable on Google.",
   },

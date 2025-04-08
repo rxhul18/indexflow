@@ -73,7 +73,8 @@ export default function SearchInputCommand() {
   }, []);
 
   const handleServerSelect = (server: ServerType) => {
-    const serverName = server.name?.trim().toLowerCase().replace(/\s+/g, '+') || '';
+    const serverName =
+      server.name?.trim().toLowerCase().replace(/\s+/g, "+") || "";
     router.push(`/communities?server=${serverName}`);
     setCommandOpen(false);
   };

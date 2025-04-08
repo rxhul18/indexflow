@@ -3,7 +3,10 @@
 // import { betterFetch } from "@better-fetch/fetch";
 import { headers } from "next/headers";
 
-const USER_ENDPOINT = process.env.NODE_ENV == "development" ? "http://localhost:3001/v1/user/update" : "https://api.indexflow.site/v1/user/update"
+const USER_ENDPOINT =
+  process.env.NODE_ENV == "development"
+    ? "http://localhost:3001/v1/user/update"
+    : "https://api.indexflow.site/v1/user/update";
 
 export async function updateUser(
   body: Partial<{
@@ -17,7 +20,7 @@ export async function updateUser(
     location: string;
     banner: string;
     recentTags: string[];
-  }>
+  }>,
 ) {
   if (body.website?.startsWith("https://")) {
     body.website = body.website.replace("https://", "");

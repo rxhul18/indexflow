@@ -69,19 +69,26 @@ export default function UsersPage() {
               className="w-full sm:w-auto"
             >
               <TabsList className="gap-1 p-1 bg-muted/30 border rounded-md">
-                <TabsTrigger value="all" className="cursor-pointer">All users</TabsTrigger>
-                <TabsTrigger value="new" className="cursor-pointer">New users</TabsTrigger>
-                <TabsTrigger value="anonymous" className="cursor-pointer">Anonymous</TabsTrigger>
+                <TabsTrigger value="all" className="cursor-pointer">
+                  All users
+                </TabsTrigger>
+                <TabsTrigger value="new" className="cursor-pointer">
+                  New users
+                </TabsTrigger>
+                <TabsTrigger value="anonymous" className="cursor-pointer">
+                  Anonymous
+                </TabsTrigger>
               </TabsList>
             </Tabs>
           </div>
           {/* </div> */}
         </div>
         <div className="overflow-y-auto h-full overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-          
-          <Suspense fallback={<div className="text-center py-4">Loading users...</div>}>
-          <UserGrid filteredUsers={filteredUsers} />
-    </Suspense>
+          <Suspense
+            fallback={<div className="text-center py-4">Loading users...</div>}
+          >
+            <UserGrid filteredUsers={filteredUsers} />
+          </Suspense>
         </div>
       </div>
     </div>

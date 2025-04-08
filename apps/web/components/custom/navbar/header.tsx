@@ -63,9 +63,17 @@ export default function Header() {
         <div className="flex items-center gap-4">
           <div className="hidden md:flex">
             {!loading && user ? (
-              <ProfileBtn userId={user.id} pfp={user.image || ""} name={user.name || "Guest"} username={user.username || ""} bio={user.bio || ""} website={user.website || ""} tags={ user.recentTags || []} />
-              // <UserBtn pfp={user.image || ""} name={user.name || "Guest"} />
+              <ProfileBtn
+                userId={user.id}
+                pfp={user.image || ""}
+                name={user.name || "Guest"}
+                username={user.username || ""}
+                bio={user.bio || ""}
+                website={user.website || ""}
+                tags={user.recentTags || []}
+              />
             ) : (
+              // <UserBtn pfp={user.image || ""} name={user.name || "Guest"} />
               <SignInBtn />
             )}
           </div>
@@ -140,9 +148,17 @@ export default function Header() {
             </nav>
             <div className="flex flex-col gap-2">
               {!loading && user ? (
-                <ProfileBtn userId={user.id} pfp={user.image || ""} name={user.name || "Guest"} username={user.username || ""} bio={user.bio || ""} website={user.website || ""} tags={ user.recentTags || []} />
-                // <UserBtn pfp={user.image || ""} name={user.name || "Guest"} />
+                <ProfileBtn
+                  userId={user.id}
+                  pfp={user.image || ""}
+                  name={user.name || "Guest"}
+                  username={user.username || ""}
+                  bio={user.bio || ""}
+                  website={user.website || ""}
+                  tags={user.recentTags || []}
+                />
               ) : (
+                // <UserBtn pfp={user.image || ""} name={user.name || "Guest"} />
                 <SignInBtn />
               )}
             </div>

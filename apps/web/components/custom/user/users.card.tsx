@@ -31,19 +31,18 @@ export default function UserCards({
   // const [isGoogleLinked, setIsGoogleLinked] = useState(false);
   // const [isGithubLinked, setIsGithubLinked] = useState(false);
 
-  const {tags} = useTagsStore();
+  const { tags } = useTagsStore();
 
   const normalizedUsername = useMemo(
     () => usernameParam.toLowerCase().replace(/\s+/g, ""),
-    [usernameParam]
+    [usernameParam],
   );
 
   useEffect(() => {
     if (!normalizedUsername) return;
 
     const matchedUser = filteredUsers.find(
-      (u) =>
-        u.name?.toLowerCase().replace(/\s+/g, "") === normalizedUsername
+      (u) => u.name?.toLowerCase().replace(/\s+/g, "") === normalizedUsername,
     );
 
     if (matchedUser) {
@@ -88,7 +87,7 @@ export default function UserCards({
     router.push("?");
   };
 
-  const renderAvatar = (user: UserType, size = 56) => (
+  const renderAvatar = (user: UserType, size = 56) =>
     user.image ? (
       <Image
         src={user.image}
@@ -101,8 +100,7 @@ export default function UserCards({
       <div className="flex items-center justify-center w-full h-full text-lg font-semibold">
         {user.name?.[0] || "U"}
       </div>
-    )
-  );
+    );
 
   return (
     <>
@@ -121,15 +119,15 @@ export default function UserCards({
                   </div>
                   <div className="flex flex-col min-w-0 flex-1">
                     <div className="flex items-center justify-between">
-                      <span
-                        className="font-medium text-primary truncate text-base"
-                      >
+                      <span className="font-medium text-primary truncate text-base">
                         {user.name}
                       </span>
                       {user.reputation?.length !== 0 && (
                         <div className="flex items-center text-amber-500 gap-0.5 ml-1">
                           <Star className="h-3.5 w-3.5 fill-current" />
-                          <span className="text-xs font-medium">{user.reputation || "00"}</span>
+                          <span className="text-xs font-medium">
+                            {user.reputation || "00"}
+                          </span>
                         </div>
                       )}
                     </div>
@@ -137,7 +135,9 @@ export default function UserCards({
                     {user.username && (
                       <div className="flex items-center text-muted-foreground text-sm mt-1 gap-1">
                         {/* <MapPin className="h-3 w-3" /> */}
-                        <span className="truncate">@{user.username || "anon69"}</span>
+                        <span className="truncate">
+                          @{user.username || "anon69"}
+                        </span>
                       </div>
                     )}
 
@@ -146,9 +146,11 @@ export default function UserCards({
                         {/* <h3 className="text-sm font-medium mb-2">Interests</h3> */}
                         <div className="flex w-full flex-wrap gap-2">
                           {user.recentTags.map((tagId, idx) => {
-                            const tag = tags.find(t => t.id === tagId);
+                            const tag = tags.find((t) => t.id === tagId);
                             return tag ? (
-                              <Badge key={idx} variant="secondary">{tag.name}</Badge>
+                              <Badge key={idx} variant="secondary">
+                                {tag.name}
+                              </Badge>
                             ) : null;
                           })}
                         </div>
@@ -163,7 +165,9 @@ export default function UserCards({
           <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
             <div className="text-4xl mb-3">🔍</div>
             <h3 className="text-lg font-medium mb-1">No users found</h3>
-            <p className="text-muted-foreground text-sm">Try adjusting your search or filter criteria</p>
+            <p className="text-muted-foreground text-sm">
+              Try adjusting your search or filter criteria
+            </p>
           </div>
         )}
       </div>
@@ -182,34 +186,38 @@ export default function UserCards({
                 <div className="flex justify-between items-center">
                   <div>
                     <h2 className="text-xl font-bold">{selectedUser.name}</h2>
-                    <p className="text-muted-foreground text-sm">@{selectedUser.username || "anon69"}</p>
+                    <p className="text-muted-foreground text-sm">
+                      @{selectedUser.username || "anon69"}
+                    </p>
                   </div>
                   {/* <button className="border text-sm rounded-full px-4 py-1 font-medium hover:bg-accent transition">Message</button> */}
                   <Badge variant="outline" className="gap-2">
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger className="cursor-pointer">
-                            <Gem className="text-blue-400 size-4" />
-                          </TooltipTrigger>
-                          <TooltipContent className="text-xs">Premium Account</TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger className="cursor-pointer">
-                            <div className="flex">
-                              <Star className="h-4 w-4 text-amber-500 fill-current" />
-                              <span className="text-xs font-medium ml-1 text-amber-500">
-                                {selectedUser.reputation ?? "00"}
-                              </span>
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent className="text-xs">
-                            Got {selectedUser.reputation ?? "00"} Reputations
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </Badge>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger className="cursor-pointer">
+                          <Gem className="text-blue-400 size-4" />
+                        </TooltipTrigger>
+                        <TooltipContent className="text-xs">
+                          Premium Account
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger className="cursor-pointer">
+                          <div className="flex">
+                            <Star className="h-4 w-4 text-amber-500 fill-current" />
+                            <span className="text-xs font-medium ml-1 text-amber-500">
+                              {selectedUser.reputation ?? "00"}
+                            </span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent className="text-xs">
+                          Got {selectedUser.reputation ?? "00"} Reputations
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </Badge>
                 </div>
 
                 {selectedUser.bio && (
@@ -237,19 +245,24 @@ export default function UserCards({
                     </div>
                   )}
                 </div>
-                {selectedUser.recentTags && selectedUser.recentTags.length > 0 && (
-                      <div className="mt-4">
-                        <h3 className="text-sm font-medium mb-2">Interested Topics</h3>
-                        <div className="flex w-full flex-wrap gap-2">
-                          {selectedUser.recentTags.map((tagId, idx) => {
-                            const tag = tags.find(t => t.id === tagId);
-                            return tag ? (
-                              <Badge key={idx} variant="secondary">{tag.name}</Badge>
-                            ) : null;
-                          })}
-                        </div>
+                {selectedUser.recentTags &&
+                  selectedUser.recentTags.length > 0 && (
+                    <div className="mt-4">
+                      <h3 className="text-sm font-medium mb-2">
+                        Interested Topics
+                      </h3>
+                      <div className="flex w-full flex-wrap gap-2">
+                        {selectedUser.recentTags.map((tagId, idx) => {
+                          const tag = tags.find((t) => t.id === tagId);
+                          return tag ? (
+                            <Badge key={idx} variant="secondary">
+                              {tag.name}
+                            </Badge>
+                          ) : null;
+                        })}
                       </div>
-                    )}
+                    </div>
+                  )}
                 {/* <div className="mt-4">
                   <h3 className="mb-2 font-semibold text-sm">Connected Accounts</h3>
                   <div className="flex flex-wrap gap-2">

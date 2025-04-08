@@ -1,4 +1,3 @@
-
 import { useCharacterLimit } from "@/hooks/use-character-limit";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,11 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  AtSignIcon,
-  CheckIcon,
-  LogOut,
-} from "lucide-react";
+import { AtSignIcon, CheckIcon, LogOut } from "lucide-react";
 import { useId, useState } from "react";
 import Image from "next/image";
 import UserBtn from "./user.btn";
@@ -40,7 +35,7 @@ export default function ProfileBtn({
   username,
   bio,
   website,
-  tags
+  tags,
 }: {
   userId: string;
   pfp: string;
@@ -55,8 +50,12 @@ export default function ProfileBtn({
   const lstName = name.split(" ")[1] || "";
   const maxLength = 180;
   const nameMaxLength = 25;
-  const [usernameV, setUsernameV] = useState(username?.length !== 0 ? username : "")
-  const [websiteV, setWebsiteV] = useState(website?.length !== 0 ? website : "https://indexflow.site")
+  const [usernameV, setUsernameV] = useState(
+    username?.length !== 0 ? username : "",
+  );
+  const [websiteV, setWebsiteV] = useState(
+    website?.length !== 0 ? website : "https://indexflow.site",
+  );
   const [tagsV, setTagsV] = useState<string[]>(Array.isArray(tags) ? tags : []);
   // const [isTyping, setIsTyping] = useState(false);
 
@@ -67,7 +66,7 @@ export default function ProfileBtn({
     maxLength: limit,
   } = useCharacterLimit({
     maxLength,
-    initialValue: bio
+    initialValue: bio,
   });
 
   const {
@@ -77,7 +76,7 @@ export default function ProfileBtn({
     maxLength: nameLimit,
   } = useCharacterLimit({
     maxLength: nameMaxLength,
-    initialValue: fstName
+    initialValue: fstName,
   });
 
   const {
@@ -87,7 +86,7 @@ export default function ProfileBtn({
     maxLength: nameLLimit,
   } = useCharacterLimit({
     maxLength: nameMaxLength,
-    initialValue: lstName
+    initialValue: lstName,
   });
 
   const fullName = nameValue + " " + nameLValue;
@@ -101,9 +100,9 @@ export default function ProfileBtn({
   const handleTagsChange = (options: Option[]) => {
     setTagsV(options.map((opt) => opt.value));
   };
-  
+
   const handleSaveBtn = async () => {
-    console.log(fullName, usernameV, websiteV, bioValue, tagsV)
+    console.log(fullName, usernameV, websiteV, bioValue, tagsV);
     const res = await updateUser({
       id: userId,
       name: fullName,
@@ -111,16 +110,15 @@ export default function ProfileBtn({
       website: websiteV!,
       bio: bioValue,
       recentTags: tagsV,
-    })
-  
+    });
+
     if (res.success) {
       toast.success("Profile updated successfully");
       router.refresh();
     } else {
       toast.error("Failed to update profile");
     }
-  
-  }
+  };
 
   const handleSingOut = async () => {
     await authClient.signOut({
@@ -163,22 +161,22 @@ export default function ProfileBtn({
                       defaultValue={nameValue}
                       maxLength={nameMaxLength}
                       onChange={(e) => {
-                        nameHandleChange(e)
+                        nameHandleChange(e);
                       }}
                       type="text"
                       required
                     />
                     <p
-                    id={`${id}-description`}
-                    className="text-muted-foreground mt-2 text-right text-xs"
-                    role="status"
-                    aria-live="polite"
-                  >
-                    <span className="tabular-nums">
-                      {nameLimit - nameCharacterCount}
-                    </span>{" "}
-                    characters left
-                  </p>
+                      id={`${id}-description`}
+                      className="text-muted-foreground mt-2 text-right text-xs"
+                      role="status"
+                      aria-live="polite"
+                    >
+                      <span className="tabular-nums">
+                        {nameLimit - nameCharacterCount}
+                      </span>{" "}
+                      characters left
+                    </p>
                   </div>
                   <div className="flex-1 space-y-2">
                     <Label htmlFor={`${id}-last-name`}>Last name</Label>
@@ -188,22 +186,22 @@ export default function ProfileBtn({
                       defaultValue={nameLValue}
                       maxLength={nameMaxLength}
                       onChange={(e) => {
-                        nameLHandleChange(e)
+                        nameLHandleChange(e);
                       }}
                       type="text"
                       required
                     />
                     <p
-                    id={`${id}-description`}
-                    className="text-muted-foreground mt-2 text-right text-xs"
-                    role="status"
-                    aria-live="polite"
-                  >
-                    <span className="tabular-nums">
-                      {nameLLimit - nameLCharacterCount}
-                    </span>{" "}
-                    characters left
-                  </p>
+                      id={`${id}-description`}
+                      className="text-muted-foreground mt-2 text-right text-xs"
+                      role="status"
+                      aria-live="polite"
+                    >
+                      <span className="tabular-nums">
+                        {nameLLimit - nameLCharacterCount}
+                      </span>{" "}
+                      characters left
+                    </p>
                   </div>
                 </div>
                 <div className="*:not-first:mt-2">
@@ -222,8 +220,12 @@ export default function ProfileBtn({
                       <AtSignIcon size={16} aria-hidden="true" />
                     </div>
                     <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 peer-disabled:opacity-50">
-                        <CheckIcon size={16} className="text-emerald-500" aria-hidden="true" />
-                      </div>
+                      <CheckIcon
+                        size={16}
+                        className="text-emerald-500"
+                        aria-hidden="true"
+                      />
+                    </div>
                     {/* {isTyping ? (
                       <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3">
                         <svg
@@ -281,16 +283,19 @@ export default function ProfileBtn({
                     commandProps={{
                       label: "Select frameworks",
                     }}
-                    value={tagOptions.filter((opt) => tagsV.includes(opt.value))}
+                    value={tagOptions.filter((opt) =>
+                      tagsV.includes(opt.value),
+                    )}
                     defaultOptions={tagOptions}
                     placeholder="Select Tags (max 5)"
                     hidePlaceholderWhenSelected
-                    onChange={(e) => {handleTagsChange(e)}}
+                    onChange={(e) => {
+                      handleTagsChange(e);
+                    }}
                     emptyIndicator={
                       <p className="text-center text-sm">No results found</p>
                     }
                     maxSelected={5}
-                    
                     onMaxSelected={() => {
                       toast.error("You can only select up to 5 tags");
                     }}
@@ -303,7 +308,9 @@ export default function ProfileBtn({
                     placeholder="Write a few sentences about yourself"
                     defaultValue={bioValue}
                     maxLength={maxLength}
-                    onChange={(e) => {bioHandleChange(e)}}
+                    onChange={(e) => {
+                      bioHandleChange(e);
+                    }}
                     aria-describedby={`${id}-description`}
                   />
                   <p
@@ -369,15 +376,14 @@ function ProfileBg({ defaultImage }: { defaultImage?: string }) {
   return (
     <div className="h-32">
       <div className="bg-muted relative flex h-full w-full items-center justify-center overflow-hidden">
-      <Image
-            className="h-full w-full object-cover"
-            src={defaultImage!}
-            alt={"Default profile background"
-            }
-            draggable={false}
-            width={512}
-            height={96}
-          />
+        <Image
+          className="h-full w-full object-cover"
+          src={defaultImage!}
+          alt={"Default profile background"}
+          draggable={false}
+          width={512}
+          height={96}
+        />
         {/* {currentImage && (
           <Image
             className="h-full w-full object-cover"

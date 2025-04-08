@@ -28,7 +28,7 @@ function CommunitiesPageContent() {
 
     const normalizedSearch = searchQuery.trim().toLowerCase();
     return servers.filter((server) => {
-      const serverName = server.name?.trim().toLowerCase() || '';
+      const serverName = server.name?.trim().toLowerCase() || "";
       return serverName.includes(normalizedSearch);
     });
   }, [searchQuery, servers]);
@@ -60,8 +60,7 @@ function CommunitiesPageContent() {
               onChange={handleSearchChange}
             />
           </div>
-          <div>
-          </div>
+          <div></div>
         </div>
         <div className="overflow-y-auto h-full overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
           <CommunityGrid filteredServers={filteredServers} />
@@ -73,7 +72,9 @@ function CommunitiesPageContent() {
 
 export default function CommunitiesPage() {
   return (
-    <Suspense fallback={<div className="text-center py-4">Loading search...</div>}>
+    <Suspense
+      fallback={<div className="text-center py-4">Loading search...</div>}
+    >
       <CommunitiesPageContent />
     </Suspense>
   );

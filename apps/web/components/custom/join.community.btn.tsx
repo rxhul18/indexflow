@@ -14,7 +14,13 @@ import Link from "next/link";
 import { SignInBtn } from "./navbar/sign-up.btn";
 import { useUser } from "@/context/user.context";
 
-export function JoinCommunityBtn({ InvUrl, name }: { InvUrl: string, name?: string }) {
+export function JoinCommunityBtn({
+  InvUrl,
+  name,
+}: {
+  InvUrl: string;
+  name?: string;
+}) {
   const { user, loading } = useUser();
 
   return (
@@ -30,15 +36,19 @@ export function JoinCommunityBtn({ InvUrl, name }: { InvUrl: string, name?: stri
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-        <AlertDialogTitle>Ready to join this community?</AlertDialogTitle>
-<AlertDialogDescription>
-  Clicking continue will open the community invite link in a new tab. Each community has its own rules—please be respectful and follow them.
-</AlertDialogDescription>
+          <AlertDialogTitle>Ready to join this community?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Clicking continue will open the community invite link in a new tab.
+            Each community has its own rules—please be respectful and follow
+            them.
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction asChild>
-            <Link href={InvUrl} target="_blank" rel="noopener noreferrer">Continue</Link>
+            <Link href={InvUrl} target="_blank" rel="noopener noreferrer">
+              Continue
+            </Link>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
