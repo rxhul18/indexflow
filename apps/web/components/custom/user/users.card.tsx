@@ -1,6 +1,4 @@
 "use client";
-
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -13,9 +11,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Icons } from "@/components/icons";
+// import { Icons } from "@/components/icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+import { useTagsStore } from "@/lib/zustand";
+// import { authClient } from "@iflow/auth";
 
 export default function UserCards({
   filteredUsers = [],
@@ -27,6 +27,11 @@ export default function UserCards({
   const usernameParam = searchParams.get("username") ?? "";
   const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  // const [isDiscordLinked, setIsDiscordLinked] = useState(false);
+  // const [isGoogleLinked, setIsGoogleLinked] = useState(false);
+  // const [isGithubLinked, setIsGithubLinked] = useState(false);
+
+  const {tags} = useTagsStore();
 
   const normalizedUsername = useMemo(
     () => usernameParam.toLowerCase().replace(/\s+/g, ""),
@@ -50,6 +55,27 @@ export default function UserCards({
     }
   }, [normalizedUsername, filteredUsers]);
 
+  // useEffect(() => {
+  //   (async () => {
+  //     const accounts = await authClient.listAccounts();
+  //     console.log("Linked Accs:", accounts);
+  //     if ("data" in accounts) {
+  //       const hasDiscord = accounts.data?.some(
+  //         (acc) => acc.provider === "discord"
+  //       );
+  //       const hasGoogle = accounts.data?.some(
+  //         (acc) => acc.provider === "google"
+  //       );
+  //       const hasGitHub = accounts.data?.some(
+  //         (acc) => acc.provider === "github"
+  //       );
+  //       setIsDiscordLinked(!hasDiscord);
+  //       setIsGoogleLinked(!hasGoogle);
+  //       setIsGithubLinked(!hasGitHub);
+  //     }
+  //   })();
+  // }, []);
+
   const handleUserClick = (user: UserType) => {
     setSelectedUser(user);
     setIsDialogOpen(true);
@@ -69,7 +95,7 @@ export default function UserCards({
         alt={user.name || "User"}
         width={size}
         height={size}
-        className="object-cover w-full h-full rounded-full"
+        className="object-cover w-full h-full rounded-md"
       />
     ) : (
       <div className="flex items-center justify-center w-full h-full text-lg font-semibold">
@@ -90,7 +116,7 @@ export default function UserCards({
             >
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
-                  <div className="relative flex-shrink-0 w-14 h-14 rounded-full bg-secondary border overflow-hidden">
+                  <div className="relative flex-shrink-0 w-14 h-14 overflow-hidden">
                     {renderAvatar(user)}
                   </div>
                   <div className="flex flex-col min-w-0 flex-1">
@@ -100,33 +126,32 @@ export default function UserCards({
                       >
                         {user.name}
                       </span>
-                      {user.reputation != null && (
+                      {user.reputation?.length !== 0 && (
                         <div className="flex items-center text-amber-500 gap-0.5 ml-1">
                           <Star className="h-3.5 w-3.5 fill-current" />
-                          <span className="text-xs font-medium">{user.reputation}</span>
+                          <span className="text-xs font-medium">{user.reputation || "00"}</span>
                         </div>
                       )}
                     </div>
 
-                    {user.location && (
-                      <div className="flex items-center text-muted-foreground text-xs mt-1 gap-1">
-                        <MapPin className="h-3 w-3" />
-                        <span className="truncate">{user.location}</span>
+                    {user.username && (
+                      <div className="flex items-center text-muted-foreground text-sm mt-1 gap-1">
+                        {/* <MapPin className="h-3 w-3" /> */}
+                        <span className="truncate">@{user.username || "anon69"}</span>
                       </div>
                     )}
 
                     {user.recentTags && user.recentTags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mt-2">
-                        {user.recentTags.map((tag, idx) => (
-                          <Badge
-                            key={idx}
-                            variant="secondary"
-                            className="px-1.5 py-0 text-xs font-normal hover:bg-secondary/80"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Link href="#" className="hover:underline">{tag}</Link>
-                          </Badge>
-                        ))}
+                      <div className=" mt-4">
+                        {/* <h3 className="text-sm font-medium mb-2">Interests</h3> */}
+                        <div className="flex w-full flex-wrap gap-2">
+                          {user.recentTags.map((tagId, idx) => {
+                            const tag = tags.find(t => t.id === tagId);
+                            return tag ? (
+                              <Badge key={idx} variant="secondary">{tag.name}</Badge>
+                            ) : null;
+                          })}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -144,26 +169,26 @@ export default function UserCards({
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
-        <DialogContent className="p-0 overflow-hidden md:min-w-md max-w-[95%]">
+        <DialogContent className="p-0 overflow-hidden md:min-w-xl max-w-[95%] rounded-lg">
           {selectedUser && (
-            <>
-              <div className="relative">
-                <div className="w-full h-32 bg-gradient-to-r from-pink-500 to-purple-500" />
-                <div className="absolute -bottom-10 left-4">
-                  <div className="h-20 w-20 rounded-full border-4 border-background overflow-hidden">
-                    {renderAvatar(selectedUser, 80)}
-                  </div>
+            <div className="flex flex-col">
+              <div className="relative h-36 bg-gradient-to-r from-blue-400 to-blue-600">
+                <div className="absolute -bottom-12 left-4 h-24 w-24 rounded-full border-4 border-background overflow-hidden bg-white">
+                  {renderAvatar(selectedUser, 96)}
                 </div>
               </div>
 
-              <div className="pt-8 px-4 pb-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+              <div className="pt-16 px-4 pb-4">
+                <div className="flex justify-between items-center">
+                  <div>
                     <h2 className="text-xl font-bold">{selectedUser.name}</h2>
-                    <Badge variant="outline">
+                    <p className="text-muted-foreground text-sm">@{selectedUser.username || "anon69"}</p>
+                  </div>
+                  {/* <button className="border text-sm rounded-full px-4 py-1 font-medium hover:bg-accent transition">Message</button> */}
+                  <Badge variant="outline" className="gap-2">
                       <TooltipProvider>
                         <Tooltip>
-                          <TooltipTrigger>
+                          <TooltipTrigger className="cursor-pointer">
                             <Gem className="text-blue-400 size-4" />
                           </TooltipTrigger>
                           <TooltipContent className="text-xs">Premium Account</TooltipContent>
@@ -171,7 +196,7 @@ export default function UserCards({
                       </TooltipProvider>
                       <TooltipProvider>
                         <Tooltip>
-                          <TooltipTrigger>
+                          <TooltipTrigger className="cursor-pointer">
                             <div className="flex">
                               <Star className="h-4 w-4 text-amber-500 fill-current" />
                               <span className="text-xs font-medium ml-1 text-amber-500">
@@ -180,57 +205,61 @@ export default function UserCards({
                             </div>
                           </TooltipTrigger>
                           <TooltipContent className="text-xs">
-                            Got {selectedUser.reputation ?? "00"} Reputation
+                            Got {selectedUser.reputation ?? "00"} Reputations
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
                     </Badge>
-                  </div>
                 </div>
 
-                <div className="flex flex-col mt-2">
-                  <p className="text-muted-foreground">
-                    @{selectedUser.name?.toLowerCase().replace(/\s+/g, "")}
-                  </p>
-                  <div className="flex items-center text-muted-foreground">
-                    <MapPin className="h-4 w-4 mr-1" />
-                    <span>{selectedUser.location ?? "Unknown location"}</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Globe className="h-4 w-4 mr-1 text-muted-foreground" />
-                    <a href="#" className="text-muted-foreground hover:text-primary hover:underline">
-                      {selectedUser.name?.toLowerCase().replace(/\s+/g, "")}.dev
-                    </a>
-                  </div>
-                </div>
-
-                <div className="mt-2">
-                  <p className="text-muted-foreground text-sm">
-                    {selectedUser.bio || "This user has not added a bio yet."}
-                  </p>
-                </div>
-
-                {selectedUser.recentTags && selectedUser.recentTags.length > 0 && (
-                  <div className="mt-4">
-                    <h3 className="text-sm font-medium mb-2">Recent Tags</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedUser.recentTags.map((tag, idx) => (
-                        <Badge key={idx} variant="secondary">{tag}</Badge>
-                      ))}
-                    </div>
-                  </div>
+                {selectedUser.bio && (
+                  <p className="mt-2 text-sm">{selectedUser.bio}</p>
                 )}
 
-                <div className="mt-4">
-                  <h3 className="text-sm font-medium mb-2">Connected Accounts</h3>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge className="bg-[#5865F2] text-white"><Icons.discord className="mr-0.5" />Discord</Badge>
-                    <Badge className="bg-[#DB4437] text-white"><Icons.google className="mr-0.5" />Google</Badge>
-                    <Badge className="bg-[#333] text-white"><Icons.gitHub className="mr-0.5" />GitHub</Badge>
-                  </div>
+                <div className="flex gap-4 text-sm text-muted-foreground mt-3 flex-wrap">
+                  {selectedUser.location && (
+                    <div className="flex items-center gap-1">
+                      <MapPin className="w-4 h-4" />
+                      <span>{selectedUser.location || "Mars"}</span>
+                    </div>
+                  )}
+                  {selectedUser.website && (
+                    <div className="flex items-center gap-1">
+                      <Globe className="w-4 h-4" />
+                      <a
+                        href={`https://${selectedUser.website}`}
+                        className="hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {selectedUser.website.replace(/^https?:\/\//, "")}
+                      </a>
+                    </div>
+                  )}
                 </div>
+                {selectedUser.recentTags && selectedUser.recentTags.length > 0 && (
+                      <div className="mt-4">
+                        <h3 className="text-sm font-medium mb-2">Interested Topics</h3>
+                        <div className="flex w-full flex-wrap gap-2">
+                          {selectedUser.recentTags.map((tagId, idx) => {
+                            const tag = tags.find(t => t.id === tagId);
+                            return tag ? (
+                              <Badge key={idx} variant="secondary">{tag.name}</Badge>
+                            ) : null;
+                          })}
+                        </div>
+                      </div>
+                    )}
+                {/* <div className="mt-4">
+                  <h3 className="mb-2 font-semibold text-sm">Connected Accounts</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {isDiscordLinked && <Badge className="bg-[#5865F2] text-white"><Icons.discord className="mr-0.5" />Discord</Badge>}
+                    {isGoogleLinked && <Badge className="bg-[#DB4437] text-white"><Icons.google className="mr-0.5" />Google</Badge>}
+                    {isGithubLinked && <Badge className="bg-[#333] text-white"><Icons.gitHub className="mr-0.5" />GitHub</Badge>}
+                  </div>
+                </div> */}
               </div>
-            </>
+            </div>
           )}
         </DialogContent>
       </Dialog>

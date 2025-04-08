@@ -19,9 +19,6 @@ export const authClient = createAuthClient({
 
 const polarClient = new Polar({
   accessToken: process.env.POLAR_ACCESS_TOKEN,
-  // Use 'sandbox' if you're using the Polar Sandbox environment
-  // Remember that access tokens, products, etc. are completely separated between environments.
-  // Access tokens obtained in Production are for instance not usable in the Sandbox environment.
   server: "production",
 });
 
@@ -122,8 +119,8 @@ export const auth = betterAuth({
         enabled: true,
         products: [
           {
-            productId: "e57d2c06-96ef-499b-a642-71a648fab297", // ID of Product from Polar Dashboard
-            slug: "iflow", // Custom slug for easy reference in Checkout URL, e.g. /checkout/pro
+            productId: "e57d2c06-96ef-499b-a642-71a648fab297",
+            slug: "iflow",
           },
         ],
         successUrl: "/success?checkout_id={CHECKOUT_ID}",
@@ -165,19 +162,21 @@ export const auth = betterAuth({
     },
   },
   session: {
-    expiresIn: 60 * 60 * 24 * 100, // 100 days
-    updateAge: 60 * 60 * 24, // 1 day (every 1 day the session expiration is updated)
-    freshAge: 60 * 60 // 60 minutes 
-},
+    expiresIn: 60 * 60 * 24 * 100,
+    updateAge: 60 * 60 * 24,
+    freshAge: 60 * 60,
+  },
   advanced: {
     cookies: {
       session_token: {
-          name: "iflow_session_token",
+        name: "iflow_session_token",
       },
-  },
-    crossSubDomainCookies: {
-      enabled: true,
-      domain: ".indexflow.site",
     },
+    ...(process.env.NODE_ENV === "production" && {
+      crossSubDomainCookies: {
+        enabled: true,
+        domain: ".indexflow.site",
+      },
+    }),
   },
 });

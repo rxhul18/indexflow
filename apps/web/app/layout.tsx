@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | IndexFlow",
   },
   description:
-    "A community-driven platform for developers to ask questions and share knowledge",
+    "A community-driven platform for indexing your Discord community and make your threads searchable on Google.",
   keywords: [
     "programming",
     "developer",
@@ -39,16 +39,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://indexflow.site",
-    title: "DevOverflow | Developer Q&A Community",
+    title: "IndexFlow | Index your Discord threads online and make them searchable",
     description:
-      "A community-driven platform for developers to ask questions and share knowledge",
+      "A community-driven platform for indexing your Discord community and make your threads searchable on Google.",
     siteName: "IndexFlow",
   },
   twitter: {
     card: "summary_large_image",
-    title: "IndexFlow | Developer Q&A Community",
+    title: "IndexFlow | Index your Discord threads online and make them searchable",
     description:
-      "A community-driven platform for developers to ask questions and share knowledge",
+      "A community-driven platform for indexing your Discord community and make your threads searchable on Google.",
   },
   robots: {
     index: true,

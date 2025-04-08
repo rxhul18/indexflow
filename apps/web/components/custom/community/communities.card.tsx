@@ -2,10 +2,11 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import {  Mails, Users } from "lucide-react";
+import {  Barcode, FileQuestion, Mails, Users } from "lucide-react";
 import Image from "next/image";
 import type { ServerType } from "@iflow/types";
 import { Button } from "@/components/ui/button";
+import { JoinCommunityBtn } from "../join.community.btn";
 
 export default function CommunityGrid({
     filteredServers = [],
@@ -20,7 +21,7 @@ export default function CommunityGrid({
                 alt={server.name || "Server"}
                 width={size}
                 height={size}
-                className="object-cover w-full h-full rounded-full"
+                className="object-cover w-full h-full rounded-md"
             />
         ) : (
             <div className="flex items-center justify-center w-full h-full text-lg font-semibold bg-secondary">
@@ -39,7 +40,7 @@ export default function CommunityGrid({
                     >
                         <CardContent className="p-3">
                             <div className="flex items-start gap-3">
-                                <div className="relative flex-shrink-0 w-14 h-14 rounded-full bg-secondary border overflow-hidden">
+                                <div className="relative flex-shrink-0 w-14 h-14 border rounded-md overflow-hidden">
                                     {renderLogo(server)}
                                 </div>
                                 <div className="flex flex-col min-w-0 flex-1">
@@ -48,34 +49,32 @@ export default function CommunityGrid({
                                             <span className="font-medium text-primary truncate text-base">
                                                 {server.name}
                                             </span>
-                                            {/* {server.is_config && ( */}
-                                            <Badge variant="secondary" className="text-xs ml-3 h-5">
+                                            {/* <Badge variant="secondary" className="text-xs ml-3 h-5">
                                                 Configured
-                                            </Badge>
+                                            </Badge> */}
                                         </div>
-                                        <Button className="w-full lg:w-auto mt-2 md:mt-0" onClick={() => {
-                                            if (server.invite_url) {
-                                                window.open(server.invite_url);
-                                            }
-                                        }}>
-                                            Join community
-                                        </Button>
+                                        <JoinCommunityBtn name="Join comunity" InvUrl={server.invite_url!}/>
                                     </div>
 
                                     <div className="flex flex-col lg:flex-row">
+                                    <div className="flex items-center text-muted-foreground text-sm gap-1 md:mr-3">
+                                            <Users className="size-4 text-primary" />
+                                            <span>Guild Members: 2000+</span>
+                                        </div>
                                         {server.invite_url && (
                                             <div className="flex items-center text-muted-foreground text-sm gap-1 md:mr-3">
-                                                <Mails className="size-4 text-primary" />
-                                                <span>100 posts</span>
+                                                <FileQuestion className="size-4 text-primary" />
+                                                <span>Guild Posts: 10+</span>
                                             </div>
                                         )}
                                         <div className="flex items-center text-muted-foreground text-sm gap-1">
-                                            <Users className="size-4 text-primary" />
-                                            <span>Owner ID: {server.owner_id}</span>
+                                            <Barcode className="size-4 text-primary" />
+                                            <span>Guild ID: {server.id}</span>
                                         </div>
+
                                     </div>
 
-                                    <p className="text-muted-foreground text-sm mt-2">
+                                    <p className="text-sm mt-2">
                                         This server is a community for the server. It is a place where you can find other people who are interested in the server.
                                     </p>
                                 </div>

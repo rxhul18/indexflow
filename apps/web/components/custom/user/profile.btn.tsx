@@ -55,8 +55,8 @@ export default function ProfileBtn({
   const lstName = name.split(" ")[1] || "";
   const maxLength = 180;
   const nameMaxLength = 25;
-  const [usernameV, setUsernameV] = useState(username?.length !== 0 ? username : null)
-  const [websiteV, setWebsiteV] = useState(website?.length !== 0 ? website : null)
+  const [usernameV, setUsernameV] = useState(username?.length !== 0 ? username : "")
+  const [websiteV, setWebsiteV] = useState(website?.length !== 0 ? website : "https://indexflow.site")
   const [tagsV, setTagsV] = useState<string[]>(Array.isArray(tags) ? tags : []);
   // const [isTyping, setIsTyping] = useState(false);
 
@@ -113,13 +113,13 @@ export default function ProfileBtn({
       recentTags: tagsV,
     })
   
-    if (!res.status) {
+    if (res.success) {
+      toast.success("Profile updated successfully");
+      router.refresh();
+    } else {
       toast.error("Failed to update profile");
-      return;
     }
   
-    toast.success("Profile updated successfully");
-    router.refresh();
   }
 
   const handleSingOut = async () => {
@@ -265,7 +265,12 @@ export default function ProfileBtn({
                       className="-ms-px rounded-s-none shadow-none"
                       placeholder="www.devwtf.in"
                       defaultValue={websiteV!}
-                      onChange={(e) => {setWebsiteV(e.target.value)}}
+                      onChange={(e) => {
+                        const inputValue = e.target.value.startsWith("https://")
+                          ? e.target.value.replace("https://", "")
+                          : e.target.value;
+                        setWebsiteV(inputValue);
+                      }}
                       type="text"
                     />
                   </div>

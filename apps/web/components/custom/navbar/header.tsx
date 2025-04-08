@@ -35,12 +35,12 @@ export default function Header() {
             >
               Home
             </Link>
-            {/* <Link
+            <Link
               href="/users"
               className="font-medium transition-colors hover:text-primary"
             >
               Users
-            </Link> */}
+            </Link>
             <Link
               href="/communities"
               className="font-medium transition-colors hover:text-primary"

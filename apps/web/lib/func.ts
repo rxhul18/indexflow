@@ -19,6 +19,10 @@ export async function updateUser(
     recentTags: string[];
   }>
 ) {
+  if (body.website?.startsWith("https://")) {
+    body.website = body.website.replace("https://", "");
+  }
+
   const res = await fetch(USER_ENDPOINT, {
     method: "PUT",
     credentials: "include",
@@ -32,7 +36,7 @@ export async function updateUser(
   const data = await res.json();
 
   return {
+    success: res.ok,
     data,
-    status: res.status,
   };
 }

@@ -46,6 +46,8 @@ export default function UsersPage() {
     });
   }, [searchQuery, userTypeFilter, users]);
 
+  console.log(filteredUsers);
+
   return (
     <div className="flex w-full justify-center h-[calc(100vh-120px)] overflow-hidden py-5">
       <div className="flex flex-col gap-4 min-w-[90%] md:container w-full px-4">
@@ -67,9 +69,9 @@ export default function UsersPage() {
               className="w-full sm:w-auto"
             >
               <TabsList className="gap-1 p-1 bg-muted/30 border rounded-md">
-                <TabsTrigger value="all">All users</TabsTrigger>
-                <TabsTrigger value="new">New users</TabsTrigger>
-                <TabsTrigger value="anonymous">Anonymous</TabsTrigger>
+                <TabsTrigger value="all" className="cursor-pointer">All users</TabsTrigger>
+                <TabsTrigger value="new" className="cursor-pointer">New users</TabsTrigger>
+                <TabsTrigger value="anonymous" className="cursor-pointer">Anonymous</TabsTrigger>
               </TabsList>
             </Tabs>
           </div>

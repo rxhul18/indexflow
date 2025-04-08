@@ -96,8 +96,13 @@ export type IndexAnsType = {
 export type UserPubType = {
   id: string;
   name: string;
+  username: string | null;
   image: string | null;
   location: string | null;
+  website: string | null;
+  bio: string | null;
+  banner: string | null;
+  role: string | null;
   active: Date | null;
   reputation: string | null;
   recentTags: string[] | null;
