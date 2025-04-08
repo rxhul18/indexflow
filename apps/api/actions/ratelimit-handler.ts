@@ -7,7 +7,7 @@ export const rateLimitHandler = async (c: Context, next: Next) => {
   const session = await Auth.api.getSession({ headers: c.req.raw.headers });
 
   // const limit = process.env.NODE_ENV === "production" ? 60 : 5; // for testing
-  const limit = process.env.NODE_ENV === "production" ? 20 : 100;
+  const limit = process.env.NODE_ENV === "production" ? 50 : 100;
 
   const rateLimit = new Ratelimit({
     redis: cache,

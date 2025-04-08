@@ -19,8 +19,8 @@ export default function UsersPage() {
 
     return users.filter((user) => {
       if (
-        searchQuery &&
-        !user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        searchQuery && user.username &&
+        !user.username.toLowerCase().includes(searchQuery.toLowerCase()) &&
         !user.location?.toLowerCase().includes(searchQuery.toLowerCase()) &&
         !user?.recentTags?.some((tag) =>
           tag.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -46,7 +46,6 @@ export default function UsersPage() {
     });
   }, [searchQuery, userTypeFilter, users]);
 
-  console.log(filteredUsers);
 
   return (
     <div className="flex w-full justify-center h-[calc(100vh-120px)] overflow-hidden py-5">

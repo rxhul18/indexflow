@@ -42,7 +42,7 @@ export default function UserCards({
     if (!normalizedUsername) return;
 
     const matchedUser = filteredUsers.find(
-      (u) => u.name?.toLowerCase().replace(/\s+/g, "") === normalizedUsername,
+      (u) => u.username && u.username.toLowerCase().replace(/\s+/g, "") === normalizedUsername,
     );
 
     if (matchedUser) {
@@ -78,7 +78,7 @@ export default function UserCards({
   const handleUserClick = (user: UserType) => {
     setSelectedUser(user);
     setIsDialogOpen(true);
-    router.push(`?username=${user.name?.toLowerCase().replace(/\s+/g, "")}`);
+    router.push(`?username=${user.username?.toLowerCase().replace(/\s+/g, "")}`);
   };
 
   const handleDialogClose = () => {
