@@ -14,6 +14,8 @@ import { useParams, useSearchParams } from "next/navigation";
 import { IndexAnsType, QuestionType, ServerType, AnonProfileType } from "@iflow/types";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
+import { handleVote } from "@/lib/func";
 
 interface QuestionWithDetails extends QuestionType {
   formattedAnswers?: IndexAnsType[];
@@ -64,10 +66,85 @@ function QuestionPageContent() {
 
   const { servers } = useServersStore();
   const server = servers.find((s: ServerType) => s.id === question?.server_id);
-
   const { profiles } = useProfilesStore();
   const author = profiles.find((p: AnonProfileType) => p.id === question?.author);
   const answeredBy = profiles.find((p: AnonProfileType) => p.id === question?.formattedAnswers?.[0]?.author);
+
+  const handleVoteAction = async (postId: string, action: "increment" | "decrement", type: "qns" | "ans") => {
+    // Check if user has already voted on this post
+    const voteKey = `vote_${type}_${postId}`;
+    const previousVote = localStorage.getItem(voteKey);
+    
+    // If user already voted the same way, remove the vote
+    if (previousVote === action) {
+      // Remove the vote from localStorage
+      localStorage.removeItem(voteKey);
+      
+      // Perform the opposite action to cancel the vote
+      const oppositeAction = action === "increment" ? "decrement" : "increment";
+      const result = await handleVote(postId, oppositeAction, type);
+      
+      if (result.success) {
+        if (type === "qns" && question) {
+          setQuestion({
+            ...question,
+            up_votes: result.up_votes,
+            down_votes: result.down_votes
+          });
+          toast.success("Vote removed");
+        } else if (type === "ans" && question?.formattedAnswers) {
+          const updatedAnswers = question.formattedAnswers.map(answer => 
+            answer.id === postId 
+              ? { ...answer, up_votes: result.up_votes, down_votes: result.down_votes }
+              : answer
+          );
+          setQuestion({
+            ...question,
+            formattedAnswers: updatedAnswers
+          });
+          toast.success("Vote removed");
+        }
+      } else {
+        toast.error(result.error || "Failed to remove vote");
+      }
+      return;
+    }
+    
+    // If user voted the opposite way before, don't allow changing vote
+    if (previousVote && previousVote !== action) {
+      toast.error("You can only vote once per post");
+      return;
+    }
+    
+    const result = await handleVote(postId, action, type);
+    
+    if (result.success) {
+      // Save the vote in localStorage to track user's vote
+      localStorage.setItem(voteKey, action);
+      
+      if (type === "qns" && question) {
+        setQuestion({
+          ...question,
+          up_votes: result.up_votes,
+          down_votes: result.down_votes
+        });
+        toast.success(`Vote ${action === "increment" ? "up" : "down"} recorded`);
+      } else if (type === "ans" && question?.formattedAnswers) {
+        const updatedAnswers = question.formattedAnswers.map(answer => 
+          answer.id === postId 
+            ? { ...answer, up_votes: result.up_votes, down_votes: result.down_votes }
+            : answer
+        );
+        setQuestion({
+          ...question,
+          formattedAnswers: updatedAnswers
+        });
+        toast.success(`Vote ${action === "increment" ? "up" : "down"} recorded`);
+      }
+    } else {
+      toast.error(result.error || "Failed to vote");
+    }
+  };
 
   if (loading) {
     return (
@@ -203,6 +280,7 @@ function QuestionPageContent() {
                   size="icon"
                   className="rounded-full hover:bg-black hover:text-primary transition-colors"
                   aria-label="Upvote"
+                  onClick={() => handleVoteAction(question.id, "increment", "qns")}
                 >
                   <ArrowBigUp className="size-5" />
                 </Button>
@@ -212,6 +290,7 @@ function QuestionPageContent() {
                   size="icon"
                   className="rounded-full hover:bg-black hover:text-primary transition-colors"
                   aria-label="Downvote"
+                  onClick={() => handleVoteAction(question.id, "decrement", "qns")}
                 >
                   <ArrowBigDown className="size-5" />
                 </Button>
@@ -286,19 +365,21 @@ function QuestionPageContent() {
                   size="icon"
                   className="rounded-full hover:bg-black hover:text-primary transition-colors"
                   aria-label="Upvote"
+                  onClick={() => handleVoteAction(answer.id, "increment", "ans")}
                 >
                   <ArrowBigUp className="size-5" />
                 </Button>
-                <span className="font-semibold text-lg min-w-8 text-center">{question.up_votes || 0}</span>
+                <span className="font-semibold text-lg min-w-8 text-center">{answer.up_votes || 0}</span>
                 <Button
                   variant="outline"
                   size="icon"
                   className="rounded-full hover:bg-black hover:text-primary transition-colors"
                   aria-label="Downvote"
+                  onClick={() => handleVoteAction(answer.id, "decrement", "ans")}
                 >
                   <ArrowBigDown className="size-5" />
                 </Button>
-                <span className="font-semibold text-lg min-w-8 text-center">{question.down_votes || 0}</span>
+                <span className="font-semibold text-lg min-w-8 text-center">{answer.down_votes || 0}</span>
               </div>
                     <div className="flex items-center gap-3">
                       <div className="text-sm text-muted-foreground">

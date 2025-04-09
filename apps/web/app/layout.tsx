@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | IndexFlow",
   },
   description:
-    "A community-driven platform for indexing your Discord community and make your threads searchable on Google.",
+    "A community-driven platform for indexing your Discord community threads and make them searchable on Google.",
   keywords: [
     "programming",
     "developer",
@@ -32,6 +32,14 @@ export const metadata: Metadata = {
     "answers",
     "community",
     "discord",
+    "indexflow",
+    "index your discord community",
+    "search your discord community",
+    "discord search",
+    "discord index",
+    "discord index flow",
+    "discord index flow site",
+    "discord index flow site",
   ],
   authors: [{ name: "Saidev Dhal" }],
   creator: "IndexFlow",
@@ -44,6 +52,13 @@ export const metadata: Metadata = {
     description:
       "A community-driven platform for indexing your Discord community and make your threads searchable on Google.",
     siteName: "IndexFlow",
+    images: [
+      {
+        url: "https://indexflow.site/og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -51,6 +66,13 @@ export const metadata: Metadata = {
       "IndexFlow | Index your Discord threads online and make them searchable",
     description:
       "A community-driven platform for indexing your Discord community and make your threads searchable on Google.",
+    images: [
+      {
+        url: "https://indexflow.site/og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   robots: {
     index: true,

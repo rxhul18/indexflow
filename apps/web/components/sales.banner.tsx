@@ -8,7 +8,7 @@ import confetti from "canvas-confetti";
 import { useUser } from "@/context/user.context";
 
 const getCurrentSaleEndDate = () => {
-  const startDate = new Date("2025-04-05T00:00:00Z");
+  const startDate = new Date("2025-04-10T00:00:00Z");
   const now = new Date();
   const msIn15Days = 15 * 24 * 60 * 60 * 1000;
 
