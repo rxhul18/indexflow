@@ -148,7 +148,7 @@ export default function QuestionsList({
         </div>
       </div>
 
-      <div className="space-y-4 relative h-full overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+      <div className="space-y-4 relative h-screen md:h-[105vh] overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
           {isLoading ? (
             // Show skeleton cards when loading
             Array.from({ length: 10 }).map((_, index) => (
