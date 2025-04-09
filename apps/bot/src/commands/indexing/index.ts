@@ -231,7 +231,7 @@ async function handleIndexQuestion(
         new ButtonBuilder()
           .setLabel("View Webpage")
           .setStyle(ButtonStyle.Link)
-          .setURL(`https://www.indexflow.site/qs/${firstMessage.guildId}`),
+          .setURL(`https://www.indexflow.site/qs/${threadChannel.id}`),
       ),
     ],
   });
@@ -318,7 +318,7 @@ async function handleIndexAnswer(
         new ButtonBuilder()
           .setLabel("View Webpage")
           .setStyle(ButtonStyle.Link)
-          .setURL(`https://www.indexflow.site/qs/${firstMessage.guildId}`),
+          .setURL(`https://www.indexflow.site/qs/${threadChannel.id}`),
       ),
     ],
   });
