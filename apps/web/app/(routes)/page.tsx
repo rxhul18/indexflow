@@ -70,7 +70,7 @@ export default function Home() {
                 </div>
                 <h2 className="text-xl font-bold">Active Threads</h2>
               </div>
-              <div className="space-y-3 overflow-y-auto h-[calc(100vh-55vh)] overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+              <div className="space-y-3 overflow-y-auto max-h-[50vh] overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                 {contentLoading ? (
                   // Skeleton loading state
                   Array.from({ length: 10 }).map((_, index) => (
