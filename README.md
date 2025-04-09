@@ -1,6 +1,6 @@
 # What is IndexFLow?
 
-IndexFLow is a platform for Discord community owners to Index their community threads on a single platform and make them searchable by the world & their community members on the Internet.
+IndexFLow is a platform where Discord community owners can Index their community threads and make them searchable on the Internet.
 
 ## Features
 

@@ -7,6 +7,7 @@ import React from "react";
 import { format } from "date-fns";
 import { QuestionType } from "@iflow/types";
 import { useProfilesStore, useUsersStore } from "@/lib/zustand";
+import MDXFormatter from "./mdx.formatter";
 
 interface QuestionCardProps {
   question: QuestionType | null;
@@ -60,9 +61,9 @@ const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
                 <h3 className="text-lg sm:text-xl font-semibold hover:text-primary hover:underline line-clamp-2">
                   {question?.title}
                 </h3>
-              <p className="text-sm sm:text-base text-muted-foreground line-clamp-2">
-                {question?.content}
-              </p>
+              <div className="text-sm sm:text-base text-muted-foreground line-clamp-2 pointer-events-none select-none">
+                <MDXFormatter>{question?.content.slice(0, 55) + "..." || ""}</MDXFormatter>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {question?.tags.map((tag) => (
                   <Badge key={tag} variant="secondary">

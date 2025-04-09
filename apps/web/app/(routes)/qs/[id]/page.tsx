@@ -1,120 +1,152 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ArrowBigUp, ArrowBigDown, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
-// import AnswerForm from "@/components/custom/answer-form";
-import type { Metadata } from "next";
 import { SubbcribeCommunityBtn } from "@/components/custom/subcribe.community.btn";
 import ShareLinkBtn from "@/components/custom/share.btn";
 import MDXFormatter from "@/components/custom/mdx.formatter";
+import { useQuestionsStore, useServersStore, useProfilesStore } from "@/lib/zustand";
+import { useEffect, useState, Suspense } from "react";
+import { useParams, useSearchParams } from "next/navigation";
+import { IndexAnsType, QuestionType, ServerType, AnonProfileType } from "@iflow/types";
+import { format } from "date-fns";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const question = {
-    title: "How do I implement authentication with Next.js and NextAuth?",
-  };
-
-  return {
-    title: question.title,
-    description: `Find the answer to "${question.title}" on DevOverflow`,
-    openGraph: {
-      title: question.title,
-      description: `Find the answer to "${question.title}" on DevOverflow`,
-    },
-  };
+interface QuestionWithDetails extends QuestionType {
+  formattedAnswers?: IndexAnsType[];
 }
 
-export default function QuestionPage() {
-  const id = "lol";
-  // Mock data for the question
-  const question = {
-    id: id,
-    title: "How do I implement authentication with Next.js and NextAuth?",
-    content:
-      "## fuck it idk why it is not working. \n- suck my `dick` bro \n- me too **[DJ BABU](https://s.s)** \n\n ```js console.log(ok)``` \n ![img](https://cdn.discordapp.com/attachments/1357375635961680043/1357375636330643677/fuck_yt_1.png?ex=67f29d12&is=67f14b92&hm=59aa3b19148c583b894c049c6b3c19c5177d1af5fbecf79ae800c8bbaf147285&)",
-    tags: ["next.js", "authentication", "nextauth"],
-    votes: 42,
-    author: {
-      name: "JaneDev",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
-    createdAt: "2 hours ago",
-  };
+function QuestionPageContent() {
+  const params = useParams();
+  const searchParams = useSearchParams();
+  const id = params.id as string;
+  const threadParam = searchParams.get('thread');
+  const { questions } = useQuestionsStore();
+  const [question, setQuestion] = useState<QuestionWithDetails | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [isSubscribeDialogOpen, setIsSubscribeDialogOpen] = useState(!!threadParam);
 
-  // Mock data for answers
-  const answers = [
-    {
-      id: "1",
-      content: `
-        <div class="markdown">
-          <p>I had a similar issue and it was related to the <code>NEXTAUTH_URL</code> environment variable.</p>
-          
-          <p>Make sure you have set the <code>NEXTAUTH_URL</code> environment variable to your application's URL:</p>
-          
-          <pre><code># .env.local
-NEXTAUTH_URL=http://localhost:3000</code></pre>
-          
-          <p>Also, check that your GitHub OAuth application settings have the correct callback URL. It should be:</p>
-          
-          <pre><code>http://localhost:3000/api/auth/callback/github</code></pre>
-          
-          <p>If you're using a custom callback URL, you need to specify it in your NextAuth configuration:</p>
-          
-          <pre><code>export default NextAuth({
-  providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-      callbackUrl: "http://localhost:3000/custom-callback",
-    }),
-  ],
-});</code></pre>
-          
-          <p>Hope this helps!</p>
+  useEffect(() => {
+    if (questions.length > 0) {
+      const foundQuestion = questions.find(q => q.id === id);
+      if (foundQuestion) {
+        // Format answers from the question data
+        const formattedAnswers = foundQuestion.answers?.map(answer => ({
+          id: answer.id || String(Math.random()),
+          content: answer.content || "",
+          author: answer.author || "",
+          qns_id: answer.qns_id || "",
+          server_id: answer.server_id || "",
+          thread_id: answer.thread_id || "",
+          msg_url: answer.msg_url || "",
+          createdAt: answer.createdAt || "",
+          up_votes: answer.up_votes || 0,
+          down_votes: answer.down_votes || 0,
+          updatedAt: answer.updatedAt || "",
+          is_correct: answer.is_correct || false
+        })) || [];
+
+        setQuestion({
+          ...foundQuestion,
+          formattedAnswers
+        });
+      }
+      setLoading(false);
+    }
+  }, [questions, id]);
+
+  useEffect(() => {
+    setIsSubscribeDialogOpen(!!threadParam);
+  }, [threadParam]);
+
+  const { servers } = useServersStore();
+  const server = servers.find((s: ServerType) => s.id === question?.server_id);
+
+  const { profiles } = useProfilesStore();
+  const author = profiles.find((p: AnonProfileType) => p.id === question?.author);
+  const answeredBy = profiles.find((p: AnonProfileType) => p.id === question?.formattedAnswers?.[0]?.author);
+
+  if (loading) {
+    return (
+      <div className="container py-8">
+        <div className="mb-6">
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-6 w-24 mb-2" />
+            <Skeleton className="h-10 w-3/4 mb-2" />
+            <div className="flex flex-wrap gap-1 items-center">
+              <div className="flex items-center gap-3">
+                <Skeleton className="h-4 w-40" />
+                <div className="flex items-center gap-2">
+                  <Skeleton className="h-8 w-8 rounded-full" />
+                  <Skeleton className="h-4 w-24" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      `,
-      votes: 28,
-      author: {
-        name: "AuthExpert",
-        avatar: "/placeholder.svg?height=40&width=40",
-      },
-      createdAt: "1 hour ago",
-      isAccepted: true,
-    },
-    {
-      id: "2",
-      content: `
-        <div class="markdown">
-          <p>Another thing to check is if you're using a custom base path or a proxy that might be affecting your URLs.</p>
-          
-          <p>If you're deploying to a subdirectory or using a reverse proxy, you might need to adjust your callback URLs accordingly.</p>
-          
-          <p>Also, make sure your <code>GITHUB_ID</code> and <code>GITHUB_SECRET</code> environment variables are correctly set.</p>
-          
-          <p>You can debug NextAuth.js by adding the <code>debug: true</code> option to your configuration:</p>
-          
-          <pre><code>export default NextAuth({
-  providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
-  ],
-  debug: true,
-});</code></pre>
-          
-          <p>This will output more detailed logs that might help you identify the issue.</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-4">
+          <div className="space-y-4">
+            <Skeleton className="h-40 w-full rounded-xl" />
+            <div className="flex flex-wrap gap-2 mt-4">
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-6 w-16 rounded-full" />
+              ))}
+            </div>
+            <div className="flex flex-col gap-3 md:flex-row justify-between items-start md:items-center mt-6 pt-4 border-t">
+              <div className="flex">
+                <Skeleton className="h-10 w-32 rounded-full" />
+                <div className="flex items-center gap-2 flex-1 px-2">
+                  <Skeleton className="h-10 w-24" />
+                  <Skeleton className="h-10 w-10" />
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Skeleton className="h-4 w-16" />
+                <div className="flex items-center gap-2">
+                  <Skeleton className="h-8 w-8 rounded-full" />
+                  <Skeleton className="h-4 w-24" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      `,
-      votes: 15,
-      author: {
-        name: "DevHelper",
-        avatar: "/placeholder.svg?height=40&width=40",
-      },
-      createdAt: "45 minutes ago",
-      isAccepted: false,
-    },
-  ];
+
+        <div className="mt-10">
+          <Skeleton className="h-8 w-40 mb-6" />
+          <div className="space-y-8">
+            {[1, 2].map((i) => (
+              <div key={i} className="border-t pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-4">
+                  <Skeleton className="h-7 w-7" />
+                  <div className="space-y-4">
+                    <Skeleton className="h-32 w-full rounded-xl" />
+                    <div className="flex justify-between items-center mt-6">
+                      <Skeleton className="h-10 w-32 rounded-full" />
+                      <div className="flex items-center gap-3">
+                        <Skeleton className="h-4 w-40" />
+                        <div className="flex items-center gap-2">
+                          <Skeleton className="h-8 w-8 rounded-full" />
+                          <Skeleton className="h-4 w-24" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!question) {
+    return <div className="container py-8">Question not found</div>;
+  }
 
   return (
     <div className="container py-8">
@@ -127,20 +159,20 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
           <div className="flex flex-wrap gap-1 items-center text-sm text-muted-foreground">
             <div className="flex items-center gap-3">
               <div className="text-sm text-muted-foreground">
-                Posted {question.createdAt} in
+                Posted on {typeof question.createdAt === 'string' ? format(new Date(question?.createdAt || ""), "dd MMM yyyy") : "recently"} in
               </div>
               <div className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
                   <AvatarImage
-                    src={question.author.avatar}
-                    alt={question.author.name}
+                    src={server?.logo || "https://avatar.vercel.sh/jane"}
+                    alt={server?.name || "Anonymous"}
                   />
                   <AvatarFallback>
-                    {question.author.name.slice(0, 2)}
+                    {server?.name?.slice(0, 2)}
                   </AvatarFallback>
                 </Avatar>
-                <div className="text-sm font-medium">
-                  {question.author.name}
+                <div className="text-sm font-medium text-white">
+                  {server?.name || "Anonymous"}
                 </div>
               </div>
             </div>
@@ -156,7 +188,7 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
           </div>
 
           <div className="flex flex-wrap gap-2 mt-4">
-            {question.tags.map((tag) => (
+            {(question.tags || []).map((tag: string) => (
               <Badge key={tag} variant="secondary">
                 {tag}
               </Badge>
@@ -165,45 +197,52 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
 
           <div className="flex flex-col gap-3 md:flex-row justify-between items-start md:items-center mt-6 pt-4 border-t">
             <div className="flex">
-              <div className="flex items-center gap-2 md:gap-4 bg-primary/12 w-fit rounded-full p-1">
+              <div className="flex items-center gap-2 md:gap-4 bg-primary/15 w-fit rounded-full p-1.5 shadow-sm">
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full hover:bg-black"
+                  className="rounded-full hover:bg-black hover:text-primary transition-colors"
+                  aria-label="Upvote"
                 >
                   <ArrowBigUp className="size-5" />
                 </Button>
-                <span className="font-semibold text-lg">{question.votes}</span>
+                <span className="font-semibold text-lg min-w-8 text-center">{question.up_votes || 0}</span>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full hover:bg-black"
+                  className="rounded-full hover:bg-black hover:text-primary transition-colors"
+                  aria-label="Downvote"
                 >
                   <ArrowBigDown className="size-5" />
                 </Button>
+                <span className="font-semibold text-lg min-w-8 text-center">{question.down_votes || 0}</span>
               </div>
               <div className="flex items-center gap-2 flex-1 px-2">
-                <SubbcribeCommunityBtn InvUrl="/api/subscribe" />
+                <SubbcribeCommunityBtn 
+                  InvUrl={question.msg_url} 
+                  isOpen={isSubscribeDialogOpen} 
+                  setIsOpen={setIsSubscribeDialogOpen} 
+                />
                 <ShareLinkBtn />
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <div className="text-sm text-muted-foreground">
-                Asked {question.createdAt} by
+                Asked by
               </div>
               <div className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
                   <AvatarImage
-                    src={question.author.avatar}
-                    alt={question.author.name}
+                    src={author?.dc_pfp || "https://avatar.vercel.sh/jane"}
+                    alt={author?.dc_name || "Anonymous"}
                   />
                   <AvatarFallback>
-                    {question.author.name.slice(0, 2)}
+                    {(author?.dc_name || "AN").slice(0, 2)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="text-sm font-medium">
-                  {question.author.name}
+                  {author?.dc_name || "Anonymous"}
                 </div>
               </div>
             </div>
@@ -214,19 +253,19 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
       {/* Answers section */}
       <div className="mt-10">
         <h2 className="text-xl font-semibold mb-6">
-          {answers.length} {answers.length === 1 ? "Answer" : "Answers"}
+          {question.formattedAnswers?.length || 0} {(question.formattedAnswers?.length || 0) === 1 ? "Answer" : "Answers"}
         </h2>
 
         <div className="space-y-8">
-          {answers.map((answer) => (
+          {question.formattedAnswers?.map((answer) => (
             <div key={answer.id} className="border-t pt-6">
               <div className="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-4">
                 {/* Voting */}
                 <div className="flex items-center gap-3">
-                  {answer.isAccepted && (
+                  {answer.is_correct && (
                     <CheckCircle2 className="size-7 text-green-500" />
                   )}
-                  {answer.isAccepted && (
+                  {answer.is_correct && (
                     <p className="text-md text-muted-foreground">
                       Correct Answer
                     </p>
@@ -236,46 +275,47 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
                 {/* Answer content */}
                 <div className="space-y-4">
                   <div
-                    className={`border ${answer.isAccepted && "border-green-500"} py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full`}
+                    className={`border ${answer.is_correct ? "border-green-500" : ""} py-5 px-3 rounded-xl bg-primary/5 overflow-x-auto max-w-full`}
                   >
                     <MDXFormatter>{answer.content}</MDXFormatter>
                   </div>
                   <div className="flex justify-between items-center mt-6">
-                    <div className="flex items-center gap-2 md:gap-4 bg-primary/12 w-fit rounded-full p-1">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="rounded-full hover:bg-black"
-                      >
-                        <ArrowBigUp className="size-5" />
-                      </Button>
-                      <span className="font-semibold text-lg">
-                        {answer.votes}
-                      </span>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="rounded-full hover:bg-black"
-                      >
-                        <ArrowBigDown className="size-5" />
-                      </Button>
-                    </div>
+                  <div className="flex items-center gap-2 md:gap-4 bg-primary/15 w-fit rounded-full p-1.5 shadow-sm">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full hover:bg-black hover:text-primary transition-colors"
+                  aria-label="Upvote"
+                >
+                  <ArrowBigUp className="size-5" />
+                </Button>
+                <span className="font-semibold text-lg min-w-8 text-center">{question.up_votes || 0}</span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full hover:bg-black hover:text-primary transition-colors"
+                  aria-label="Downvote"
+                >
+                  <ArrowBigDown className="size-5" />
+                </Button>
+                <span className="font-semibold text-lg min-w-8 text-center">{question.down_votes || 0}</span>
+              </div>
                     <div className="flex items-center gap-3">
                       <div className="text-sm text-muted-foreground">
-                        Answered {answer.createdAt} by
+                        Answered on {typeof answer.createdAt === 'string' ? format(new Date(answer?.createdAt || ""), "dd MMM yyyy") : "recently"} by
                       </div>
                       <div className="flex items-center gap-2">
                         <Avatar className="h-8 w-8">
                           <AvatarImage
-                            src={answer.author.avatar}
-                            alt={answer.author.name}
+                            src={answeredBy?.dc_pfp || "https://avatar.vercel.sh/jane"}
+                            alt={answeredBy?.dc_name || "Anonymous"}
                           />
                           <AvatarFallback>
-                            {answer.author.name.slice(0, 2)}
+                            {(answeredBy?.dc_name || "AN").slice(0, 2)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="text-sm font-medium">
-                          {answer.author.name}
+                          {answeredBy?.dc_name || "Anonymous"}
                         </div>
                       </div>
                     </div>
@@ -293,5 +333,24 @@ NEXTAUTH_URL=http://localhost:3000</code></pre>
         <AnswerForm questionId={id} />
       </div> */}
     </div>
+  );
+}
+
+export default function QuestionPage() {
+  return (
+    <Suspense fallback={
+      <div className="container py-8">
+        <div className="mb-6">
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-6 w-24 mb-2" />
+            <Skeleton className="h-10 w-3/4 mb-2" />
+            <Skeleton className="h-4 w-40" />
+          </div>
+        </div>
+        <Skeleton className="h-64 w-full rounded-xl" />
+      </div>
+    }>
+      <QuestionPageContent />
+    </Suspense>
   );
 }
