@@ -20,7 +20,7 @@ const questions = new Hono().get("/all", async (c) => {
 
     // Group answers by question ID
     const ansMap: Record<string, IndexAnsType[]> = {};
-    
+
     // Only map answers if allAns exists and has items
     if (allAns && Array.isArray(allAns) && allAns.length > 0) {
       for (const ans of allAns) {
@@ -44,11 +44,14 @@ const questions = new Hono().get("/all", async (c) => {
     return c.json(responseData);
   } catch (error) {
     console.error("Error fetching questions:", error);
-    return c.json({ 
-      success: false, 
-      message: "Failed to fetch questions", 
-      error: error instanceof Error ? error.message : String(error) 
-    }, 500);
+    return c.json(
+      {
+        success: false,
+        message: "Failed to fetch questions",
+        error: error instanceof Error ? error.message : String(error),
+      },
+      500,
+    );
   }
 });
 

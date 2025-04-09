@@ -114,7 +114,6 @@ const tagUpdateSchema = z.object({
   updatedAt: z.union([z.date(), z.string()]).optional(),
 });
 
-
 const indexedQnsSchema = z.object({
   id: z.string(),
   title: z.string(),
@@ -170,5 +169,5 @@ export {
   anonProfileSchema,
   serverUpdateSchema,
   userUpdateSchema,
-  tagUpdateSchema
+  tagUpdateSchema,
 };

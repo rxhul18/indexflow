@@ -239,7 +239,6 @@ async function createTag(tagData: TagType) {
   return data;
 }
 
-
 async function updateTag(tagData: TagUpdateType) {
   const response = await fetch(`${api}/tag/update`, {
     method: "PUT",

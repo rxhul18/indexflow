@@ -10,7 +10,8 @@ export default async function handleGuildUpdate(client: Client): Promise<void> {
       const isNameChanged = oldGuild.name !== newGuild.name;
       const isOwnerChanged = oldGuild.ownerId !== newGuild.ownerId;
       const isIconChanged = oldGuild.iconURL() !== newGuild.iconURL();
-      const isDescriptionChanged = oldGuild.description !== newGuild.description;
+      const isDescriptionChanged =
+        oldGuild.description !== newGuild.description;
       const isMembersChanged = oldGuild.memberCount !== newGuild.memberCount;
 
       await updateServer({
@@ -18,7 +19,9 @@ export default async function handleGuildUpdate(client: Client): Promise<void> {
         name: isNameChanged ? newGuild.name : oldGuild.name,
         logo: isIconChanged ? newGuild.iconURL() : oldGuild.iconURL(),
         owner_id: isOwnerChanged ? newGuild.ownerId : oldGuild.ownerId,
-        description: isDescriptionChanged ? newGuild.description : oldGuild.description,
+        description: isDescriptionChanged
+          ? newGuild.description
+          : oldGuild.description,
         members: isMembersChanged ? newGuild.memberCount : oldGuild.memberCount,
         updatedAt: new Date(),
       });
