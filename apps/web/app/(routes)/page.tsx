@@ -41,14 +41,14 @@ export default function Home() {
   return (
     <div className="flex w-full justify-center py-8">
       <div className="flex flex-col gap-4 min-w-[90%] md:container w-full px-4 relative">
-        <div className="bg-card rounded-lg border p-4 w-full">
+        {/* <div className="bg-card rounded-lg border p-4 w-full">
           <h2 className="text-xl font-semibold mb-4">Popular Tags</h2>
           <TagName
             tags={tags}
             onTagSelect={setSelectedTag}
             isLoading={contentLoading}
           />
-        </div>
+        </div> */}
 
         <div className="flex flex-col lg:flex-row gap-4">
           <main className="flex-1 min-w-0 py-5">

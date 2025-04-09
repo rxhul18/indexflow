@@ -25,6 +25,8 @@ export type ServerType = {
   config_id?: string | null;
   logo?: string | null;
   invite_url: string | null;
+  members: number;
+  description: string | null;
   createdAt: Date | string;
   updatedAt: Date | string;
 };
@@ -40,7 +42,7 @@ export type QuestionType = {
   is_nsfw: boolean;
   server_id: string;
   thread_id: string;
-  thread_mems: string[];
+  thread_mems: number;
   tags: string[];
   msg_url: string;
   up_votes: number;
@@ -87,7 +89,7 @@ export type IndexQnsType = {
   is_nsfw?: boolean;
   server_id: string;
   thread_id: string;
-  thread_mems?: string[];
+  thread_mems?: number;
   tags?: string[];
   up_votes?: number | null;
   down_votes?: number | null;

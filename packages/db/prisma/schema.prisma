@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/client/generated"
 }
 
 datasource db {
@@ -78,15 +79,17 @@ model Verification {
 }
 
 model Server {
-  id         String   @id
-  name       String
-  owner_id   String
-  is_config  Boolean  @default(false)
-  config_id  String?
-  logo       String?
-  invite_url String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now())
+  id          String   @id
+  name        String
+  owner_id    String
+  is_config   Boolean  @default(false)
+  config_id   String?
+  logo        String?
+  description String?
+  members     Int      @default(0)
+  invite_url  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
 
   @@unique([id])
   @@map("server")
@@ -137,7 +140,7 @@ model IndexedQns {
   is_nsfw     Boolean  @default(false)
   server_id   String
   thread_id   String
-  thread_mems String[]
+  thread_mems Int?
   tags        String[]
   msg_url     String
   up_votes    Int?     @default(0)

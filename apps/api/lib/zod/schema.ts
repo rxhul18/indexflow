@@ -44,6 +44,8 @@ const serverSchema = z.object({
   is_config: z.boolean().optional(),
   config_id: z.string().nullable().optional(),
   logo: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  members: z.number().optional(),
   invite_url: z.string().nullable(),
   createdAt: z.union([z.date(), z.string()]),
   updatedAt: z.union([z.date(), z.string()]),
@@ -56,6 +58,8 @@ const serverUpdateSchema = z.object({
   is_config: z.boolean().optional(),
   config_id: z.string().nullable().optional(),
   logo: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  members: z.number().optional(),
   invite_url: z.string().nullable().optional(),
   createdAt: z.union([z.date(), z.string()]).optional(),
   updatedAt: z.union([z.date(), z.string()]),
@@ -102,6 +106,15 @@ const tagSchema = z.object({
   updatedAt: z.union([z.date(), z.string()]),
 });
 
+const tagUpdateSchema = z.object({
+  id: z.string(),
+  name: z.string().optional(),
+  posts: z.array(z.string()).optional(),
+  usages: z.number().optional(),
+  updatedAt: z.union([z.date(), z.string()]).optional(),
+});
+
+
 const indexedQnsSchema = z.object({
   id: z.string(),
   title: z.string(),
@@ -113,7 +126,7 @@ const indexedQnsSchema = z.object({
   is_nsfw: z.boolean().optional(),
   server_id: z.string(),
   thread_id: z.string(),
-  thread_mems: z.array(z.string()).optional(),
+  thread_mems: z.number().optional(),
   tags: z.array(z.string()).optional(),
   up_votes: z.number().optional(),
   down_votes: z.number().optional(),
@@ -157,4 +170,5 @@ export {
   anonProfileSchema,
   serverUpdateSchema,
   userUpdateSchema,
+  tagUpdateSchema
 };

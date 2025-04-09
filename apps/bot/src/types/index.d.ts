@@ -25,6 +25,8 @@ export type ServerType = {
   config_id?: string | null;
   logo?: string | null;
   invite_url: string | null;
+  description?: string | null;
+  members?: number;
   createdAt: Date | string;
   updatedAt: Date | string;
 };
@@ -37,6 +39,8 @@ export type ServerUpdateType = {
   config_id?: string | null;
   logo?: string | null;
   invite_url?: string | null;
+  description?: string | null;
+  members?: number;
   createdAt?: Date | string;
   updatedAt: Date | string;
 };
@@ -67,6 +71,14 @@ export type TagType = {
   updatedAt: Date | string;
 };
 
+export type TagUpdateType = {
+  id: string;
+  name?: string;
+  posts?: string[];
+  usages?: number;
+  updatedAt?: Date | string;
+};
+
 export type IndexQnsType = {
   id: string;
   title: string;
@@ -78,7 +90,7 @@ export type IndexQnsType = {
   is_nsfw?: boolean;
   server_id: string;
   thread_id: string;
-  thread_mems?: string[];
+  thread_mems?: number;
   tags?: string[];
   up_votes?: number;
   down_votes?: number;

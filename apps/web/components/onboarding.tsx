@@ -24,22 +24,27 @@ export default function OnboardingComp() {
     {
       title: "Welcome to IndexFlow",
       description:
-        "Discover a powerful collection of components designed to enhance your development workflow.",
+        "Discover a powerful collection of Discord communities & threads that can be used to ask questions and get answers.",
     },
     {
-      title: "Customizable Components",
+      title: "Index Discord Communities",
       description:
-        "Each component is fully customizable and built with modern web standards in mind.",
+        "Index your own Discord communities & convert your threads into webpages.",
     },
     {
-      title: "Ready to Start?",
+      title: "Ready to Start? Invite iFlow Bot to your server",
       description:
-        "Begin building amazing interfaces with our comprehensive component library.",
+        "Click on Add community button and invite iFlow Bot to your server & start indexing your community threads.",
     },
     {
-      title: "Get Support",
+      title: "Own your data",
       description:
-        "Access our extensive documentation and community resources to make the most of Origin UI.",
+        "IndexFlow is open source & you can host your own instance of IndexFlow on your own server.",
+    },
+    {
+      title: "API Endpoints",
+      description:
+        "Use our API endpoints to get data from IndexFlow & use it in your own projects.",
     },
   ];
 
@@ -64,7 +69,7 @@ export default function OnboardingComp() {
         <div className="p-2">
           <img
             className="w-full rounded-md"
-            src="/sai-bg.png"
+            src="/og.png"
             width={382}
             height={216}
             alt="dialog"

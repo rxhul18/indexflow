@@ -103,6 +103,8 @@ const server = new Hono()
           name: body.name,
           owner_id: body.owner_id,
           logo: body.logo || null,
+          description: body.description || null,
+          members: body.members || 0,
           updatedAt: new Date(),
         },
       });

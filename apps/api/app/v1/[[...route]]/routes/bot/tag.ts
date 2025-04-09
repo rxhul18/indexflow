@@ -1,5 +1,5 @@
 import { checkBot } from "@/actions/checks/check.bot";
-import { paginationSchema, tagSchema } from "@/lib/zod/schema";
+import { paginationSchema, tagSchema, tagUpdateSchema } from "@/lib/zod/schema";
 import { zValidator } from "@/lib/zod/validator";
 import { cache } from "@iflow/cache";
 import { prisma } from "@iflow/db";
@@ -82,7 +82,26 @@ const tag = new Hono()
     } catch (error) {
       console.log(error);
     }
+  })
+
+  .put("/update", zValidator("json", tagUpdateSchema), async (c) => {
+    const body = c.req.valid("json");
+    const { id, ...updateData } = body;
+    try {
+      const updatedTag = await prisma.tags.update({
+        where: { id: body.id },
+        data: {
+          ...updateData,
+          updatedAt: new Date(),
+        },
+      });
+
+      return c.json({ updatedTag }, 200);
+    } catch (error) {
+      console.log(error);
+    }
   });
+
 
 export type TagApiType = typeof tag;
 export default tag;

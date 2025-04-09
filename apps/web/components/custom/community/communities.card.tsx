@@ -1,18 +1,23 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Barcode, FileQuestion, Mails, Users } from "lucide-react";
+import { Barcode, FileQuestion, Users } from "lucide-react";
 import Image from "next/image";
 import type { ServerType } from "@iflow/types";
-import { Button } from "@/components/ui/button";
 import { JoinCommunityBtn } from "../join.community.btn";
+import { useQuestionsStore } from "@/lib/zustand";
 
 export default function CommunityGrid({
   filteredServers = [],
 }: {
   filteredServers?: ServerType[];
 }) {
+  const { questions } = useQuestionsStore();
+  const serverQuestions = filteredServers.length > 0 
+    ? questions.filter(
+        (question) => question.server_id === filteredServers[0].id
+      )
+    : [];
   const renderLogo = (server: ServerType, size = 56) =>
     server.logo ? (
       <Image
@@ -60,14 +65,14 @@ export default function CommunityGrid({
                   <div className="flex flex-col lg:flex-row">
                     <div className="flex items-center text-muted-foreground text-sm gap-1 md:mr-3">
                       <Users className="size-4 text-primary" />
-                      <span>Guild Members: 2000+</span>
+                      <span>Guild Members: {server.members}+</span>
                     </div>
-                    {server.invite_url && (
-                      <div className="flex items-center text-muted-foreground text-sm gap-1 md:mr-3">
+                    <div className="flex items-center text-muted-foreground text-sm gap-1 md:mr-3">
                         <FileQuestion className="size-4 text-primary" />
-                        <span>Guild Posts: 10+</span>
+                        <span>Guild Posts: {
+                          questions.filter(q => q.server_id === server.id).length
+                        }+</span>
                       </div>
-                    )}
                     <div className="flex items-center text-muted-foreground text-sm gap-1">
                       <Barcode className="size-4 text-primary" />
                       <span>Guild ID: {server.id}</span>

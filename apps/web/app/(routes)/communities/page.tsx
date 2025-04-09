@@ -28,8 +28,9 @@ function CommunitiesPageContent() {
 
     const normalizedSearch = searchQuery.trim().toLowerCase();
     return servers.filter((server) => {
-      const serverName = server.name?.trim().toLowerCase() || "";
-      return serverName.includes(normalizedSearch);
+      const serverName = server.name?.toLowerCase() || "";
+      const serverId = server.id?.toLowerCase() || "";
+      return serverName.includes(normalizedSearch) || serverId.includes(normalizedSearch);
     });
   }, [searchQuery, servers]);
 
@@ -54,7 +55,7 @@ function CommunitiesPageContent() {
           <div className="relative w-full md:w-full flex flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
-              placeholder="Filter by community..."
+              placeholder="Search by community name or ID..."
               className="pl-10 border-muted"
               value={searchQuery}
               onChange={handleSearchChange}

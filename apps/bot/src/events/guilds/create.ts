@@ -89,6 +89,8 @@ export default async function handleBotJoin(
                 name: guild.name,
                 owner_id: guild.ownerId,
                 invite_url: invite.url,
+                description: guild.description || null,
+                members: guild.memberCount,
                 logo: guild.iconURL(),
                 createdAt: new Date(),
                 updatedAt: new Date(),

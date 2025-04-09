@@ -1,4 +1,4 @@
-import { ColorResolvable, TextChannel, ThreadChannel } from "discord.js";
+import { TextChannel, ThreadChannel } from "discord.js";
 import {
   Client,
   Message,
@@ -11,6 +11,7 @@ import {
 } from "discord.js";
 import {
   createAnonProfile,
+  createTag,
   getAnonProfileById,
   getRandomAnonName,
   getServerConfigById,
@@ -118,7 +119,7 @@ async function askIndexSelection(
 
   const collector = replyMessage.createMessageComponentCollector({
     componentType: ComponentType.Button,
-    time: 30000, // 30 seconds timeout
+    time: 90000, // 90 seconds timeout
   });
 
   collector.on("collect", async (interaction: ButtonInteraction) => {
@@ -197,6 +198,10 @@ async function handleIndexQuestion(
     .filter((att) => att.contentType?.startsWith("image/"))
     .map((att) => `![image](${att.url})`);
 
+  // const tags = threadChannel.appliedTags;
+  // console.log(tags, "TAGS");
+  // console.log(threadChannel, "PARENT");
+
   const fullContent = [text, ...imageMarkdowns].join("\n\n");
   console.log(fullContent);
   await indexQns({
@@ -207,6 +212,7 @@ async function handleIndexQuestion(
     content: fullContent,
     server_id: firstMessage.guildId!,
     thread_id: threadChannel.id,
+    thread_mems: threadChannel.memberCount!,
     msg_url: firstMessage.url,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -220,7 +226,14 @@ async function handleIndexQuestion(
         "✅ | Message indexed as a **Question**!",
       ),
     ],
-    components: [],
+    components: [
+      new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder()
+          .setLabel("View Webpage")
+          .setStyle(ButtonStyle.Link)
+          .setURL(`https://www.indexflow.site/qs/${firstMessage.guildId}`)
+      ),
+    ],
   });
 }
 
@@ -300,7 +313,14 @@ async function handleIndexAnswer(
         "✅ | Message indexed as an **Answer**!",
       ),
     ],
-    components: [],
+    components: [
+      new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder()
+          .setLabel("View Webpage")
+          .setStyle(ButtonStyle.Link)
+          .setURL(`https://www.indexflow.site/qs/${firstMessage.guildId}`)
+      ),
+    ],
   });
 }
 

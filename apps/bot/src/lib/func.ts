@@ -6,6 +6,8 @@ import {
   IndexQnsType,
   ServerType,
   ServerUpdateType,
+  TagType,
+  TagUpdateType,
 } from "../types";
 
 const api = CONFIG.BOT_API_ENDPOINT;
@@ -224,6 +226,33 @@ function getRandomAnonName(): string {
   return `${randomName} ${randomSuffix}.iflow`;
 }
 
+async function createTag(tagData: TagType) {
+  const response = await fetch(`${api}/tag/create`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${bearer}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(tagData),
+  });
+  const data = await response.json();
+  return data;
+}
+
+
+async function updateTag(tagData: TagUpdateType) {
+  const response = await fetch(`${api}/tag/update`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${bearer}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(tagData),
+  });
+  const data = await response.json();
+  return data;
+}
+
 async function createServer(serverData: ServerType) {
   const response = await fetch(`${api}/server/create`, {
     method: "POST",
@@ -382,4 +411,6 @@ export {
   createAnonProfile,
   getAnonProfileById,
   updateServer,
+  createTag,
+  updateTag,
 };
