@@ -56,4 +56,4 @@ For any inquiries or support, please contact us at [connect.saidev@gmail.com](ma
 
 If you like IndexFlow, please consider sponsoring us.
 
-<iframe src="https://github.com/sponsors/SkidGod4444/card" title="Sponsor SkidGod4444" height="225" width="600" style="border: 0;"></iframe>
+- [Saidev](https://l.devwtf.in/sponsor)
