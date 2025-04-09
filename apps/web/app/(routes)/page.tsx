@@ -94,7 +94,7 @@ export default function Home() {
                       key={thread.id}
                       className="rounded-md border bg-background p-3 transition-colors"
                     >
-                      <Link href={`/thread/${thread.id}`} className="block">
+                      <Link href={`/qs/${thread.id}`} className="block">
                         <h3 className="font-medium ">{thread.title}</h3>
                         <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
                           {thread.description}

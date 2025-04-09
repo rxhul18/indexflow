@@ -2,10 +2,11 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { ArrowBigUp, CalendarRange, MessageSquare } from "lucide-react";
+import { ArrowBigUp, CalendarRange, Eye, MessageSquare } from "lucide-react";
 import React from "react";
 import { format } from "date-fns";
 import { QuestionType } from "@iflow/types";
+import { useProfilesStore, useUsersStore } from "@/lib/zustand";
 
 interface QuestionCardProps {
   question: QuestionType | null;
@@ -14,6 +15,11 @@ interface QuestionCardProps {
 
 const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
   ({ question, isLoading = false }, ref) => {
+    const authorId = question?.author;
+    const { profiles } = useProfilesStore();
+    console.log(profiles);
+    const author = profiles.find((profile) => profile.id === authorId);
+    console.log(author);
     if (isLoading) {
       return (
         <div className="overflow-y-hidden">
@@ -47,14 +53,13 @@ const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
 
     return (
       <div ref={ref} className="overflow-y-hidden">
+              <Link href={`/qs/${question?.id}`}>
         <Card className="overflow-y-hidden p-0">
           <CardContent className="p-4 sm:p-6">
             <div className="space-y-2 sm:space-y-3">
-              <Link href={`/qs/${question?.id}`}>
                 <h3 className="text-lg sm:text-xl font-semibold hover:text-primary hover:underline line-clamp-2">
                   {question?.title}
                 </h3>
-              </Link>
               <p className="text-sm sm:text-base text-muted-foreground line-clamp-2">
                 {question?.content}
               </p>
@@ -81,12 +86,12 @@ const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
                   {question && question?.answers.length} answers
                 </span>
               </div>
-              {/* <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
+              <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
                 <Eye className="h-4 w-4" />
                 <span className="text-xs sm:text-sm">
-                  {question.views} views
+                {question && question?.up_votes - question?.down_votes + question?.answers.length} views
                 </span>
-              </div> */}
+                </div>
               <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
                 <CalendarRange className="h-4 w-4" />
                 <span className="text-xs sm:text-sm">
@@ -95,22 +100,23 @@ const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
               </div>
             </div>
             <div className="flex items-center gap-2">
-              {/* <Avatar className="h-6 w-6">
+              <Avatar className="h-6 w-6">
                 <AvatarImage
-                  src={question.author.avatar}
-                  alt={question.author.name}
+                src={author?.dc_pfp!}
+                alt={author?.dc_name!}
                 />
                 <AvatarFallback>
-                  {question.author.name.slice(0, 2)}
+                {author?.dc_name?.slice(0, 2)}
                 </AvatarFallback>
-              </Avatar> */}
+                </Avatar>
               <div className="text-xs sm:text-sm">
                 <span className="text-muted-foreground">Asked by </span>
-                {/* <span className="font-medium">{question.author.name}</span> */}
+                <span className="font-medium">{author?.dc_name!}</span>
               </div>
             </div>
           </CardFooter>
         </Card>
+                </Link>
       </div>
     );
   },

@@ -1,4 +1,4 @@
-import { TagType, UserType, ServerType, QuestionType } from "@iflow/types";
+import { TagType, UserType, ServerType, QuestionType, AnonProfileType } from "@iflow/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -28,6 +28,13 @@ type QuestionStore = {
   addQuestion: (question: QuestionType) => void;
   removeQuestion: (questionId: string) => void;
   setQuestions: (questions: QuestionType[]) => void;
+};
+
+type ProfileStore = {
+  profiles: AnonProfileType[];
+  addProfile: (profile: AnonProfileType) => void;
+  removeProfile: (profileId: string) => void;
+  setProfiles: (profiles: AnonProfileType[]) => void;
 };
 
 const useTagsStore = create<TagStore>()(
@@ -95,5 +102,19 @@ const useQuestionsStore = create<QuestionStore>()(
   ),
 );
 
+const useProfilesStore = create<ProfileStore>()(
+  persist(
+    (set) => ({
+      profiles: [],
+      addProfile: (profile) => set((state) => ({ profiles: [...state.profiles, profile] })),
+      removeProfile: (profileId) =>
+        set((state) => ({ profiles: state.profiles.filter((p) => p.id !== profileId) })),
+      setProfiles: (profiles) => set({ profiles }),
+    }),
+    {
+      name: "profiles-storage",
+    },
+  ),
+);
 
-export { useTagsStore, useUsersStore, useServersStore, useQuestionsStore };
+export { useTagsStore, useUsersStore, useServersStore, useQuestionsStore, useProfilesStore };

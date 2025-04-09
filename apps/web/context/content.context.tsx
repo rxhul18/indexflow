@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useQuestionsStore, useServersStore, useTagsStore, useUsersStore } from "@/lib/zustand";
+import { useProfilesStore, useQuestionsStore, useServersStore, useTagsStore, useUsersStore } from "@/lib/zustand";
 import { ConfigType, ServerType } from "@iflow/types";
 
 interface ContentContextType {
@@ -22,6 +22,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const { tags, setTags } = useTagsStore();
   const { users, setUsers } = useUsersStore();
   const { questions, setQuestions } = useQuestionsStore();
+  const { profiles, setProfiles } = useProfilesStore();
   
   const SERVER_API_ENDPOINT =
     process.env.NODE_ENV == "development"
@@ -43,7 +44,10 @@ export function ContentProvider({ children }: { children: ReactNode }) {
       process.env.NODE_ENV == "development"
         ? "http://localhost:3001/v1/questions/all"
         : "https://api.indexflow.site/v1/questions/all";
-  
+  const PROFILES_API_ENDPOINT =
+    process.env.NODE_ENV == "development"
+      ? "http://localhost:3001/v1/bot/profile/all"
+      : "https://api.indexflow.site/v1/bot/profile/all";
 
   useEffect(() => {
     async function fetchServers() {
@@ -126,6 +130,22 @@ export function ContentProvider({ children }: { children: ReactNode }) {
       fetchQuestions();
     }
   }, [questions.length, setQuestions]);
+
+  useEffect(() => {
+    async function fetchProfiles() {
+      setContentLoading(true);
+      const data = await fetch(PROFILES_API_ENDPOINT);
+      const response = await data.json();
+      if (response?.profile) {
+        setProfiles(response.profile);
+      }
+      setContentLoading(false);
+    }
+
+    if (profiles.length === 0) {
+      fetchProfiles();
+    }
+  }, [profiles.length, setProfiles]);
 
   const value = {
     contentLoading,
