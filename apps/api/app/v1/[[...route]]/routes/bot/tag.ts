@@ -89,7 +89,7 @@ const tag = new Hono()
     const { id, ...updateData } = body;
     try {
       const updatedTag = await prisma.tags.update({
-        where: { id: body.id },
+        where: { id: id },
         data: {
           ...updateData,
           updatedAt: new Date(),
