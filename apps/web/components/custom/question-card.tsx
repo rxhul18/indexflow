@@ -5,41 +5,61 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ArrowBigUp, CalendarRange, MessageSquare } from "lucide-react";
 import React from "react";
 import { format } from "date-fns";
+import { QuestionType } from "@iflow/types";
 
 interface QuestionCardProps {
-  question: {
-    id: string;
-    title: string;
-    content: string;
-    tags: string[];
-    votes: number;
-    answers: number;
-    views: number;
-    author: {
-      name: string;
-      avatar: string;
-    };
-    createdAt: string;
-  };
+  question: QuestionType | null;
+  isLoading?: boolean;
 }
 
 const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
-  ({ question }, ref) => {
+  ({ question, isLoading = false }, ref) => {
+    if (isLoading) {
+      return (
+        <div className="overflow-y-hidden">
+          <Card className="overflow-y-hidden p-0">
+            <CardContent className="p-4 sm:p-6">
+              <div className="space-y-2 sm:space-y-3">
+                <div className="h-6 bg-muted rounded-md animate-pulse w-3/4"></div>
+                <div className="h-4 bg-muted rounded-md animate-pulse w-full"></div>
+                <div className="h-4 bg-muted rounded-md animate-pulse w-2/3"></div>
+                <div className="flex flex-wrap gap-2">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-5 bg-muted rounded-full animate-pulse w-16"></div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-wrap justify-between gap-4 border-t bg-muted/40 px-4 py-4 sm:px-6">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <div className="h-4 bg-muted rounded-md animate-pulse w-16"></div>
+                <div className="h-4 bg-muted rounded-md animate-pulse w-20"></div>
+                <div className="h-4 bg-muted rounded-md animate-pulse w-24"></div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-4 bg-muted rounded-md animate-pulse w-24"></div>
+              </div>
+            </CardFooter>
+          </Card>
+        </div>
+      );
+    }
+
     return (
       <div ref={ref} className="overflow-y-hidden">
         <Card className="overflow-y-hidden p-0">
           <CardContent className="p-4 sm:p-6">
             <div className="space-y-2 sm:space-y-3">
-              <Link href={`/qs/${question.id}`}>
+              <Link href={`/qs/${question?.id}`}>
                 <h3 className="text-lg sm:text-xl font-semibold hover:text-primary hover:underline line-clamp-2">
-                  {question.title}
+                  {question?.title}
                 </h3>
               </Link>
               <p className="text-sm sm:text-base text-muted-foreground line-clamp-2">
-                {question.content}
+                {question?.content}
               </p>
               <div className="flex flex-wrap gap-2">
-                {question.tags.map((tag) => (
+                {question?.tags.map((tag) => (
                   <Badge key={tag} variant="secondary">
                     {tag}
                   </Badge>
@@ -52,13 +72,13 @@ const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
               <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
                 <ArrowBigUp className="h-4 w-4" />
                 <span className="text-xs sm:text-sm">
-                  {question.votes} votes
+                  {question && question?.up_votes + question?.down_votes} votes
                 </span>
               </div>
               <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
                 <MessageSquare className="h-4 w-4" />
                 <span className="text-xs sm:text-sm">
-                  {question.answers} answers
+                  {question && question?.answers.length} answers
                 </span>
               </div>
               {/* <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
@@ -70,12 +90,12 @@ const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
               <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
                 <CalendarRange className="h-4 w-4" />
                 <span className="text-xs sm:text-sm">
-                  {format(new Date(question.createdAt), "dd MMM yyyy")}
+                  {format(new Date(question?.createdAt || ""), "dd MMM yyyy")}
                 </span>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Avatar className="h-6 w-6">
+              {/* <Avatar className="h-6 w-6">
                 <AvatarImage
                   src={question.author.avatar}
                   alt={question.author.name}
@@ -83,10 +103,10 @@ const QuestionCard = React.forwardRef<HTMLDivElement, QuestionCardProps>(
                 <AvatarFallback>
                   {question.author.name.slice(0, 2)}
                 </AvatarFallback>
-              </Avatar>
+              </Avatar> */}
               <div className="text-xs sm:text-sm">
                 <span className="text-muted-foreground">Asked by </span>
-                <span className="font-medium">{question.author.name}</span>
+                {/* <span className="font-medium">{question.author.name}</span> */}
               </div>
             </div>
           </CardFooter>

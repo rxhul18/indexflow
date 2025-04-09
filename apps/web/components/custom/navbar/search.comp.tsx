@@ -10,8 +10,7 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
-import { useTagsStore, useUsersStore, useServersStore } from "@/lib/zustand";
-import { questions } from "@/json/dummy";
+import { useTagsStore, useUsersStore, useServersStore, useQuestionsStore } from "@/lib/zustand";
 import { useRouter } from "next/navigation";
 import { TagType, UserType, ServerType } from "@iflow/types";
 
@@ -20,6 +19,7 @@ export default function SearchInputCommand() {
   const { users } = useUsersStore();
   const { tags } = useTagsStore();
   const { servers } = useServersStore();
+  const { questions } = useQuestionsStore();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<{
@@ -85,7 +85,7 @@ export default function SearchInputCommand() {
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           type="search"
-          placeholder="Search..."
+          placeholder="Search anything..."
           className="w-full pl-10 relative"
           onClick={() => setCommandOpen(true)}
           readOnly

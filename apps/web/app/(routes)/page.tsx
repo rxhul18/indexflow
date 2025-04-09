@@ -4,19 +4,38 @@ import TagName from "@/components/custom/tags.comp";
 import AllQuestions from "@/components/custom/all-questions";
 import { Suspense, useState } from "react";
 import { JoinCommunityBtn } from "@/components/custom/join.community.btn";
-import { useServersStore, useTagsStore } from "@/lib/zustand";
+import { useServersStore, useTagsStore, useQuestionsStore } from "@/lib/zustand";
 import { useContent } from "@/context/content.context";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Clock, MessageSquare } from "lucide-react";
 import Link from "next/link";
-import { Threads } from "@/json/dummy";
+import { format } from "date-fns";
+
+
+
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState("");
   const { servers } = useServersStore();
+  const { questions } = useQuestionsStore();
   const { tags } = useTagsStore();
   const { contentLoading } = useContent();
   const router = useRouter();
+
+  const threads = questions
+    .filter((question) => {
+      const questionDate = new Date(question.createdAt);
+      const now = new Date();
+      const hoursDiff = (now.getTime() - questionDate.getTime()) / (1000 * 60 * 60);
+      return hoursDiff <= 36;
+    })
+    .map((question) => ({
+      id: question.id,
+      title: question.title,
+      description: question.content,
+      lastActive: question.createdAt,
+      replies: question.answers.length,
+    }));
 
   return (
     <div className="flex w-full justify-center py-8">
@@ -37,7 +56,7 @@ export default function Home() {
                 <div className="text-center py-4">Loading questions...</div>
               }
             >
-              <AllQuestions tagName={selectedTag} selectedTag={selectedTag} />
+              <AllQuestions tagName={selectedTag} selectedTag={selectedTag} isLoading={contentLoading} />
             </Suspense>
           </main>
 
@@ -52,30 +71,53 @@ export default function Home() {
                 <h2 className="text-xl font-bold">Active Threads</h2>
               </div>
               <div className="space-y-3 overflow-y-auto h-[calc(100vh-55vh)] overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-                {Threads.map((thread) => (
-                  <div
-                    key={thread.id}
-                    className="rounded-md border bg-background p-3 transition-colors"
-                  >
-                    <Link href={`/thread/${thread.id}`} className="block">
-                      <h3 className="font-medium ">{thread.title}</h3>
-                      <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                        {thread.description}
-                      </p>
-
-                      <div className="mt-2 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-                        <div className="flex items-center gap-1">
-                          <Clock className="h-3.5 w-3.5" />
-                          <span>{thread.lastActive}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <MessageSquare className="h-3.5 w-3.5" />
-                          <span>{thread.replies} replies</span>
-                        </div>
+                {contentLoading ? (
+                  // Skeleton loading state
+                  Array.from({ length: 10 }).map((_, index) => (
+                    <div
+                      key={`skeleton-${index}`}
+                      className="rounded-md border bg-background p-3 transition-colors"
+                    >
+                      <div className="h-5 bg-muted rounded-md animate-pulse w-3/4 mb-2"></div>
+                      <div className="h-4 bg-muted rounded-md animate-pulse w-full mb-1"></div>
+                      <div className="h-4 bg-muted rounded-md animate-pulse w-2/3 mb-2"></div>
+                      
+                      <div className="mt-2 flex items-center gap-4">
+                        <div className="h-3 bg-muted rounded-md animate-pulse w-16"></div>
+                        <div className="h-3 bg-muted rounded-md animate-pulse w-20"></div>
                       </div>
-                    </Link>
+                    </div>
+                  ))
+                ) : threads.length > 0 ? (
+                  threads.map((thread) => (
+                    <div
+                      key={thread.id}
+                      className="rounded-md border bg-background p-3 transition-colors"
+                    >
+                      <Link href={`/thread/${thread.id}`} className="block">
+                        <h3 className="font-medium ">{thread.title}</h3>
+                        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                          {thread.description}
+                        </p>
+
+                        <div className="mt-2 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                          <div className="flex items-center gap-1">
+                            <Clock className="h-3.5 w-3.5" />
+                            <span>{format(new Date(thread.lastActive), "dd MMM yyyy")}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <MessageSquare className="h-3.5 w-3.5" />
+                            <span>{thread.replies} replies</span>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-4">
+                    <p className="text-muted-foreground">No active threads found</p>
                   </div>
-                ))}
+                )}
               </div>
             </div>
             <div className="rounded-lg border p-4">

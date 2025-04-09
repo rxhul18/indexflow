@@ -29,6 +29,27 @@ export type ServerType = {
   updatedAt: Date | string;
 };
 
+export type QuestionType = {
+  id: string;
+  title: string;
+  ans_id: string | null;
+  author: string;
+  content: string;
+  tldr: string | null;
+  is_anon: boolean;
+  is_nsfw: boolean;
+  server_id: string;
+  thread_id: string;
+  thread_mems: string[];
+  tags: string[];
+  msg_url: string;
+  up_votes: number;
+  down_votes: number;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  answers: IndexAnsType[];
+};
+
 export type ConfigType = {
   id: string;
   server_id: string;

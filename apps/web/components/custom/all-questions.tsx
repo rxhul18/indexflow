@@ -6,15 +6,17 @@ import { compareDesc } from "date-fns";
 import { Clock, FlameIcon, ArrowUpIcon, Loader2, Search } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { questions } from "@/json/dummy";
 import QuestionCard from "@/components/custom/question-card";
+import { useQuestionsStore } from "@/lib/zustand";
 
 export default function QuestionsList({
   tagName,
   selectedTag,
+  isLoading,
 }: {
   tagName: string;
   selectedTag: string;
+  isLoading: boolean;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -23,9 +25,14 @@ export default function QuestionsList({
 
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [displayedQuestions, setDisplayedQuestions] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
 
   const filter = searchParams.get("sort") || "newest";
   const tagFilter = searchParams.get("filter") || selectedTag || tagName || "";
+
+  const { questions } = useQuestionsStore();
+  const questionsPerPage = 10;
 
   const getFilteredQuestions = () => {
     return questions.filter((q) => {
@@ -45,27 +52,28 @@ export default function QuestionsList({
 
     return filteredQuestions.sort((a, b) => {
       if (filter === "newest")
-        return compareDesc(new Date(a.createdAt), new Date(b.createdAt));
-      if (filter === "hot") return b.votes - a.votes;
-      if (filter === "top") return b.views - a.views;
+        return compareDesc(new Date(a.createdAt), new Date(b.createdAt)); 
+      if (filter === "hot") return (b.up_votes - b.down_votes) + (b.answers.length * 2) - ((a.up_votes - a.down_votes) + (a.answers.length * 2));
+      if (filter === "top") return (b.up_votes - b.down_votes) - (a.up_votes - a.down_votes);
       return 0;
     });
-  }, [filter, searchQuery, tagFilter]);
-
-  const questionsPerPage = 5;
-  const [loadedQuestions, setLoadedQuestions] = useState(
-    sortedQuestions.slice(0, questionsPerPage),
-  );
+  }, [filter, searchQuery, tagFilter, questions]);
 
   useEffect(() => {
-    setLoadedQuestions(sortedQuestions.slice(0, questionsPerPage));
+    // Reset pagination when filters change
+    setPage(1);
+    setDisplayedQuestions(sortedQuestions.slice(0, questionsPerPage));
   }, [sortedQuestions]);
 
   const loadMoreQuestions = () => {
+    if (loading || displayedQuestions.length >= sortedQuestions.length) return;
+    
     setLoading(true);
     setTimeout(() => {
-      setLoadedQuestions((prev) =>
-        sortedQuestions.slice(0, prev.length + questionsPerPage),
+      const nextPage = page + 1;
+      setPage(nextPage);
+      setDisplayedQuestions(
+        sortedQuestions.slice(0, nextPage * questionsPerPage)
       );
       setLoading(false);
     }, 500);
@@ -76,7 +84,7 @@ export default function QuestionsList({
     observer.current = new IntersectionObserver((entries) => {
       if (
         entries[0].isIntersecting &&
-        loadedQuestions.length < sortedQuestions.length
+        displayedQuestions.length < sortedQuestions.length
       ) {
         loadMoreQuestions();
       }
@@ -87,7 +95,7 @@ export default function QuestionsList({
     }
 
     return () => observer.current?.disconnect();
-  }, [loadedQuestions, sortedQuestions]);
+  }, [displayedQuestions, sortedQuestions]);
 
   const handleFilterChange = (value: string) => {
     router.push(`?sort=${value}`, { scroll: false });
@@ -141,17 +149,44 @@ export default function QuestionsList({
       </div>
 
       <div className="space-y-4 relative h-full overflow-x-hidden scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-        {loadedQuestions.map((question, index) => (
-          <QuestionCard
-            ref={
-              index === loadedQuestions.length - 1
-                ? lastQuestionElementRef
-                : null
-            }
-            key={question.id}
-            question={question}
-          />
-        ))}
+          {isLoading ? (
+            // Show skeleton cards when loading
+            Array.from({ length: 10 }).map((_, index) => (
+              <QuestionCard
+                key={`skeleton-${index}`}
+                question={null}
+                isLoading={true}
+              />
+            ))
+          ) : loading ? (
+            // Show skeleton cards when fetching more data
+            Array.from({ length: 10 }).map((_, index) => (
+              <QuestionCard
+                key={`loading-more-${index}`}
+                question={null}
+                isLoading={true}
+              />
+            ))
+          ) : displayedQuestions.length > 0 ? (
+            // Show actual questions when available
+            displayedQuestions.map((question, index) => (
+              <QuestionCard
+                ref={
+                  index === displayedQuestions.length - 1
+                    ? lastQuestionElementRef
+                    : null
+                }
+                key={question.id}
+                question={question}
+                isLoading={false}
+              />
+            ))
+          ) : (
+            // Show message when no questions are available
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">No questions found</p>
+            </div>
+          )}
         {loading && (
           <div className="justify-center items-center py-4 flex-1 flex">
             <Loader2 className="animate-spin mr-3" /> Loading...

@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useServersStore, useTagsStore, useUsersStore } from "@/lib/zustand";
+import { useQuestionsStore, useServersStore, useTagsStore, useUsersStore } from "@/lib/zustand";
 import { ConfigType, ServerType } from "@iflow/types";
 
 interface ContentContextType {
@@ -21,7 +21,8 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const { servers, setServers } = useServersStore();
   const { tags, setTags } = useTagsStore();
   const { users, setUsers } = useUsersStore();
-
+  const { questions, setQuestions } = useQuestionsStore();
+  
   const SERVER_API_ENDPOINT =
     process.env.NODE_ENV == "development"
       ? "http://localhost:3001/v1/bot/server/all"
@@ -38,6 +39,11 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     process.env.NODE_ENV == "development"
       ? "http://localhost:3001/v1/bot/server/config/all"
       : "https://api.indexflow.site/v1/bot/server/config/all";
+  const ALL_QUESTIONS_API_ENDPOINT =
+      process.env.NODE_ENV == "development"
+        ? "http://localhost:3001/v1/questions/all"
+        : "https://api.indexflow.site/v1/questions/all";
+  
 
   useEffect(() => {
     async function fetchServers() {
@@ -91,17 +97,35 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     async function fetchUsers() {
+      setContentLoading(true);
       const data = await fetch(USER_API_ENDPOINT);
       const response = await data.json();
       if (response?.users) {
         setUsers(response.users);
       }
+      setContentLoading(false);
     }
 
     if (users.length === 0) {
       fetchUsers();
     }
   }, [users.length, setUsers]);
+
+  useEffect(() => {
+    async function fetchQuestions() {
+      setContentLoading(true);
+      const data = await fetch(ALL_QUESTIONS_API_ENDPOINT);
+      const response = await data.json();
+      if (response?.questions) {
+        setQuestions(response.questions);
+      }
+      setContentLoading(false);
+    }
+
+    if (questions.length === 0) {
+      fetchQuestions();
+    }
+  }, [questions.length, setQuestions]);
 
   const value = {
     contentLoading,
